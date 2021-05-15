@@ -1,0 +1,149 @@
+* { /*make everything nicer*/
+	display: block;
+	margin: auto;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Quicksand', sans-serif;
+	text-align: center;
+}
+
+body {
+  background-color: #212121;
+  color: #14ffec;
+}
+
+title { /*remove the title from the page*/
+	display: none;
+}
+
+.menu-btn {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	transition: all .5s ease-in-out;
+	/*border: 3px solid #14ffec;*/
+}
+
+.menu-btn_burger {
+	width: 30px;
+	height: 6px;
+	background: #0d7377;
+	border-radius: 5px;
+	transition: all .5s ease-in-out;
+	transform: translateY(15px);
+}
+
+.menu-btn_burger::before,
+.menu-btn_burger::after {
+	content: '';
+	position: absolute;
+	width: 30px;
+	height: 6px;
+	background: #0d7377;
+	border-radius: 5px;
+	transition: all .5s ease-in-out;
+}
+
+.menu-btn_burger::before {
+	transform: translate(-15px, -10px);
+}
+
+.menu-btn_burger::after {
+	transform: translate(-15px, 10px);
+}
+
+/* animation for hamburger */
+.menu-btn.open .menu-btn_burger {
+	transform: translateX(10px, 10px);
+	background: transparent;
+}
+
+.menu-btn.open .menu-btn_burger::before {
+	transform: rotate(45deg) translate(-12px, 12px);
+}
+
+.menu-btn.open .menu-btn_burger::after {
+	transform: rotate(-45deg) translate(-12px, -12px);
+}
+
+/*
+                _       _          __  __ 
+ _ __ ___  __ _| |  ___| |_ _   _ / _|/ _|
+| '__/ _ \/ _` | | / __| __| | | | |_| |_ 
+| | |  __/ (_| | | \__ \ |_| |_| |  _|  _|
+|_|  \___|\__,_|_| |___/\__|\__,_|_| |_|                                         
+*/
+
+.headline {
+	margin-top: 40px;
+}
+
+h1 { /*make h1's all caps*/
+	text-transform: lowercase;
+	margin-top: 5px;
+	font-size: 40px;
+	word-spacing: 10px;
+}
+
+.menu-options {
+	position: absolute;
+	top: 5px;
+	left: 40px;
+	width: 91%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	z-index: -2;
+	transition: all 0.5s ease-in-out;
+}
+
+.menu-options_color {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 40px;
+	z-index: -3;
+	transition: all 3s ease-in-out;
+}
+
+.menu-options_color.color {
+	background-color: #323232;
+}
+
+.menu-options li {
+	display: inline;
+}
+
+.menu-options button {
+	display: none;
+}
+
+.menu-options.open button {
+	background-color: #323232;
+	max-width: 120px;
+	height: 30px;
+	display: inline;
+	border-radius: 4px;
+	transition: ease-out 0.3s;
+	font-size: 15px;
+	outline: none;
+	border: none;
+	position: relative;
+	padding-left: 6px;
+	padding-right: 6px;
+	font-weight: bold;
+	color: #0d7377;
+	z-index: 1;
+}
+
+.menu-options.open button:hover {
+	cursor: pointer;
+	font-weight: bold;
+	color: #323232;
+	background-color: #42FBF2;
+}
