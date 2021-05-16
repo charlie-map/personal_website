@@ -22,9 +22,6 @@ $(".menu-button").click(function() {
 	if (this.id == "projects") {
 		$(".project-popup").toggle();
 	}
-	// $.ajax("/redirect", {
-
-	// });
 });
 
 $(".project-menu").click(() => {

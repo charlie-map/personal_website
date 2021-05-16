@@ -47,7 +47,7 @@ function Walker(startx, starty, color) {
 		// weight towards the mouse x and y
 		this.x += x > this.x ? random(0, OUT_OF) < ODDS ? 1 : -1 : random(0, OUT_OF) < ODDS ? -1 : 1;
 		// this.y += y > this.y ? random(0, OUT_OF) < ODDS ? 1 : -1 : random(0, OUT_OF) < ODDS ? -1 : 1;
-		this.y += random(0, OUT_OF) < ODDS ? 1 : -1;
+		this.y += this.y < $(window).height() ? random(0, OUT_OF) < ODDS ? 1 : -1 : -this.y;
 	}
 
 	this.display = function(r, g, b) {
