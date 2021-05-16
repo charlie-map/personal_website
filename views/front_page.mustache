@@ -10,18 +10,26 @@
 
 		<!-- import the webpage's client-side javascript file -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.js"></script>
+		<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.dom.js"></script>
+		<script language="javascript" type="text/javascript" src="walker.js"></script>
 		<title>⚪ Charlie Hall</title>
 	</head>
 	<div class="menu-btn"><div class="menu-btn_burger"></div></div>
 	<div class="menu-options_color"></div>
 	<ul class="menu-options">
-		<li><div class="container"><button>about me</button></div></li>
-		<li><div class="container"><button>current work</button></div></li>
-		<li><div class="container"><button>old projects</button></div></li>
+		<li><div class="container menu-button" id="about"><button>about me</button></div></li>
+		<li><div class="container menu-button" id="curr_work"><button>current work</button></div></li>
+		<li><div class="container menu-button" id="projects"><button>old projects</button></div></li>
 	</ul>
 	<hr class="headline">
-	<h1>Hi there, I'm Charlie</h1>
+	<h1>Hi there, I'm Charlie Hall</h1>
 	<body>
+		<div class="project-popup">
+			<div class="project-menu"><div class="project-menu_burger"></div></div>
+			<ul>
+			</ul>
+		</div>
 		<script src="/front_page.js"></script>
 		<!-- <script src="https://kit.fontawesome.com/3787aa0e64.js" crossorigin="anonymous"></script> -->
 	</body>
