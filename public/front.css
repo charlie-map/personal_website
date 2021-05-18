@@ -10,7 +10,7 @@
 body {
   background-color: #212121;
   color: #14ffec;
-  min-width: 315px;
+  min-width: 330px;
 }
 
 title { /*remove the title from the page*/
@@ -83,12 +83,21 @@ title { /*remove the title from the page*/
 }
 
 h1 { /*make h1's all caps*/
+	position: absolute;
 	text-transform: lowercase;
-	margin-top: 5px;
+	top: 50%;
+	margin-left: 5px;
+	/*margin-top: 5px;*/
 	font-size: 40px;
 	word-spacing: 10px;
+	transition: all 3s ease-in-out;
 }
 
+/*h1:hover {
+	transition: all 3s ease-in-out;
+	text-decoration: overline;
+}
+*/
 .menu-options {
 	position: absolute;
 	top: 5px;

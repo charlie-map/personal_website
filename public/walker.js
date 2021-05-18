@@ -1,9 +1,16 @@
 const AMOUNT = 150;
-const ODDS = 2.25, OUT_OF = 4; // for going towards the mouse
+const ODDS = 2.25,
+	OUT_OF = 4; // for going towards the mouse
 
 let walkers = [];
-let colors = [[13, 115, 119], [20, 255, 236], [158, 52, 0], [235, 88, 16]];
+let colors = [
+	[13, 115, 119],
+	[20, 255, 236],
+	[158, 52, 0],
+	[235, 88, 16]
+];
 let x = $(window).width() / 2;
+let y, header_x = -10;
 
 let background_image;
 
@@ -13,6 +20,8 @@ function preload() {
 
 function setup() {
 	createCanvas($(window).width(), $(window).height());
+	strokeWeight(7);
+	y = floor($(window).height() * 0.35)
 	// background_image.resize($(window).width(), $(window).height());
 
 	for (let i = 0; i < AMOUNT; i++) {
@@ -24,7 +33,6 @@ function setup() {
 function draw() {
 	// loop through the walkers - update them and draw them
 
-	// background_image.loadPixels()
 	for (let i = 0; i < AMOUNT; i++) {
 		// let posn = (walkers[i].y * background_image.width + walkers[i].x) * 4;
 		walkers[i].update();

@@ -17,10 +17,22 @@ $(".menu-btn").click(() => {
 	}
 });
 
+$(window).resize(() => {
+	setup();
+});
+
 $(".menu-button").click(function() {
 	console.log("clicked", this.id);
 	if (this.id == "projects") {
 		$(".project-popup").toggle();
+	} else {
+		$.ajax({
+			type: "GET",
+			url: "/go-to-page/" + this.id,
+			beforeSend: function() { // some loading animation
+				
+			}
+		});
 	}
 });
 

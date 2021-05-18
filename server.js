@@ -16,6 +16,10 @@ app.get("/", (req, res) => {
 	res.render("front_page");
 });
 
+app.get("/go-to-page/:page", (req, res) => {
+	
+});
+
 app.listen(9988, () => {
 	console.log("server go vroom");
 });
