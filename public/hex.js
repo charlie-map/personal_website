@@ -29,12 +29,13 @@ function setup() {
 	stroke(255);
 
 	$(document).mousemove((event) => {
-		hexes[floor(event.pageX / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].color = colors[3];
-		hexes[floor(event.pageX / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].change = 80;
+		hexes[floor(event.pageX / HEX_SIZE) + 1][floor(event.pageY / HEX_SIZE)].color = colors[3];
+		hexes[floor(event.pageX / HEX_SIZE) + 1][floor(event.pageY / HEX_SIZE)].change = 80;
 	});
 }
 
 function draw() {
+	background(0);
 	for (let x = 0; x < hexes.length; x++) {
 		for (let y = 0; y < hexes[x].length; y++) {
 			hexes[x][y].display();
@@ -55,7 +56,7 @@ function OBJHexes(hex_x, hex_y) {
 			this.color = color(red(this.color) - 5, green(this.color) - 5, blue(this.color) - 5);
 			if (this.change == 0) this.redo = 1;
 		} else if (this.redo == 1) { // [20, 255, 236] <-- build towards thi color
-			if (red(this.color) == colors[1][0] && green(this.color) == colors[1][1] && blue(this.color) == colors[1][2])
+			if (red(this.color) == colors[1][0] + 60 && green(this.color) == colors[1][1] && blue(this.color) == colors[1][2])
 				this.redo = 0;
 			this.color = color(red(this.color) != colors[1][0] ? red(this.color) + 5 : red(this.color),
 				green(this.color) != colors[1][0] ? green(this.color) + 5 : green(this.color),

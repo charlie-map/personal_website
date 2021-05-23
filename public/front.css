@@ -93,6 +93,11 @@ h1 { /*make h1's all caps*/
 	transition: all 3s ease-in-out;
 }
 
+span {
+	text-transform: lowercase;
+	color: ;
+}
+
 /*h1:hover {
 	transition: all 3s ease-in-out;
 	text-decoration: overline;
@@ -160,7 +165,7 @@ h1 { /*make h1's all caps*/
 
 .project-popup {
 	z-index: 5;
-	border-radius: 45px;
+	border-radius: 2px;
 	background-color: #323232;
 	position: absolute;
 	left: 10%;

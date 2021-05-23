@@ -22,18 +22,24 @@ $(window).resize(() => {
 });
 
 $(".menu-button").click(function() {
-	console.log("clicked", this.id);
-	if (this.id == "projects") {
-		$(".project-popup").toggle();
+	if ($("#project-name").html() != this.id) {
+
+		$("#project-name").html(this.id);
+		$(".project-popup").hide();
+		console.log(this.id);
 	} else {
-		$.ajax({
-			type: "GET",
-			url: "/go-to-page/" + this.id,
-			beforeSend: function() { // some loading animation
-				
-			}
-		});
+		$("#project-popup").show();
 	}
+
+	$("#about-page").hide();
+	$("#current-works-page").hide();
+	$("#old-page").hide();
+
+	if (this.id == "about me") $("#about-page").show();
+	if (this.id == "current works") $("#current-works-page").show();
+	if (this.id == "old projects") $("#old-page").show();
+
+	$(".project-popup").toggle();
 });
 
 $(".project-menu").click(() => {
