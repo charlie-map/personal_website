@@ -1,49 +1,19 @@
-const AMOUNT = 150;
-const ODDS = 2.25,
-	OUT_OF = 4; // for going towards the mouse
+let screen_width, screen_height;
 
 let walkers = [];
-let colors = [
-	[13, 115, 119],
-	[20, 255, 236],
-	[158, 52, 0],
-	[235, 88, 16]
-];
-let x = $(window).width() / 2;
-let y, header_x = -10;
 
-let background_image;
+function make_walking() {
+	let start_x = $(window).width() * 0.1;
+	let start_y = $(window).height() * 0.15;
+	screen_width = $(window).width() * 0.8;
+	screen_height = $(window).height() * 0.7;
 
-function preload() {
-	//background_image = loadImage("https://cuteboys.me/singleBoy");
-}
+	createCanvas(screen_width, screen_height);
 
-function setup() {
-	createCanvas($(window).width(), $(window).height());
-	strokeWeight(7);
-	y = floor($(window).height() * 0.35)
-	// background_image.resize($(window).width(), $(window).height());
-
-	for (let i = 0; i < AMOUNT; i++) {
-		walkers.push(new Walker(random(0, $(window).width()), 0, colors[floor(random(0, colors.length))]));
-		// walkers.push(new Walker($(window).width() / 2, 0, background_image.get(x, y)));
+	for (let i = 0; i < 100; i++) {
+		walkers[i] = new Walker(random(start_x, screen_width), random(start_y, screen_height), colors[floor(random(4))]);
 	}
 }
-
-function draw() {
-	// loop through the walkers - update them and draw them
-
-	for (let i = 0; i < AMOUNT; i++) {
-		// let posn = (walkers[i].y * background_image.width + walkers[i].x) * 4;
-		walkers[i].update();
-		walkers[i].display();
-	}
-}
-
-$(document).mousemove((event) => {
-	x = event.pageX;
-	y = event.pageY;
-});
 
 function Walker(startx, starty, color) {
 	this.x = startx;
@@ -53,9 +23,9 @@ function Walker(startx, starty, color) {
 	this.update = function() {
 
 		// weight towards the mouse x and y
-		this.x += x > this.x ? random(0, OUT_OF) < ODDS ? 1 : -1 : random(0, OUT_OF) < ODDS ? -1 : 1;
+		this.x += floor(random(0, 2)) == 0 ? -1 : 1;
 		// this.y += y > this.y ? random(0, OUT_OF) < ODDS ? 1 : -1 : random(0, OUT_OF) < ODDS ? -1 : 1;
-		this.y += this.y < $(window).height() ? random(0, OUT_OF) < ODDS ? 1 : -1 : -this.y;
+		this.y += floor(random(0, 2)) == 0 ? -1 : 1;
 	}
 
 	this.display = function(r, g, b) {

@@ -15,6 +15,8 @@ function setup() {
 	let random_subtract = floor(random(-30, -10));
 	let build_x, build_y
 
+	console.log(random_subtract);
+
 	for (let x = 0; x < $(window).width() / HEX_SIZE + 50; x++) {
 		hexes[x] = [];
 		for (let y = 0; y < $(window).height() / HEX_SIZE + 50; y++) {
@@ -29,8 +31,8 @@ function setup() {
 	stroke(255);
 
 	$(document).mousemove((event) => {
-		hexes[floor(event.pageX / HEX_SIZE) + 1][floor(event.pageY / HEX_SIZE)].color = colors[3];
-		hexes[floor(event.pageX / HEX_SIZE) + 1][floor(event.pageY / HEX_SIZE)].change = 80;
+		hexes[floor((event.pageX + 40) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].color = colors[3];
+		hexes[floor((event.pageX + 40) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].change = 80;
 	});
 }
 
@@ -39,6 +41,14 @@ function draw() {
 	for (let x = 0; x < hexes.length; x++) {
 		for (let y = 0; y < hexes[x].length; y++) {
 			hexes[x][y].display();
+		}
+	}
+
+	if (walkers.length) {
+		for (let i = 0; i < AMOUNT; i++) {
+			// let posn = (walkers[i].y * background_image.width + walkers[i].x) * 4;
+			walkers[i].update();
+			walkers[i].display();
 		}
 	}
 }
