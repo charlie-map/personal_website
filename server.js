@@ -5,6 +5,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mustache = require('mustache-express');
 const mysql = require('mysql2');
+const {
+	v4: uuidv4
+} = require('uuid');
 
 const connection = mysql.createConnection({
 	host: process.env.HOST,
@@ -29,7 +32,7 @@ app.set('view engine', 'mustache');
 app.engine('mustache', mustache());
 
 // go through the root objects recursively
-function pull_all_data(parent_id, level) {
+function pull_all_data(parent_id) {
 	let return_array = "";
 	return new Promise((resolve, reject) => {
 		let where_clause = !parent_id ? " parent_id IS NULL" : " parent_id=?"
@@ -39,15 +42,17 @@ function pull_all_data(parent_id, level) {
 
 			let await_all_rows = row_projects.map(async (item, index) => {
 				// making the javascript :/
-				let child_row_data = await pull_all_data(item.id, level + 1);
-				return_array += "<div class='old-project-web " + level + "'>" +
-					(item.type == "button" ? ("<button class='menu-button' id='open-child||'"
-						/* NEED LINK*/ + ">" + item.title + "</button>") :
-					item.type == "background_change" ? ("<button class='menu-button'" +
-					" id='open-new-render||'>" + item.title + "</button>") : ("<a href='" +
-					/* NEED LINK */ + "</a>")) + (child_row_data.length ? "<div class='children-project-web'>" + 
-					child_row_data.toString().replace(/,/g, "") +
-					"</div>" : "") + "</div>";
+				let child_row_data = await pull_all_data(item.id);
+				return_array += "<div class='old-project-web'>" +
+					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||'"
+							/* NEED LINK*/
+							+ ">" + item.title + "</button>") :
+						item.type == "background_change" ? ("<button class='project-web-display'" +
+							" id='open-new-render||'>" + item.title + "</button>") : ("<a href='" +
+							/* NEED LINK */
+							+"</a>")) + (child_row_data.length ? "<div class='children-project-web'>" +
+						child_row_data.toString().replace(/,/g, "") +
+						"</div>" : "") + "</div>";
 			});
 			await Promise.all(await_all_rows);
 			resolve(return_array);
@@ -58,9 +63,8 @@ function pull_all_data(parent_id, level) {
 app.get("/", async (req, res) => {
 	// set up project object with all of the old projects
 	let old_project_obj;
-	let count_up = 0;
 
-	old_project_obj = await pull_all_data(null, count_up);
+	old_project_obj = await pull_all_data(null);
 	// console.log(old_project_obj);
 
 	res.render("front_page", {

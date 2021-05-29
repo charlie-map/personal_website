@@ -45,3 +45,27 @@ $(".menu-button").click(function() {
 $(".project-menu").click(() => {
 	$(".project-popup").hide();
 });
+
+$(".project-web-open-child").on('click', function() {
+	// if this route is already open, close it
+	if ($(this).hasClass('open')) {
+		$(this).removeClass('open');
+		$(this).parent().find('div').removeClass('open');
+		return;
+	}
+
+	// make sure all pathes are closed on sibling divs
+	$(this).parent().siblings().removeClass('open');
+	$(this).parent().siblings().children('button').removeClass('open');
+	$(this).parent().siblings().children('div').removeClass('open');
+	// first go through this level and make sure every other div is closed
+	let values = this.id.split("||");
+
+	if (values[0] == "open-child") {
+
+		// add the 'open' class so css can correctly draw everything
+		$(this).addClass('open');
+		$(this).parent().children('div').addClass('open');
+		$(this).parent().children('div').css(width: $("#old-page").width());
+	}
+});

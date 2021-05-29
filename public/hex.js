@@ -15,7 +15,7 @@ function setup() {
 	let random_subtract = floor(random(-30, -10));
 	let build_x, build_y
 
-	console.log(random_subtract);
+	// console.log(random_subtract);
 
 	for (let x = 0; x < $(window).width() / HEX_SIZE + 50; x++) {
 		hexes[x] = [];
