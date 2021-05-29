@@ -30,7 +30,7 @@ app.engine('mustache', mustache());
 
 // go through the root objects recursively
 function pull_all_data(parent_id, level) {
-	let return_array = [];
+	let return_array = "";
 	return new Promise((resolve, reject) => {
 		let where_clause = !parent_id ? " parent_id IS NULL" : " parent_id=?"
 
@@ -40,14 +40,14 @@ function pull_all_data(parent_id, level) {
 			let await_all_rows = row_projects.map(async (item, index) => {
 				// making the javascript :/
 				let child_row_data = await pull_all_data(item.id, level + 1);
-				return_array.push("<div class='old-project-web " + level + "'>" +
+				return_array += "<div class='old-project-web " + level + "'>" +
 					(item.type == "button" ? ("<button class='menu-button' id='open-child||'"
 						/* NEED LINK*/ + ">" + item.title + "</button>") :
 					item.type == "background_change" ? ("<button class='menu-button'" +
 					" id='open-new-render||'>" + item.title + "</button>") : ("<a href='" +
 					/* NEED LINK */ + "</a>")) + (child_row_data.length ? "<div class='children-project-web'>" + 
 					child_row_data.toString().replace(/,/g, "") +
-					"</div>" : "") + "</div>");
+					"</div>" : "") + "</div>";
 			});
 			await Promise.all(await_all_rows);
 			resolve(return_array);
@@ -70,7 +70,7 @@ app.get("/", async (req, res) => {
 		}, {
 			PROFILE_WORD: "second test!"
 		}],
-		SPIDER_WEB: old_project_obj
+		SPIDER_WEB: old_project_obj.toString().replace(/,/g, "")
 	});
 });
 
