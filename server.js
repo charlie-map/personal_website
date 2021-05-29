@@ -32,8 +32,9 @@ app.set('view engine', 'mustache');
 app.engine('mustache', mustache());
 
 // go through the root objects recursively
-function pull_all_data(parent_id) {
+function pull_all_old_projects(parent_id, level) {
 	let return_array = "";
+	let svg_path = [];
 	return new Promise((resolve, reject) => {
 		let where_clause = !parent_id ? " parent_id IS NULL" : " parent_id=?"
 
@@ -41,21 +42,25 @@ function pull_all_data(parent_id) {
 			if (err || !row_projects) return reject(err);
 
 			let await_all_rows = row_projects.map(async (item, index) => {
+				if (level == 0) svg_path.push({ SVG_NAME: item.title, ROW_LINES: [] });
 				// making the javascript :/
-				let child_row_data = await pull_all_data(item.id);
+				let child_row_data = await pull_all_old_projects(item.id, level + 1);
+				let this_id = uuidv4();
 				return_array += "<div class='old-project-web'>" +
-					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||'"
-							/* NEED LINK*/
-							+ ">" + item.title + "</button>") :
+					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + level + "||" + this_id + "'" +
+							">" + item.title + "</button>") :
 						item.type == "background_change" ? ("<button class='project-web-display'" +
-							" id='open-new-render||'>" + item.title + "</button>") : ("<a href='" +
+							" id='open-new-render||'" + level + "||" + this_id + "'>" + item.title + "</button>") : ("<a href='" +
 							/* NEED LINK */
-							+"</a>")) + (child_row_data.length ? "<div class='children-project-web'>" +
-						child_row_data.toString().replace(/,/g, "") +
+							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
+						child_row_data[0].toString().replace(/,/g, "") +
 						"</div>" : "") + "</div>";
+
+				if (level == 0) svg_path[index].ROW_LINES.push(...child_row_data[1], { CHILD_ELEMENT_NAME: this_id });
+				else svg_path.push(...child_row_data[1], { CHILD_ELEMENT_NAME: this_id });
 			});
 			await Promise.all(await_all_rows);
-			resolve(return_array);
+			resolve([return_array, svg_path.length ? svg_path : []]);
 		});
 	});
 }
@@ -63,9 +68,12 @@ function pull_all_data(parent_id) {
 app.get("/", async (req, res) => {
 	// set up project object with all of the old projects
 	let old_project_obj;
+	let counter = 0;
 
-	old_project_obj = await pull_all_data(null);
-	// console.log(old_project_obj);
+	// grabs all projects from database, creates recursive div and
+	// adds all the data into svg, which is used for line drawing
+	old_project_obj = await pull_all_old_projects(null, counter);
+	let svg_obj = old_project_obj.splice(1)[0];
 
 	res.render("front_page", {
 		NAME: "Charlie Hall",
@@ -74,7 +82,8 @@ app.get("/", async (req, res) => {
 		}, {
 			PROFILE_WORD: "second test!"
 		}],
-		SPIDER_WEB: old_project_obj.toString().replace(/,/g, "")
+		SPIDER_WEB: old_project_obj[0].toString().replace(/,/g, ""),
+		SVG_ROWS: svg_obj
 	});
 });
 

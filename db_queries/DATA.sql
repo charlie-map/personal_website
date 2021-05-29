@@ -14,6 +14,18 @@ INSERT INTO old_project_web (title, type) VALUES (
 
 INSERT INTO old_project_web (title, parent_id, type) VALUES (
 	"fun",
+	1,
+	"button"
+);
+
+INSERT INTO old_project_web (title, parent_id, type) VALUES (
+	"school",
+	1,
+	"button"
+);
+
+INSERT INTO old_project_web (title, parent_id, type) VALUES (
+	"fun",
 	2,
 	"button"
 );
@@ -27,5 +39,17 @@ INSERT INTO old_project_web (title, parent_id, type) VALUES (
 INSERT INTO old_project_web (title, parent_id, type) VALUES (
 	"school",
 	2,
+	"button"
+);
+
+INSERT INTO old_project_web (title, parent_id, type) VALUES (
+	"c projects",
+	3,
+	"button"
+);
+
+INSERT INTO old_project_web (title, parent_id, type) VALUES (
+	"sorting",
+	3,
 	"button"
 );

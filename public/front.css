@@ -17,6 +17,13 @@ title { /*remove the title from the page*/
 	display: none;
 }
 
+#svgContainer { 
+	z-index: -10;
+	position:absolute;
+	background-color:silver;
+	opacity: 0.5;
+}
+
 .menu-btn {
 	position: absolute;
 	top: 0px;
@@ -385,7 +392,7 @@ span {
 	left: 0px;
 	display: flex;
 	justify-content: space-around;
-	margin-top: 30px;
+	margin-top: 50px;
 	transition: 2s ease-in-out;
 }
 
