@@ -61,7 +61,7 @@ app.get("/", async (req, res) => {
 	let count_up = 0;
 
 	old_project_obj = await pull_all_data(null, count_up);
-	console.log(old_project_obj);
+	// console.log(old_project_obj);
 
 	res.render("front_page", {
 		NAME: "Charlie Hall",
