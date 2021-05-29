@@ -31,8 +31,8 @@ function setup() {
 	stroke(255);
 
 	$(document).mousemove((event) => {
-		hexes[floor((event.pageX + 40) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].color = colors[3];
-		hexes[floor((event.pageX + 40) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].change = 80;
+		hexes[floor((event.pageX + 50) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].color = colors[3];
+		hexes[floor((event.pageX + 50) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].change = 80;
 	});
 }
 

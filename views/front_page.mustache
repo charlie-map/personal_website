@@ -14,7 +14,7 @@
 		<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.dom.js"></script>
 		<script language="javascript" type="text/javascript" src="hex.js"></script>
 		<script language="javascript" type="text/javascript" src="walker.js"></script>
-		<title>⚪ Charlie Hall</title>
+		<title>⚪ {{NAME}}</title>
 	</head>
 	<div class="menu-btn"><div class="menu-btn_burger"></div></div>
 	<div class="menu-options_color"></div>
@@ -25,7 +25,7 @@
 	</ul>
 	<hr class="headline">
 	<h1 class="main-header">Hi</h1>
-	<h1 class="main-header" style="margin-top: 40px; margin-left: 30px">I'm Charlie Hall</h1>
+	<h1 class="main-header" style="margin-top: 40px; margin-left: 30px">I'm {{NAME}}</h1>
 	<body>
 		<div class="project-popup">
 			<div class="project-menu"><div class="project-menu_burger"></div></div>
@@ -45,23 +45,17 @@
 						<div class="hex-circ thi"></div>
 						<div class="hex-circ fou"></div>
 					</div>
-					<ul class="profile-words">
-						<li>test test?</li>
-						<li>another test?!?!</li>
-					</ul>
+					<ul class="profile-words">{{#PROFILE_WORDS}}
+						<li>- {{PROFILE_WORD}}</li>
+					{{/PROFILE_WORDS}}</ul>
 				</div>
 			</div>
 			<div id="current-works-page">
 				test current
 			</div>
-			<div id="old-page">
-				<div class="display-projects">{{#WEB_VALUES}}
-
-				{{/WEB_VALUES}}</div>
-				<div class="display-projects">{{#ALGO_VALUES}}
-
-				{{/ALGO_VALUES}}</div>
-			</div>
+			<div id="old-page">{{#SPIDER_WEB}}
+				
+			{{/SPIDER_WEB}}</div>
 		</div>
 		<script src="/front_page.js"></script>
 <!-- 		<script src="https://kit.fontawesome.com/3787aa0e64.js" crossorigin="anonymous"></script>
