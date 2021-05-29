@@ -6,7 +6,6 @@
 	font-family: 'Quicksand', sans-serif;
 	text-align: center;
 	text-transform: lowercase;
-	overflow: hidden;
 }
 
 body {
@@ -167,10 +166,10 @@ span {
 	border-radius: 2px;
 	background-color: #323232;
 	position: absolute;
-	left: 10%;
+	left: 5%;
 	top: 15%;
 	opacity: 0.8;
-	width: 80%;
+	width: 90%;
 	height: 70%;
 	border-style: ridge;
 	border-color: white;

@@ -29,11 +29,8 @@ app.set('view engine', 'mustache');
 app.engine('mustache', mustache());
 
 app.get("/", (req, res) => {
+	// pull all the current rows of data from the database for each page
 	res.render("front_page");
-});
-
-app.get("/go-to-page/:page", (req, res) => {
-
 });
 
 app.listen(9988, () => {

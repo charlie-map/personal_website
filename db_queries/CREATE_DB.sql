@@ -2,6 +2,18 @@ DROP DATABASE IF EXISTS my_site;
 CREATE DATABASE my_site;
 USE my_site;
 
-CREATE USER 'your username'@'your host name' IDENTIFIED BY 'your password here';
-GRANT SELECT ON my_site.* TO 'your username'@'your host name';
-FLUSH PRIVILEGES;
+CREATE TABLE old_project_web (
+	id INT AUTO_INCREMENT,
+	parent_id INT DEFAULT NULL,
+	title VARCHAR(255) DEFAULT "Unknown",
+	type VARCHAR(255),
+	PRIMARY KEY (id),
+	FOREIGN KEY (parent_id) REFERENCES old_project_web (id) ON DELETE CASCADE
+);
+
+/* TYPE:
+	type is a assignment to one of three thing (currently):
+		1. button
+		2. different page (on website)
+		3. a link to another page (e.g. https://glitch.com)
+*/
