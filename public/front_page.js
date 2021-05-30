@@ -21,10 +21,20 @@ $(window).resize(() => {
 	setup();
 });
 
+function hide_svg_lines() {
+	let pathes = $("#svgContainer").find('path');
+
+	for (let delete_pathes = 0; delete_pathes < pathes.length; delete_pathes++) {
+
+		$(pathes[delete_pathes]).attr('d', "M0 0");
+	}
+}
+
 $(".menu-button").click(function() {
 	if ($("#project-name").html() != this.id) {
 
 		$("#project-name").html(this.id);
+		hide_svg_lines();
 		$(".project-popup").hide();
 	} else {
 		$("#project-popup").show();
@@ -32,6 +42,7 @@ $(".menu-button").click(function() {
 
 	$("#about-page").hide();
 	$("#current-works-page").hide();
+	hide_svg_lines();
 	$("#old-page").hide();
 
 	if (this.id == "about me") $("#about-page").show();
@@ -42,6 +53,7 @@ $(".menu-button").click(function() {
 });
 
 $(".project-menu").click(() => {
+	hide_svg_lines();
 	$(".project-popup").hide();
 });
 
