@@ -26,7 +26,6 @@ $(".menu-button").click(function() {
 
 		$("#project-name").html(this.id);
 		$(".project-popup").hide();
-		console.log(this.id);
 	} else {
 		$("#project-popup").show();
 	}
@@ -75,10 +74,16 @@ $(".project-web-open-child").on('click', function() {
 	$(this).parent().siblings().children('div').removeClass('open');
 
 	children_object = $("#svgContainer").children('svg');
-	console.log("test", children_object);
+	let possible_pathes;
 
 	for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
-		$(children_object[sub_proj]).css('left', $(window).width());
+
+		let pathes = $(children_object[sub_proj]).find('path');
+		if ($(children_object[sub_proj]).attr('id').substring(3) == values[1]) possible_pathes = pathes;
+		for (let run_pathes_proj = 0; run_pathes_proj < pathes.length; run_pathes_proj++) {
+
+			$(pathes[run_pathes_proj]).attr('d', "M0 0");
+		}
 	}
 
 	// first go through this level and make sure every other div is closed
@@ -89,7 +94,27 @@ $(".project-web-open-child").on('click', function() {
 		$(this).parent().children('div').addClass('open');
 		$(this).parent().children('div').css('width', $("#old-page").width());
 		// then draw the lines between the parent and the children
-		$("#svg" + this.id.split("||")[1]).css('left', '0px');
+
+		// need to redraw the lines of the page we're on
+		let path_map = new Map();
+		for (let run_pathes_proj = 0; run_pathes_proj < possible_pathes.length; run_pathes_proj++) {
+			path_map[$(possible_pathes[run_pathes_proj]).attr('id').substring(4)] = possible_pathes[run_pathes_proj];
+		}
+
+		// follow the path from top to bottom following the buttons with the class 'open'
+		children_object = $(".old-project-web." + values[1]).find('button');
+		for (let find_button_path = 0; find_button_path < children_object.length; find_button_path++) {
+
+			if ($(children_object[find_button_path]).hasClass('open')) {
+				// grab children of the button and connect the elements
+
+				let element_children = $(children_object[find_button_path]).siblings('div').children('div').children('button');
+				for (let connect_children = 0; connect_children < element_children.length; connect_children++) {
+					connectElements($("#svg" + values[1]), $("#path" + $(element_children[connect_children]).attr('id').split("||")[2]), $(element_children[connect_children]), $(children_object[find_button_path]));
+				}
+			}
+		}
+
 		connectAll(this);
 	}
 });
@@ -103,6 +128,7 @@ function absolute(x) {
 	return (x < 0) ? -x : x;
 }
 
+// pulled SVG code from: https://gist.github.com/alojzije/11127839
 function drawPath(svg, path, startX, startY, endX, endY) {
 	// get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
 	var stroke = parseFloat(path.attr("stroke-width"));
