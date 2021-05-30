@@ -53,3 +53,10 @@ INSERT INTO old_project_web (title, parent_id, type) VALUES (
 	3,
 	"button"
 );
+
+INSERT INTO old_project_web (title, parent_id, type, project_link) VALUES (
+	"random walker",
+	4,
+	"background_change",
+	"walker.js"
+);

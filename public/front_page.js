@@ -148,7 +148,7 @@ $(".menu-button").click(function() {
 	$(".project-popup").toggle();
 
 	if (this.id == "old projects" && $(".project-popup").is(":visible")) {
-		
+
 		let project_web_pages = $("#old-page").children('div');
 		for (let web_search = 0; web_search < project_web_pages.length; web_search++) {
 
@@ -243,9 +243,12 @@ function connectAll(id) {
 	let children_uuid;
 
 	children_ids.forEach((connect_children) => {
-		console.log("\n\nCONNECT CHILD", connect_children, id);
-		children_uuid = $(connect_children).attr('id').split("||")[2];
-		console.log("\nOFFSETS", $(connect_children).offset(), $(id).offset());
-		connectElements($("#svg" + full_tree_id), $("#path" + children_uuid), $(connect_children), $(id));
+		// check the child for if they are an open-new-render child, and if they are the background
+		children_uuid = $(connect_children).attr('id').split("||");
+		if (children_uuid[0] == "open-new-render" && children_uuid[4] == $("#current_script").attr('src')) {
+			$(connect_children).addClass('open');
+		}
+
+		connectElements($("#svg" + full_tree_id), $("#path" + children_uuid[2]), $(connect_children), $(id));
 	});
 }
