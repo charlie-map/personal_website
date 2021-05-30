@@ -30,6 +30,25 @@ function hide_svg_lines() {
 	}
 }
 
+function redraw_svg_elements(main_web_obj, web_project_path) {
+	// follow the path from top to bottom following the buttons with the class 'open'
+	let children_object = $(main_web_obj).find('button');
+	for (let find_button_path = 0; find_button_path < children_object.length; find_button_path++) {
+
+		if ($(children_object[find_button_path]).hasClass('open')) {
+			// grab children of the button and connect the elements
+
+			let element_children = $(children_object[find_button_path]).siblings().children('div').children('button');
+			for (let connect_children = 0; connect_children < element_children.length; connect_children++) {
+				console.log(element_children[connect_children]);
+				console.log($(element_children[connect_children]).attr('id').split("||"));
+				connectElements($("#svg" + web_project_path), $("#path" + $(element_children[connect_children]).attr('id').split("||")[2]), $(element_children[connect_children]), $(children_object[find_button_path]));
+			}
+			break;
+		}
+	}
+}
+
 $(".menu-button").click(function() {
 	if ($("#project-name").html() != this.id) {
 
@@ -47,7 +66,20 @@ $(".menu-button").click(function() {
 
 	if (this.id == "about me") $("#about-page").show();
 	if (this.id == "current works") $("#current-works-page").show();
-	if (this.id == "old projects") $("#old-page").show();
+	if (this.id == "old projects") {
+		// look at which one of the projects is open
+
+		let project_web_pages = $("#old-page").children('div');
+		for (let web_search = 0; web_search < project_web_pages.length; web_search++) {
+
+			if ($(project_web_pages[web_search]).hasClass('open')) {
+				let correct_page = $(project_web_pages[web_search]).attr('class').split(" ")[1];
+				redraw_svg_elements($(".old-project-web." + correct_page), correct_page);
+				break;
+			}
+		}
+		$("#old-page").show();
+	}
 
 	$(".project-popup").toggle();
 });
@@ -60,74 +92,65 @@ $(".project-menu").click(() => {
 $(".project-web-open-child").on('click', function() {
 	// if this route is already open, close it
 	let values = this.id.split("||");
+	if (values[0] == "open-child") {
+		$(".old-project-web").removeClass('open');
 
-	if ($(this).hasClass('open')) {
-		//$("#path" + this.id.split("||")[2]).attr('d', 'M0 0');
-		let children_object = $("#old-page").children('.' + values[1]).find('button');
-		// loop through only ones that have a level the same or greater than the one we are currently on
+		if ($(this).hasClass('open')) {
+			//$("#path" + this.id.split("||")[2]).attr('d', 'M0 0');
+			let children_object = $("#old-page").children('.' + values[1]).find('button');
+			// loop through only ones that have a level the same or greater than the one we are currently on
 
-		let build_children_id;
+			let build_children_id;
+
+			for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
+				build_children_id = $(children_object[sub_proj]).attr('id').split("||");
+				if (build_children_id[3] > values[3])
+					$("#path" + build_children_id[2]).attr('d', "M0 0");
+			}
+
+			$(this).removeClass('open');
+			$(this).parent().find('div').removeClass('open');
+			$(this).parent().find('button').removeClass('open');
+			return;
+		}
+
+		// make sure all pathes are closed on sibling divs
+		$(this).parent().siblings().removeClass('open');
+		$(this).parent().siblings().children('button').removeClass('open');
+		$(this).parent().siblings().children('div').removeClass('open');
+
+		children_object = $("#svgContainer").children('svg');
+		let possible_pathes;
 
 		for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
-			build_children_id = $(children_object[sub_proj]).attr('id').split("||");
-			if (build_children_id[3] > values[3])
-				$("#path" + build_children_id[2]).attr('d', "M0 0");
+
+			let pathes = $(children_object[sub_proj]).find('path');
+			if ($(children_object[sub_proj]).attr('id').substring(3) == values[1]) possible_pathes = pathes;
+			for (let run_pathes_proj = 0; run_pathes_proj < pathes.length; run_pathes_proj++) {
+
+				$(pathes[run_pathes_proj]).attr('d', "M0 0");
+			}
 		}
 
-		$(this).removeClass('open');
-		$(this).parent().find('div').removeClass('open');
-		$(this).parent().find('button').removeClass('open');
-		return;
-	}
+		// first go through this level and make sure every other div is closed
 
-	// make sure all pathes are closed on sibling divs
-	$(this).parent().siblings().removeClass('open');
-	$(this).parent().siblings().children('button').removeClass('open');
-	$(this).parent().siblings().children('div').removeClass('open');
-
-	children_object = $("#svgContainer").children('svg');
-	let possible_pathes;
-
-	for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
-
-		let pathes = $(children_object[sub_proj]).find('path');
-		if ($(children_object[sub_proj]).attr('id').substring(3) == values[1]) possible_pathes = pathes;
-		for (let run_pathes_proj = 0; run_pathes_proj < pathes.length; run_pathes_proj++) {
-
-			$(pathes[run_pathes_proj]).attr('d', "M0 0");
-		}
-	}
-
-	// first go through this level and make sure every other div is closed
-
-	if (values[0] == "open-child") {
 		// add the 'open' class so css can correctly draw everything
 		$(this).addClass('open');
 		$(this).parent().children('div').addClass('open');
 		$(this).parent().children('div').css('width', $("#old-page").width());
 		// then draw the lines between the parent and the children
 
-		// need to redraw the lines of the page we're on
-		let path_map = new Map();
-		for (let run_pathes_proj = 0; run_pathes_proj < possible_pathes.length; run_pathes_proj++) {
-			path_map[$(possible_pathes[run_pathes_proj]).attr('id').substring(4)] = possible_pathes[run_pathes_proj];
-		}
-
-		// follow the path from top to bottom following the buttons with the class 'open'
-		children_object = $(".old-project-web." + values[1]).find('button');
-		for (let find_button_path = 0; find_button_path < children_object.length; find_button_path++) {
-
-			if ($(children_object[find_button_path]).hasClass('open')) {
-				// grab children of the button and connect the elements
-
-				let element_children = $(children_object[find_button_path]).siblings('div').children('div').children('button');
-				for (let connect_children = 0; connect_children < element_children.length; connect_children++) {
-					connectElements($("#svg" + values[1]), $("#path" + $(element_children[connect_children]).attr('id').split("||")[2]), $(element_children[connect_children]), $(children_object[find_button_path]));
-				}
-			}
-		}
+		$(".old-project-web." + values[1]).addClass('open');
+		redraw_svg_elements($(".old-project-web." + values[1]), values[1]);
 
 		connectAll(this);
+	} else if (values[0] == "open-new-render") {
+		console.log("change background");
+		// change nothing on old projects, just open the background to a different game
+		$(this).addClass('open');
+		$("#current_script").remove();
+		$("head").append('<script id="current_script" language="javascript" type="text/javascript" src="' + 'walker.js' + '"></script>');
+		setup();
 	}
 });
 
@@ -176,6 +199,8 @@ function drawPath(svg, path, startX, startY, endX, endY) {
 
 function connectElements(svg, path, startElem, endElem) {
 	var svgContainer = $("#svgContainer");
+
+	console.log("ALL HERE", svg, path, startElem, endElem);
 
 	// if first element is lower than the second, swap!
 	if (startElem.offset().top > endElem.offset().top) {

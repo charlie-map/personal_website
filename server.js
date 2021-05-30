@@ -52,7 +52,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
 					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + item.tree_sub_value + "||" + this_id + "||" + level + "'" +
 							">" + item.title + "</button>") :
-						item.type == "background_change" ? ("<button class='project-web-display'" +
+						item.type == "background_change" ? ("<button class='project-web-open-child'" +
 							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level + "'>" + item.title + "</button>") : ("<a href='" +
 							/* NEED LINK */
 							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
@@ -85,7 +85,8 @@ app.get("/", async (req, res) => {
 			PROFILE_WORD: "second test!"
 		}],
 		SPIDER_WEB: old_project_obj[0].toString().replace(/,/g, ""),
-		SVG_ROWS: svg_obj
+		SVG_ROWS: svg_obj,
+		CHOICE_SCRIPT: "hex.js"
 	});
 });
 

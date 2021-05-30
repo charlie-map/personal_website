@@ -1,17 +1,27 @@
 let screen_width, screen_height;
+const AMOUNT = 100;
 
 let walkers = [];
 
-function make_walking() {
+function setup() {
+
 	let start_x = $(window).width() * 0.1;
 	let start_y = $(window).height() * 0.15;
 	screen_width = $(window).width() * 0.8;
 	screen_height = $(window).height() * 0.7;
 
-	createCanvas(screen_width, screen_height);
+	createCanvas($(window).width(), $(window).height() - 42);
+	background(0);
 
-	for (let i = 0; i < 100; i++) {
+	for (let i = 0; i < AMOUNT; i++) {
 		walkers[i] = new Walker(random(start_x, screen_width), random(start_y, screen_height), colors[floor(random(4))]);
+	}
+}
+
+function draw() {
+	for (let i = 0; i < AMOUNT; i++) {
+		walkers[i].update();
+		walkers[i].display();
 	}
 }
 

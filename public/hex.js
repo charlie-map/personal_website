@@ -43,14 +43,6 @@ function draw() {
 			hexes[x][y].display();
 		}
 	}
-
-	if (walkers.length) {
-		for (let i = 0; i < AMOUNT; i++) {
-			// let posn = (walkers[i].y * background_image.width + walkers[i].x) * 4;
-			walkers[i].update();
-			walkers[i].display();
-		}
-	}
 }
 
 function OBJHexes(hex_x, hex_y) {
