@@ -1,15 +1,5 @@
-const HEX_SIZE = 40;
-
-let hexes = [];
-
-let colors = [
-	[13, 115, 119],
-	[20, 255, 236],
-	[158, 52, 0],
-	[235, 88, 16]
-];
-
 function setup() {
+	let HEX_SIZE = 40;
 	createCanvas($(window).width(), $(window).height() - 42);
 
 	let random_subtract = floor(random(-30, -10));
@@ -18,11 +8,11 @@ function setup() {
 	// console.log(random_subtract);
 
 	for (let x = 0; x < $(window).width() / HEX_SIZE + 50; x++) {
-		hexes[x] = [];
+		hex[x] = [];
 		for (let y = 0; y < $(window).height() / HEX_SIZE + 50; y++) {
 			build_x = y % 2 == 0 ? x * HEX_SIZE + random_subtract : x * HEX_SIZE - (HEX_SIZE / 2) + random_subtract;
 			build_y = y * HEX_SIZE + random_subtract;
-			hexes[x][y] = new OBJHexes(build_x, build_y);
+			hex[x][y] = new OBJHexes(build_x, build_y, HEX_SIZE);
 		}
 	}
 
@@ -31,26 +21,27 @@ function setup() {
 	stroke(255);
 
 	$(document).mousemove((event) => {
-		hexes[floor((event.pageX + 50) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].color = colors[3];
-		hexes[floor((event.pageX + 50) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].change = 80;
+		hex[floor((event.pageX + 50) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].color = colors[3];
+		hex[floor((event.pageX + 50) / HEX_SIZE)][floor(event.pageY / HEX_SIZE)].change = 80;
 	});
 }
 
 function draw() {
 	background(0);
-	for (let x = 0; x < hexes.length; x++) {
-		for (let y = 0; y < hexes[x].length; y++) {
-			hexes[x][y].display();
+	for (let x = 0; x < hex.length; x++) {
+		for (let y = 0; y < hex[x].length; y++) {
+			hex[x][y].display();
 		}
 	}
 }
 
-function OBJHexes(hex_x, hex_y) {
+function OBJHexes(hex_x, hex_y, hex_size) {
 	this.x = hex_x;
 	this.y = hex_y;
 	this.color = colors[0];
 	this.change = 0;
 	this.redo = 0;
+	this.hex_size = hex_size; 
 
 	this.display = function() {
 		if (this.change != 0) {
@@ -66,14 +57,14 @@ function OBJHexes(hex_x, hex_y) {
 		}
 		stroke(this.color);
 
-		let y_subtract = HEX_SIZE / 2 - 5; /*this.y / HEX_SIZE % 2 == 1 ? HEX_SIZE / 2 - 15 : HEX_SIZE / 2;*/
+		let y_subtract = this.hex_size / 2 - 5;
 		beginShape();
 		vertex(this.x, this.y - 24.5);
-		vertex(this.x + (HEX_SIZE / 2) - 0.5, this.y - y_subtract + 0.5);
-		vertex(this.x + (HEX_SIZE / 2) - 0.5, this.y + y_subtract - 0.5);
+		vertex(this.x + (this.hex_size / 2) - 0.5, this.y - y_subtract + 0.5);
+		vertex(this.x + (this.hex_size / 2) - 0.5, this.y + y_subtract - 0.5);
 		vertex(this.x, this.y + 24.5);
-		vertex(this.x - (HEX_SIZE / 2), this.y + y_subtract - 0.5);
-		vertex(this.x - (HEX_SIZE / 2), this.y - y_subtract + 0.5);
+		vertex(this.x - (this.hex_size / 2), this.y + y_subtract - 0.5);
+		vertex(this.x - (this.hex_size / 2), this.y - y_subtract + 0.5);
 		endShape(CLOSE);
 	}
 

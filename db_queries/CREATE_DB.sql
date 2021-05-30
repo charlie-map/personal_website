@@ -9,6 +9,7 @@ CREATE TABLE old_project_web (
 	type VARCHAR(255),
 	completion_date DATETIME DEFAULT NULL,
 	project_link VARCHAR(511) DEFAULT NULL,
+	class_needed TINYINT(1) DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (parent_id) REFERENCES old_project_web (id) ON DELETE CASCADE
 );

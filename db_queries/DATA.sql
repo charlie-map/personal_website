@@ -54,9 +54,18 @@ INSERT INTO old_project_web (title, parent_id, type) VALUES (
 	"button"
 );
 
-INSERT INTO old_project_web (title, parent_id, type, project_link) VALUES (
+INSERT INTO old_project_web (title, parent_id, type, project_link, class_needed) VALUES (
 	"random walker",
 	4,
 	"background_change",
-	"walker.js"
+	"walker.js",
+	1
+);
+
+INSERT INTO old_project_web (title, parent_id, type, project_link, class_needed) VALUES (
+	"hexagons",
+	3,
+	"background_change",
+	"hex.js",
+	1
 );

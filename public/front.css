@@ -17,6 +17,10 @@ title { /*remove the title from the page*/
 	display: none;
 }
 
+#object_values {
+	display: none;
+}
+
 #svgContainer { 
 	z-index: 4;
 	position:absolute;

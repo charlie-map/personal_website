@@ -51,9 +51,6 @@ function connectElements(svg, path, startElem, endElem) {
 		endElem = temp;
 	}
 
-	console.log(startElem, endElem);
-	console.log(startElem.offset(), endElem.offset(), svgContainer.offset(), path.offset());
-
 	// get (top, left) corner coordinates of the svg container   
 	var svgTop = svgContainer.offset().top;
 	var svgLeft = svgContainer.offset().left;
@@ -72,7 +69,6 @@ function connectElements(svg, path, startElem, endElem) {
 	var endY = endCoord.top - svgTop;
 
 	// call function for drawing the path
-	console.log("making path", startX, startY, endX, endY);
 	drawPath(svg, path, startX, startY, endX, endY);
 
 }
@@ -222,11 +218,20 @@ $(".project-web-open-child").on('click', function() {
 
 		connectAll(this);
 	} else if (values[0] == "open-new-render") {
-		console.log("change background");
+		// need to find the old open background and remove the 'open' class from it
+		let all_buttons = $("#old-page").find('button');
+		for (let find_old_background = 0; find_old_background < all_buttons.length; find_old_background++) {
+			if ($(all_buttons[find_old_background]).attr('id').split("||")[0] == "open-new-render" && $(all_buttons[find_old_background]).hasClass('open'))
+				$(all_buttons[find_old_background]).removeClass('open');
+		}
+
+		// remove the old canvase
+		$("#defaultCanvas0").remove();
+
 		// change nothing on old projects, just open the background to a different game
 		$(this).addClass('open');
 		$("#current_script").remove();
-		$("head").append('<script id="current_script" language="javascript" type="text/javascript" src="' + 'walker.js' + '"></script>');
+		$('body').append('<script id="current_script" language="javascript" type="text/javascript" src="' + this.id.split("||")[4] + '"></script>');
 		setup();
 	}
 });

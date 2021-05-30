@@ -35,6 +35,7 @@ app.engine('mustache', mustache());
 function pull_all_old_projects(parent_id, tree_path_value, level) {
 	let return_array = "";
 	let svg_path = [];
+	let needed_classes = [];
 	return new Promise((resolve, reject) => {
 		let where_clause = !parent_id ? " parent_id IS NULL" : " parent_id=?"
 
@@ -59,12 +60,14 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
 						child_row_data[0].toString().replace(/,/g, "") +
 						"</div>" : "") + "</div>";
+				needed_classes.push(...child_row_data[2]);
+				if (item.class_needed) needed_classes.push("let " + item.project_link.split('.')[0] + " = [];");
 
 				if (level == 0) svg_path[index].ROW_LINES.push(...child_row_data[1], { CHILD_ELEMENT_NAME: this_id });
 				else svg_path.push(...child_row_data[1], { CHILD_ELEMENT_NAME: this_id });
 			});
 			await Promise.all(await_all_rows);
-			resolve([return_array, svg_path.length ? svg_path : []]);
+			resolve([return_array, svg_path.length ? svg_path : [], needed_classes]);
 		});
 	});
 }
@@ -76,7 +79,8 @@ app.get("/", async (req, res) => {
 	// grabs all projects from database, creates recursive div and
 	// adds all the data into svg, which is used for line drawing
 	old_project_obj = await pull_all_old_projects(null, 0, 0);
-	let svg_obj = old_project_obj.splice(1)[0];
+	let svg_obj = old_project_obj.splice(1);
+	let background_values = svg_obj.splice(1)[0];
 
 	res.render("front_page", {
 		NAME: "Charlie Hall",
@@ -86,8 +90,9 @@ app.get("/", async (req, res) => {
 			PROFILE_WORD: "second test!"
 		}],
 		SPIDER_WEB: old_project_obj[0].toString().replace(/,/g, ""),
-		SVG_ROWS: svg_obj,
-		CHOICE_SCRIPT: "hex.js"
+		SVG_ROWS: svg_obj[0],
+		CHOICE_SCRIPT: "hex.js",
+		PULL_NEEDED_VALUES: background_values.join('\n\t\t\t')
 	});
 });
 
