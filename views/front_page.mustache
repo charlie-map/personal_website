@@ -27,18 +27,18 @@
 	<h1 class="main-header">Hi</h1>
 	<h1 class="main-header" style="margin-top: 40px; margin-left: 30px">I'm {{NAME}}</h1>
 	<body>
-		<div id="svgContainer">{{#SVG_ROWS}}
-			<svg id='svg{{SVG_NAME}}'>{{#ROW_LINES}}
-				<path
-					id="path{{CHILD_ELEMENT_NAME}}"
-					d = "M0 0"
-					style="
-						stroke: #eb5810;
-						fill: none;
-						stroke-width: 7px;"/>
-			{{/ROW_LINES}}</svg>
-		{{/SVG_ROWS}}</div>
 		<div class="project-popup">
+			<div id="svgContainer">{{#SVG_ROWS}}
+				<svg id='svg{{SVG_NAME}}'>{{#ROW_LINES}}
+					<path
+						id="path{{CHILD_ELEMENT_NAME}}"
+						d = "M0 0"
+						style="
+							stroke: #eb5810;
+							fill: none;
+							stroke-width: 7px;"/>
+				{{/ROW_LINES}}</svg>
+			{{/SVG_ROWS}}</div>
 			<div class="project-menu"><div class="project-menu_burger"></div></div>
 			<h2 id="project-name"></h2>
 			<hr>

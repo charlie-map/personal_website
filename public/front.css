@@ -18,19 +18,19 @@ title { /*remove the title from the page*/
 }
 
 #svgContainer { 
-	z-index: 3;
+	z-index: 4;
 	position:absolute;
-	top: 40px;
+	top: 80px;
 	left: 0px;
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 80px);
 	background-color: transparent;
 	margin: 0px;
 	padding: 0px;
 }
 
 #svgContainer svg {
-	z-index: 3;
+	z-index: 4;
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -185,7 +185,7 @@ span {
 }
 
 .project-popup {
-	z-index: 4;
+	z-index: 3;
 	border-radius: 2px;
 	background-color: #323232;
 	position: absolute;
@@ -349,21 +349,11 @@ span {
 	border-top: 30px solid transparent;
 }
 
-/*.old-project-web {
-	position: absolute;
-	margin-top: 50px;
-}
-
-#old-page>div {
-	position: absolute;
-	margin-top: 10px;
-}*/
-
 #old-page {
 	position: absolute;
 	width: 100%;
 	height: 273px;
-	z-index: 6;
+	z-index: 100;
 	overflow-y: auto;
 	overflow-x: hidden;
 	display: flex;
@@ -371,6 +361,7 @@ span {
 }
 
 .old-project-web {
+	z-index: 100;
 	margin-top: 20px;
 	height: 50px;
 }
@@ -389,7 +380,7 @@ span {
 	padding-right: 6px;
 	font-weight: bold;
 	color: #0d7377;
-	z-index: 6;
+	z-index: 100;
 }
 
 .old-project-web button:hover, .project-web-open-child.open {
@@ -400,6 +391,7 @@ span {
 }
 
 .children-project-web {
+	z-index: 100;
 	display: none;
 	transition: 1s ease-in-out;
 }
