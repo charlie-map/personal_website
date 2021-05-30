@@ -48,16 +48,21 @@ $(".project-menu").click(() => {
 
 $(".project-web-open-child").on('click', function() {
 	// if this route is already open, close it
-	if ($(this).hasClass('open')) {
-		console.log("move back svg", $("#path" + this.id.split("||")[2]));
-		//$("#path" + this.id.split("||")[2]).attr('d', 'M0 0');
-		let children_object = $("#old-page").children('.' + this.id.split("||")[1]).find('button');
+	let values = this.id.split("||");
 
-		console.log(children_object);
+	if ($(this).hasClass('open')) {
+		//$("#path" + this.id.split("||")[2]).attr('d', 'M0 0');
+		let children_object = $("#old-page").children('.' + values[1]).find('button');
+		// loop through only ones that have a level the same or greater than the one we are currently on
+
+		let build_children_id;
 
 		for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
-			$("#path" + $(children_object[sub_proj]).attr('id').split("||")[2]).attr('d', "M0 0");
+			build_children_id = $(children_object[sub_proj]).attr('id').split("||");
+			if (build_children_id[3] > values[3])
+				$("#path" + build_children_id[2]).attr('d', "M0 0");
 		}
+
 		$(this).removeClass('open');
 		$(this).parent().find('div').removeClass('open');
 		$(this).parent().find('button').removeClass('open');
@@ -70,7 +75,6 @@ $(".project-web-open-child").on('click', function() {
 	$(this).parent().siblings().children('div').removeClass('open');
 
 	// first go through this level and make sure every other div is closed
-	let values = this.id.split("||");
 
 	if (values[0] == "open-child") {
 
