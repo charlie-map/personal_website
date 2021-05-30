@@ -74,6 +74,12 @@ $(".project-web-open-child").on('click', function() {
 	$(this).parent().siblings().children('button').removeClass('open');
 	$(this).parent().siblings().children('div').removeClass('open');
 
+	children_object = $("#svgContainer").children('svg');
+
+	for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
+		$(children_object[sub_proj]).css('left', $(window).width());
+	}
+
 	// first go through this level and make sure every other div is closed
 
 	if (values[0] == "open-child") {
@@ -83,7 +89,7 @@ $(".project-web-open-child").on('click', function() {
 		$(this).parent().children('div').addClass('open');
 		$(this).parent().children('div').css('width', $("#old-page").width());
 		// then draw the lines between the parent and the children
-		$("#svg" + this.id.split("||")[1]).css('z-index', 3);
+		$("#svg" + this.id.split("||")[1]).css('left', '0px');
 		connectAll(this);
 	}
 });
