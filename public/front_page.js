@@ -49,6 +49,15 @@ $(".project-menu").click(() => {
 $(".project-web-open-child").on('click', function() {
 	// if this route is already open, close it
 	if ($(this).hasClass('open')) {
+		console.log("move back svg", $("#path" + this.id.split("||")[2]));
+		//$("#path" + this.id.split("||")[2]).attr('d', 'M0 0');
+		let children_object = $("#old-page").children('.' + this.id.split("||")[1]).find('button');
+
+		console.log(children_object);
+
+		for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
+			$("#path" + $(children_object[sub_proj]).attr('id').split("||")[2]).attr('d', "M0 0");
+		}
 		$(this).removeClass('open');
 		$(this).parent().find('div').removeClass('open');
 		$(this).parent().find('button').removeClass('open');
@@ -59,6 +68,7 @@ $(".project-web-open-child").on('click', function() {
 	$(this).parent().siblings().removeClass('open');
 	$(this).parent().siblings().children('button').removeClass('open');
 	$(this).parent().siblings().children('div').removeClass('open');
+
 	// first go through this level and make sure every other div is closed
 	let values = this.id.split("||");
 
@@ -68,103 +78,101 @@ $(".project-web-open-child").on('click', function() {
 		$(this).addClass('open');
 		$(this).parent().children('div').addClass('open');
 		$(this).parent().children('div').css('width', $("#old-page").width());
+		// then draw the lines between the parent and the children
+		$("#svg" + this.id.split("||")[1]).css('z-index', 3);
+		connectAll(this);
 	}
 });
 
 //helper functions, it turned out chrome doesn't support Math.sgn() 
 function signum(x) {
-    return (x < 0) ? -1 : 1;
+	return (x < 0) ? -1 : 1;
 }
+
 function absolute(x) {
-    return (x < 0) ? -x : x;
+	return (x < 0) ? -x : x;
 }
 
 function drawPath(svg, path, startX, startY, endX, endY) {
-    // get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
-    var stroke =  parseFloat(path.attr("stroke-width"));
-    // check if the svg is big enough to draw the path, if not, set heigh/width
-    if (svg.attr("height") <  endY)                 svg.attr("height", endY);
-    if (svg.attr("width" ) < (startX + stroke) )    svg.attr("width", (startX + stroke));
-    if (svg.attr("width" ) < (endX   + stroke) )    svg.attr("width", (endX   + stroke));
-    
-    var deltaX = (endX - startX) * 0.15;
-    var deltaY = (endY - startY) * 0.15;
-    // for further calculations which ever is the shortest distance
-    var delta  =  deltaY < absolute(deltaX) ? deltaY : absolute(deltaX);
+	// get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
+	var stroke = parseFloat(path.attr("stroke-width"));
+	// check if the svg is big enough to draw the path, if not, set height/width
+	if (svg.attr("height") < endY) svg.attr("height", endY);
+	if (svg.attr("width") < (startX + stroke)) svg.attr("width", (startX + stroke));
+	if (svg.attr("width") < (endX + stroke)) svg.attr("width", (endX + stroke));
 
-    // set sweep-flag (counter/clock-wise)
-    // if start element is closer to the left edge,
-    // draw the first arc counter-clockwise, and the second one clock-wise
-    var arc1 = 0; var arc2 = 1;
-    if (startX > endX) {
-        arc1 = 1;
-        arc2 = 0;
-    }
-    // draw tha pipe-like path
-    // 1. move a bit down, 2. arch,  3. move a bit to the right, 4.arch, 5. move down to the end 
-    path.attr("d",  "M"  + startX + " " + startY +
-                    " V" + (startY + delta) +
-                    " A" + delta + " " +  delta + " 0 0 " + arc1 + " " + (startX + delta*signum(deltaX)) + " " + (startY + 2*delta) +
-                    " H" + (endX - delta*signum(deltaX)) + 
-                    " A" + delta + " " +  delta + " 0 0 " + arc2 + " " + endX + " " + (startY + 3*delta) +
-                    " V" + endY );
+	var deltaX = (endX - startX) * 0.15;
+	var deltaY = (endY - startY) * 0.15;
+	// for further calculations which ever is the shortest distance
+	var delta = deltaY < absolute(deltaX) ? deltaY : absolute(deltaX);
+
+	// set sweep-flag (counter/clock-wise)
+	// if start element is closer to the left edge,
+	// draw the first arc counter-clockwise, and the second one clock-wise
+	var arc1 = 0;
+	var arc2 = 1;
+	if (startX > endX) {
+		arc1 = 1;
+		arc2 = 0;
+	}
+
+	// draw tha pipe-like path
+	// 1. move a bit down, 2. arch,  3. move a bit to the right, 4.arch, 5. move down to the end 
+	path.attr("d", "M" + startX + " " + startY +
+		" V" + (startY + delta) +
+		" A" + delta + " " + delta + " 0 0 " + arc1 + " " + (startX + delta * signum(deltaX)) + " " + (startY + 2 * delta) +
+		" H" + (endX - delta * signum(deltaX)) +
+		" A" + delta + " " + delta + " 0 0 " + arc2 + " " + endX + " " + (startY + 3 * delta) +
+		" V" + endY);
 }
 
 function connectElements(svg, path, startElem, endElem) {
-    var svgContainer= $("#svgContainer");
+	var svgContainer = $("#svgContainer");
 
-    // if first element is lower than the second, swap!
-    if(startElem.offset().top > endElem.offset().top){
-        var temp = startElem;
-        startElem = endElem;
-        endElem = temp;
-    }
+	// if first element is lower than the second, swap!
+	if (startElem.offset().top > endElem.offset().top) {
+		var temp = startElem;
+		startElem = endElem;
+		endElem = temp;
+	}
 
-    // get (top, left) corner coordinates of the svg container   
-    var svgTop  = svgContainer.offset().top;
-    var svgLeft = svgContainer.offset().left;
+	// get (top, left) corner coordinates of the svg container   
+	var svgTop = svgContainer.offset().top;
+	var svgLeft = svgContainer.offset().left;
 
-    // get (top, left) coordinates for the two elements
-    var startCoord = startElem.offset();
-    var endCoord   = endElem.offset();
+	// get (top, left) coordinates for the two elements
+	var startCoord = startElem.offset();
+	var endCoord = endElem.offset();
 
-    // calculate path's start (x,y)  coords
-    // we want the x coordinate to visually result in the element's mid point
-    var startX = startCoord.left + 0.5*startElem.outerWidth() - svgLeft;    // x = left offset + 0.5*width - svg's left offset
-    var startY = startCoord.top  + startElem.outerHeight() - svgTop;        // y = top offset + height - svg's top offset
+	// calculate path's start (x,y)  coords
+	// we want the x coordinate to visually result in the element's mid point
+	var startX = startCoord.left + 0.5 * startElem.outerWidth() - svgLeft; // x = left offset + 0.5*width - svg's left offset
+	var startY = startCoord.top + startElem.outerHeight() - svgTop; // y = top offset + height - svg's top offset
 
-        // calculate path's end (x,y) coords
-    var endX = endCoord.left + 0.5*endElem.outerWidth() - svgLeft;
-    var endY = endCoord.top  - svgTop;
+	// calculate path's end (x,y) coords
+	var endX = endCoord.left + 0.5 * endElem.outerWidth() - svgLeft;
+	var endY = endCoord.top - svgTop;
 
-    // call function for drawing the path
-    drawPath(svg, path, startX, startY, endX, endY);
-
-}
-
-
-
-function connectAll() {
-    // connect all the paths you want!
-    connectElements($("#svg1"), $("#path1"), $("#teal"),   $("#orange"));
-    connectElements($("#svg1"), $("#path2"), $("#red"),    $("#orange"));
-    connectElements($("#svg1"), $("#path3"), $("#teal"),   $("#aqua")  );
-    connectElements($("#svg1"), $("#path4"), $("#red"),    $("#aqua")  ); 
-    connectElements($("#svg1"), $("#path5"), $("#purple"), $("#teal")  );
-    connectElements($("#svg1"), $("#path6"), $("#orange"), $("#green") );
+	// call function for drawing the path
+	drawPath(svg, path, startX, startY, endX, endY);
 
 }
 
-// $(document).ready(function() {
-//     // reset svg each time 
-//     $("#svg1").attr("height", "0");
-//     $("#svg1").attr("width", "0");
-//     connectAll();
-// });
 
-// $(window).resize(function () {
-//     // reset svg each time 
-//     $("#svg1").attr("height", "0");
-//     $("#svg1").attr("width", "0");
-//     connectAll();
-// });
+
+function connectAll(id) {
+	let children_ids = [];
+	let children_object = $(id).siblings().children('div').children('button');
+
+	for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
+		children_ids.push(children_object[sub_proj]);
+	}
+
+	let full_tree_id = $(id).attr('id').split("||")[1];
+	let children_uuid;
+
+	children_ids.forEach((connect_children) => {
+		children_uuid = $(connect_children).attr('id').split("||")[2];
+		connectElements($("#svg" + full_tree_id), $("#path" + children_uuid), $(connect_children), $(id));
+	});
+}

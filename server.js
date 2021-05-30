@@ -32,7 +32,7 @@ app.set('view engine', 'mustache');
 app.engine('mustache', mustache());
 
 // go through the root objects recursively
-function pull_all_old_projects(parent_id, level) {
+function pull_all_old_projects(parent_id, tree_path_value, level) {
 	let return_array = "";
 	let svg_path = [];
 	return new Promise((resolve, reject) => {
@@ -42,15 +42,18 @@ function pull_all_old_projects(parent_id, level) {
 			if (err || !row_projects) return reject(err);
 
 			let await_all_rows = row_projects.map(async (item, index) => {
-				if (level == 0) svg_path.push({ SVG_NAME: item.title, ROW_LINES: [] });
+				if (level == 0) {
+					item.tree_sub_value = index + 1;
+					svg_path.push({ SVG_NAME: item.tree_sub_value, ROW_LINES: [] });
+				} else item.tree_sub_value = tree_path_value;
 				// making the javascript :/
-				let child_row_data = await pull_all_old_projects(item.id, level + 1);
+				let child_row_data = await pull_all_old_projects(item.id, item.tree_sub_value, level + 1);
 				let this_id = uuidv4();
-				return_array += "<div class='old-project-web'>" +
-					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + level + "||" + this_id + "'" +
+				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
+					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + item.tree_sub_value + "||" + this_id + "||" + level + "'" +
 							">" + item.title + "</button>") :
 						item.type == "background_change" ? ("<button class='project-web-display'" +
-							" id='open-new-render||'" + level + "||" + this_id + "'>" + item.title + "</button>") : ("<a href='" +
+							" id='open-new-render||'" + item.tree_sub_value + "||" + this_id + "||" + level + "'>" + item.title + "</button>") : ("<a href='" +
 							/* NEED LINK */
 							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
 						child_row_data[0].toString().replace(/,/g, "") +
@@ -68,11 +71,10 @@ function pull_all_old_projects(parent_id, level) {
 app.get("/", async (req, res) => {
 	// set up project object with all of the old projects
 	let old_project_obj;
-	let counter = 0;
 
 	// grabs all projects from database, creates recursive div and
 	// adds all the data into svg, which is used for line drawing
-	old_project_obj = await pull_all_old_projects(null, counter);
+	old_project_obj = await pull_all_old_projects(null, 0, 0);
 	let svg_obj = old_project_obj.splice(1)[0];
 
 	res.render("front_page", {

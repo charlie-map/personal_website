@@ -18,10 +18,26 @@ title { /*remove the title from the page*/
 }
 
 #svgContainer { 
-	z-index: -10;
+	z-index: 3;
 	position:absolute;
-	background-color:silver;
-	opacity: 0.5;
+	top: 40px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	margin: 0px;
+	padding: 0px;
+}
+
+#svgContainer svg {
+	z-index: 3;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
 }
 
 .menu-btn {
@@ -169,13 +185,13 @@ span {
 }
 
 .project-popup {
-	z-index: 5;
+	z-index: 4;
 	border-radius: 2px;
 	background-color: #323232;
 	position: absolute;
 	left: 5%;
 	top: 15%;
-	opacity: 0.8;
+	opacity: 0.7;
 	width: 90%;
 	height: 70%;
 	border-style: ridge;
@@ -347,6 +363,7 @@ span {
 	position: absolute;
 	width: 100%;
 	height: 273px;
+	z-index: 6;
 	overflow-y: auto;
 	overflow-x: hidden;
 	display: flex;
@@ -372,7 +389,7 @@ span {
 	padding-right: 6px;
 	font-weight: bold;
 	color: #0d7377;
-	z-index: 1;
+	z-index: 6;
 }
 
 .old-project-web button:hover, .project-web-open-child.open {

@@ -12,8 +12,8 @@ First create a .env file to use when running the program:
 * `USER_NAME="your username"`
 * `PASSWORD="your password here"`
 
-The run the following calls to create the database:
+Then run the following calls to create the database:
 * `sudo mysql -u root < db_queries/CREATE_DB.sql`
 * `sudo mysql -u root < db_queries/DATA.sql`
 
-The start the program with `node server.js` and you're good to go!
+Then start the program with `node server.js` and you're good to go!
