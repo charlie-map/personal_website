@@ -13,7 +13,8 @@ CREATE TABLE old_project_web (
 
 /* TYPE:
 	type is a assignment to one of three thing (currently):
-		1. button
-		2. different page (on website)
+		1. button - for opening parts of tree: called `open-child`
+		2. different page (on website) - displaying different background on page:
+			called `background_change`
 		3. a link to another page (e.g. https://glitch.com)
 */

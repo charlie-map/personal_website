@@ -53,7 +53,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + item.tree_sub_value + "||" + this_id + "||" + level + "'" +
 							">" + item.title + "</button>") :
 						item.type == "background_change" ? ("<button class='project-web-display'" +
-							" id='open-new-render||'" + item.tree_sub_value + "||" + this_id + "||" + level + "'>" + item.title + "</button>") : ("<a href='" +
+							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level + "'>" + item.title + "</button>") : ("<a href='" +
 							/* NEED LINK */
 							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
 						child_row_data[0].toString().replace(/,/g, "") +

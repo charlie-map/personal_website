@@ -75,6 +75,7 @@ $(".project-web-open-child").on('click', function() {
 	$(this).parent().siblings().children('div').removeClass('open');
 
 	children_object = $("#svgContainer").children('svg');
+	console.log("test", children_object);
 
 	for (let sub_proj = 0; sub_proj < children_object.length; sub_proj++) {
 		$(children_object[sub_proj]).css('left', $(window).width());
@@ -83,7 +84,6 @@ $(".project-web-open-child").on('click', function() {
 	// first go through this level and make sure every other div is closed
 
 	if (values[0] == "open-child") {
-
 		// add the 'open' class so css can correctly draw everything
 		$(this).addClass('open');
 		$(this).parent().children('div').addClass('open');
