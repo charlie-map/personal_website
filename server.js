@@ -8,20 +8,15 @@ const mysql = require('mysql2');
 const {
 	v4: uuidv4
 } = require('uuid');
+const {
+	connection
+} = require('utils.js');
 
-const connection = mysql.createConnection({
-	host: process.env.HOST,
-	database: process.env.DATABASE,
-	user: process.env.USER_NAME,
-	password: process.env.PASSWORD,
-	insecureAuth: false
-});
-
-connection.connect((err) => {
-	if (err) throw err;
-});
+const backend = require('./backend');
 
 const app = express();
+
+app.use('/backend', backend);
 
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({
@@ -45,7 +40,10 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 			let await_all_rows = row_projects.map(async (item, index) => {
 				if (level == 0) {
 					item.tree_sub_value = index + 1;
-					svg_path.push({ SVG_NAME: item.tree_sub_value, ROW_LINES: [] });
+					svg_path.push({
+						SVG_NAME: item.tree_sub_value,
+						ROW_LINES: []
+					});
 				} else item.tree_sub_value = tree_path_value;
 				// making the javascript :/
 				let child_row_data = await pull_all_old_projects(item.id, item.tree_sub_value, level + 1);
@@ -54,7 +52,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + item.tree_sub_value + "||" + this_id + "||" + level + "'" +
 							">" + item.title + "</button>") :
 						item.type == "background_change" ? ("<button class='project-web-open-child'" +
-							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level + 
+							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level +
 							"||" + item.project_link + "'>" + item.title + "</button>") : ("<a href='" +
 							/* NEED LINK */
 							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
@@ -63,8 +61,12 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				needed_classes.push(...child_row_data[2]);
 				if (item.class_needed) needed_classes.push("let " + item.project_link.split('.')[0] + " = [];");
 
-				if (level == 0) svg_path[index].ROW_LINES.push(...child_row_data[1], { CHILD_ELEMENT_NAME: this_id });
-				else svg_path.push(...child_row_data[1], { CHILD_ELEMENT_NAME: this_id });
+				if (level == 0) svg_path[index].ROW_LINES.push(...child_row_data[1], {
+					CHILD_ELEMENT_NAME: this_id
+				});
+				else svg_path.push(...child_row_data[1], {
+					CHILD_ELEMENT_NAME: this_id
+				});
 			});
 			await Promise.all(await_all_rows);
 			resolve([return_array, svg_path.length ? svg_path : [], needed_classes]);
