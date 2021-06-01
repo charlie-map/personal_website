@@ -116,6 +116,7 @@ h1 { /*make h1's all caps*/
 	font-size: 40px;
 	word-spacing: 10px;
 	transition: all 3s ease-in-out;
+	z-index: 2;
 }
 /*
 span {
@@ -181,11 +182,11 @@ span {
 	z-index: 1;
 }
 
-.menu-options.open button:hover {
+.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
-	background-color: #42FBF2;
+	background-color: #14ffec;
 }
 
 .project-popup {
@@ -387,11 +388,18 @@ span {
 	z-index: 100;
 }
 
-.old-project-web button:hover, .project-web-open-child.open {
+.project-web-open-child.current-background {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
-	background-color: #42FBF2;
+	background-color: #33F27C;
+}
+
+.old-project-web.current-background:hover, .project-web-open-child.option-background:hover {
+	cursor: pointer;
+	font-weight: bold;
+	color: #323232;
+	background-color: #33F27C;
 }
 
 .children-project-web {

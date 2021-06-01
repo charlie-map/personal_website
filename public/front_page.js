@@ -110,11 +110,10 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 	let children_object = $(main_web_obj).find('button');
 	for (let find_button_path = 0; find_button_path < children_object.length; find_button_path++) {
 
-		if ($(children_object[find_button_path]).hasClass('open')) {
+		if ($(children_object[find_button_path]).hasClass('open') || $(children_object[find_button_path]).hasClass('current-background'))
 			// grab children of the button and connect the elements
 
 			connectAll(children_object[find_button_path]);
-		}
 	}
 }
 
@@ -229,7 +228,7 @@ $(".project-web-open-child").on('click', function() {
 		$("#defaultCanvas0").remove();
 
 		// change nothing on old projects, just open the background to a different game
-		$(this).addClass('open');
+		$(this).addClass('current-background');
 		$("#current_script").remove();
 		$('body').append('<script id="current_script" language="javascript" type="text/javascript" src="' + this.id.split("||")[4] + '"></script>');
 		setup();
@@ -251,7 +250,7 @@ function connectAll(id) {
 		// check the child for if they are an open-new-render child, and if they are the background
 		children_uuid = $(connect_children).attr('id').split("||");
 		if (children_uuid[0] == "open-new-render" && children_uuid[4] == $("#current_script").attr('src')) {
-			$(connect_children).addClass('open');
+			$(connect_children).addClass('current-background');
 		}
 
 		connectElements($("#svg" + full_tree_id), $("#path" + children_uuid[2]), $(connect_children), $(id));
