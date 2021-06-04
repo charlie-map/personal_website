@@ -1,0 +1,87 @@
+* { /*make everything nicer*/
+	display: block;
+	margin: auto;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Quicksand', sans-serif;
+	text-align: center;
+	text-transform: lowercase;
+}
+
+body {
+  background-color: #212121;
+  color: #14ffec;
+}
+
+title { /*remove the title from the page*/
+	display: none;
+}
+
+div {
+	background: #14ffec;
+}
+
+.lock.box {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -100%);
+	width: 120px;
+	height: 150px;
+	border-radius: 5px;
+	z-index: 3;
+	transition: 1.5s;
+}
+
+.lock.box:hover {
+	cursor: pointer;
+	background: #0DA89B;
+}
+
+.lock.box:hover h2 {
+	color: #C0C0C0;
+}
+
+.lock.loop {
+	background: #212121;
+	position: absolute;
+	left: 50%;
+	top: 25%;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 200px;
+	border-radius: 30%;
+	z-index: 1;
+	border: solid 15px #C0C0C0;
+	transition: 1.5s;
+}
+
+.lock.loop.open {
+	transform: translate(-50%, -60%);
+}
+
+.lock.loop div {
+	top: 45%;
+	background: #212121;
+	position: relative;
+	transition: 1.5s;
+	margin-left: -20px;
+	width: 20px;
+	height: 40px;
+}
+
+.lock.loop.open:hover div {
+	transform: translate(0%, -10%);
+}
+
+.lock.box h2 {
+	color: #323232;
+	text-align: center;
+	margin-top: 50px;
+	z-index: 4;
+	transition: 1.5s;
+}
+
+.lock.box h2:hover {
+	cursor: pointer;
+}

@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const {
 	v4: uuidv4
 } = require('uuid');
+const morgan = require('morgan');
 
 const connection = mysql.createConnection({
 	host: process.env.HOST,
@@ -73,5 +74,6 @@ module.exports = {
 	mustache,
 	bodyParser,
 	pull_all_old_projects,
-	uuidv4
+	uuidv4,
+	morgan
 };

@@ -15,7 +15,6 @@ const app = express();
 app.use('/backend', back);
 
 app.use(express.static(__dirname + "/public"));
-app.use("private", express.static(__dirname + "/private"));
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
@@ -24,7 +23,7 @@ app.set('views', __dirname + "/views");
 app.set('view engine', 'mustache');
 app.engine('mustache', mustache());
 
-app.get("/*", async (req, res) => {
+app.get("/", async (req, res) => {
 	// set up project object with all of the old projects
 	let old_project_obj;
 
@@ -46,6 +45,10 @@ app.get("/*", async (req, res) => {
 		CHOICE_SCRIPT: "hex.js",
 		PULL_NEEDED_VALUES: background_values.join('\n\t\t\t')
 	});
+});
+
+app.get("/*", (req, res) => {
+	res.redirect("/");
 });
 
 app.listen(9988, () => {
