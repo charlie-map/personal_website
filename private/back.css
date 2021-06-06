@@ -183,3 +183,24 @@ title { /*remove the title from the page*/
 	margin: 0;
 	margin-top: 20px;
 }
+
+#wrong-password {
+	position: absolute;
+	/*background: #eb5810;*/
+	background: #33F27C;
+	color: #323232;
+	border-radius: 5px;
+	left: -60%;
+	top: 30px;
+	width: 60%;
+	height: 10%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: 1s ease;
+}
+
+#wrong-password.open {
+	transition: 1s ease;
+	left: -3%;
+}

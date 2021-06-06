@@ -26,15 +26,21 @@ passport.use(
 			passReqToCallback: true // passing as a return value
 		},
 		function(req, username, password, done) {
+			console.log("running check", username, password);
 			connection.query("SELECT * FROM user WHERE username=?", username, function(err, user) {
 				if (err) return done(err);
 				else if (!user.length) return done(null, false, 0);
 
-				bcrypt.compare(password, user[0].password, (err, sim_check) => {
-					if (err) return done(err, false);
-					if (sim_check) return done(null, user[0]);
+				console.log(password, user[0].password);
+				if (password == user[0].password) {
+					console.log("true");
+					return done(null, user[0]);
+				}
+				// bcrypt.compare(password, user[0].password, (err, sim_check) => {
+				// 	if (err) return done(err, false);
+				// 	if (sim_check) return done(null, user[0]);
 
-				});
+				// });
 			});
 		}
 	)
@@ -56,18 +62,22 @@ passport.deserializeUser((id, done) => {
 back.use(morgan('dev'));
 back.use(express.static(__dirname + "/private"));
 
+back.use(bodyParser.urlencoded({
+	extended: false
+}));
+
 back.use(session({
 	secret: uuidv4(),
 	resave: false,
 	saveUninitialized: false
-}))
+}));
 
 back.use(passport.initialize());
 back.use(passport.session());
 
 back.post("/login", passport.authenticate('local', {
-	successRedirect: '/overview',
-	failureRedirect: '/'
+	successRedirect: '/backend/overview',
+	failureRedirect: '/backend'
 }));
 
 back.get("/", (req, res) => {

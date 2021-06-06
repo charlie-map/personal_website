@@ -29,12 +29,16 @@ $(".lock.box").click(function() {
 		for (let label_posn = 0; label_posn < labels.length; label_posn++) {
 			let input_position = $("#" + $(labels[label_posn]).attr('id').substring(0, $(labels[label_posn]).attr('id').length - 1)).offset();
 			console.log("got label of " + $(labels[label_posn]).attr('id').substring(0, $(labels[label_posn]).attr('id').length - 1), input_position);
-			$(labels[label_posn]).css({ left: 0, top: input_position.top + 650 });
+			$(labels[label_posn]).css({
+				left: 0,
+				top: input_position.top + 650
+			});
 		}
 	}
 });
 
 $(".form__field").focus(function() {
+	$("#wrong-password").removeClass('open');
 	$("label[for='" + this.id + "']").addClass('open');
 });
 
@@ -47,8 +51,9 @@ $(".form__field").focusout(function() {
 	}
 });
 
-$("#login-form").click(function(event) {
+$("#submit").click(function(event) {
 	event.preventDefault();
+	console.log($("#name").val(), $("#password").val());
 
 	$.ajax({
 		type: "POST",
@@ -57,6 +62,9 @@ $("#login-form").click(function(event) {
 		data: {
 			username: $("#name").val(),
 			password: $("#password").val()
+		},
+		success: function() {
+			$("#wrong-password").addClass('open');
 		}
 	});
 });

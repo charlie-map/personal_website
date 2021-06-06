@@ -2,6 +2,13 @@ DROP DATABASE IF EXISTS my_site;
 CREATE DATABASE my_site;
 USE my_site;
 
+CREATE TABLE user (
+	id INT AUTO_INCREMENT,
+	username VARCHAR(255) NOT NULL,
+	password VARCHAR(60) NOT NULL,
+	PRIMARY KEY (id)
+);
+
 CREATE TABLE old_project_web (
 	id INT AUTO_INCREMENT,
 	parent_id INT DEFAULT NULL,

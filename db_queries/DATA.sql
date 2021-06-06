@@ -1,6 +1,11 @@
 /* Some initial insertion data for usage - may need changes based on what the needs of this website are for */
 USE my_site;
 
+INSERT INTO user (username, password) VALUES (
+	"charlie-map",
+	"password"
+);
+
 /* An important note: parents must always be a button*/
 INSERT INTO old_project_web (title, type) VALUES (
 	"algorithms",
