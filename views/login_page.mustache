@@ -4,6 +4,9 @@
 	<link rel="shortcut icon" type="image/png" href="https://i.pinimg.com/originals/19/95/0c/19950c83ac1f0a4ca85819338e5f2a03.png">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+
 		<link rel="stylesheet" href="/front.css"/>
 		<link rel="stylesheet" href="../backend/back.css"/>
 
@@ -20,6 +23,20 @@
 		<div class="lock loop">
 			<div></div>
 		</div>
-		<h1>Login page for {{NAME}}</h1>
+		<h1>login page for {{NAME}}</h1>
+
+		<div class="unlock">
+			<div class="menu-btn"><div class="menu-btn_burger"></div></div>
+			<div class="unlock layout form__group field">
+				<form id="login-form">
+					<input type="input" class="form__field" id="name" name="username">
+					<label for="name" id="names" class="form__label">name</label>
+					<input type="password" class="form__field" id="password" name="username">
+					<label for="password" id="passwords" class="form__label">password</label>
+					<input class="submission" type="submit" value="login">
+				</form>
+			</div>
+		</div>
+		<script src="../backend/back_page.js"></script>
 	</body>
 </html>

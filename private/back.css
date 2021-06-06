@@ -3,9 +3,8 @@
 	margin: auto;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: 'Quicksand', sans-serif;
 	text-align: center;
-	text-transform: lowercase;
+	font-family: 'Source Code Pro', monospace;
 }
 
 body {
@@ -17,11 +16,8 @@ title { /*remove the title from the page*/
 	display: none;
 }
 
-div {
-	background: #14ffec;
-}
-
 .lock.box {
+	background: #14ffec;
 	position: absolute;
 	top: 40%;
 	left: 50%;
@@ -33,12 +29,12 @@ div {
 	transition: 1.5s;
 }
 
-.lock.box:hover {
+.lock.box.open {
 	cursor: pointer;
 	background: #0DA89B;
 }
 
-.lock.box:hover h2 {
+.lock.box.open h2 {
 	color: #C0C0C0;
 }
 
@@ -84,4 +80,106 @@ div {
 
 .lock.box h2:hover {
 	cursor: pointer;
+}
+
+.unlock {
+	position: absolute;
+	top: -22%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #eb5810;
+	width: 80%;
+	height: 50%;
+	transition: 2s ease;
+	z-index: 4;
+}
+
+.unlock.login {
+	position: absolute;
+	border-radius: 10px;
+	top: 46%;
+	left: 50%;
+	opacity: 0.75;
+	transform: translate(-50%, -50%);
+	z-index: 4;
+}
+
+.unlock.layout {
+	position: relative;
+	background: transparent;
+	width: 80%;
+	height: 80%;
+	margin: 0px;
+	margin-top: 50px;
+	border: none;
+	display: block;
+}
+
+:root {
+	--primary: #11998e;
+	--secondary: #38ef7d;
+	--white: #fff;
+	--gray: #9b9b9b;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.form__field {
+  	font-family: inherit;
+  	width: 100%;
+  	border: 0;
+  	border-bottom: 2px solid var(--gray);
+  	outline: 0;
+  	font-size: 1.3rem;
+  	color: var(--white);
+  	padding: 7px 0;
+  	background: transparent;
+  	transition: border-color 0.2s;
+  	margin-top: 18px;
+}
+
+.form__label {
+  	position: absolute;
+  	left: 0;
+  	display: block;
+	font-size: 1.4rem;
+	margin: 24px 0;
+  	cursor: text;
+ 	transition: margin 400ms ease;
+ 	transition: 700ms ease;
+  	color: var(--gray);
+}
+
+.form__field:focus {
+  	padding-bottom: 6px;  
+  	font-weight: 700;
+  	border-width: 3px;
+  	border-image: linear-gradient(to right, var(--primary),var(--secondary));
+  	border-image-slice: 1;
+}
+
+.form__label.open {
+    position: absolute;
+    display: block;
+    margin: -5px 0;
+    font-size: 1rem;
+    transition: 700ms ease;
+  	color: var(--primary);
+ 	font-weight:700;   
+}
+
+/* reset input */
+.form__field{
+	text-align: left;
+  	&:required, &:invalid { box-shadow:none; }
+}
+
+.submission {
+	margin: 0;
+	margin-top: 20px;
 }

@@ -53,8 +53,8 @@ passport.deserializeUser((id, done) => {
 	});
 });
 
-back.use(express.static(__dirname + "/private"));
 back.use(morgan('dev'));
+back.use(express.static(__dirname + "/private"));
 
 back.use(session({
 	secret: uuidv4(),

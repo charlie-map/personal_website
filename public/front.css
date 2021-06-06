@@ -3,9 +3,8 @@
 	margin: auto;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: 'Quicksand', sans-serif;
 	text-align: center;
-	text-transform: lowercase;
+	font-family: 'Major Mono Display', monospace;
 }
 
 body {
@@ -164,7 +163,7 @@ span {
 	display: none;
 }
 
-.menu-options.open button {
+.menu-options.open button, .submission {
 	background-color: #323232;
 	max-width: 120px;
 	height: 30px;
@@ -182,7 +181,7 @@ span {
 	z-index: 1;
 }
 
-.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open {
+.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
