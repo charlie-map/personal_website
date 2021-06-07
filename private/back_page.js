@@ -54,7 +54,6 @@ $(".form__field").focusout(function() {
 $("#submit").click(function(event) {
 	event.preventDefault();
 
-	console.log($("#name").val());
 	if ($("#name").val().length == 0) {
 		$("#wrong-password").text("please fill out the username field");
 		$("#wrong-password").addClass('open');
@@ -62,7 +61,6 @@ $("#submit").click(function(event) {
 		$("#wrong-password").text("please fill out the password field");
 		$("#wrong-password").addClass('open');
 	} else {
-		console.log("else");
 		$("#wrong-password").text("incorrect login details");
 
 		$.ajax({
@@ -78,7 +76,8 @@ $("#submit").click(function(event) {
 					window.location = "/backend/overview";
 				} else {
 					if (result == "-1") $("#wrong-password").text("uh oh! that username doesn't exist");
-					else if (result == "0") $("#wrong-password").text("uh oh! incorrect password");
+					else if (result == "-2") $("#wrong-password").text("uh oh! incorrect password");
+					else $("#wrong-password").text("there was an error in trying to login...");
 					$("#wrong-password").addClass('open');
 				}
 			}

@@ -10,6 +10,7 @@ const saltRounds = 11;
 const session = require('express-session');
 const passport = require('passport');
 const strat = require('passport-local').Strategy;
+const flash = require('flash');
 
 const {
 	pull_all_old_projects,
@@ -30,13 +31,11 @@ passport.use(
 			connection.query("SELECT * FROM user WHERE username=?", username, function(err, user) {
 				if (err) return done(err);
 				else if (!user || !user.length) {
-					req.body.password_check = "-1";
-					return done(true, 0);
+					return done("-1", false);
 				}
 
-				req.body.password_check = "0";
-				if (password == user[0].password)
-					req.body.password_check = "1";
+				if (password != user[0].password)
+					return done("-2", false);
 
 				return done(null, user[0]);
 				// bcrypt.compare(password, user[0].password, (err, sim_check) => {
@@ -77,9 +76,19 @@ back.use(session({
 
 back.use(passport.initialize());
 back.use(passport.session());
+back.use(flash());
 
-back.post("/login", passport.authenticate('local'), function(req, res) {
-	res.end(req.body.password_check);
+back.post("/login", (req, res, next) => {
+	passport.authenticate('local', function(err, user, info) {
+		if (err == "-1" || err == "-2") {
+			return res.end(err);
+		} else if (err) {
+			return res.end(err);
+		}
+		if (user) {
+			return res.end("1");
+		}
+	})(req, res, next);
 });
 
 back.get("/", (req, res) => {
