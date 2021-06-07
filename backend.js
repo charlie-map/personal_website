@@ -26,16 +26,19 @@ passport.use(
 			passReqToCallback: true // passing as a return value
 		},
 		function(req, username, password, done) {
-			console.log("running check", username, password);
+
 			connection.query("SELECT * FROM user WHERE username=?", username, function(err, user) {
 				if (err) return done(err);
-				else if (!user.length) return done(null, false, 0);
-
-				console.log(password, user[0].password);
-				if (password == user[0].password) {
-					console.log("true");
-					return done(null, user[0]);
+				else if (!user || !user.length) {
+					req.body.password_check = "-1";
+					return done(true, 0);
 				}
+
+				req.body.password_check = "0";
+				if (password == user[0].password)
+					req.body.password_check = "1";
+
+				return done(null, user[0]);
 				// bcrypt.compare(password, user[0].password, (err, sim_check) => {
 				// 	if (err) return done(err, false);
 				// 	if (sim_check) return done(null, user[0]);
@@ -75,10 +78,9 @@ back.use(session({
 back.use(passport.initialize());
 back.use(passport.session());
 
-back.post("/login", passport.authenticate('local', {
-	successRedirect: '/backend/overview',
-	failureRedirect: '/backend'
-}));
+back.post("/login", passport.authenticate('local'), function(req, res) {
+	res.end(req.body.password_check);
+});
 
 back.get("/", (req, res) => {
 	res.render("login_page", {
@@ -87,6 +89,7 @@ back.get("/", (req, res) => {
 });
 
 back.get("/overview", async (req, res) => {
+	console.log("overview page");
 	let old_project_obj;
 
 	// grabs all projects from database, creates recursive div and

@@ -17,12 +17,12 @@
 		<title>⚪ {{NAME}} overview</title>
 	</head>
 	<body>
-		<div id="wrong-password">uh oh! incorrect login details</div>
-		<div class="lock box">
-			<h2>login</h2>
-		</div>
+		<div id="wrong-password">incorrect login details</div>
 		<div class="lock loop">
 			<div></div>
+			<div class="lock box">
+				<h2>login</h2>
+			</div>
 		</div>
 		<h1>login page for {{NAME}}</h1>
 
@@ -30,10 +30,14 @@
 			<div class="menu-btn"><div class="menu-btn_burger"></div></div>
 			<div class="unlock layout form__group field">
 				<form method="POST" action="/backend/login" id="login-form">
-					<input type="input" class="form__field" id="name" name="username">
-					<label for="name" id="names" class="form__label">name</label>
-					<input type="password" class="form__field" id="password" name="username">
-					<label for="password" id="passwords" class="form__label">password</label>
+					<div>
+						<input type="input" class="form__field" id="name" name="username">
+						<label for="name" id="names" class="form__label">name</label>
+					</div>
+					<div>
+						<input type="password" class="form__field" id="password" name="username">
+						<label for="password" id="passwords" class="form__label">password</label>
+					</div>
 					<input class="submission" type="submit" id="submit" value="login">
 				</form>
 			</div>

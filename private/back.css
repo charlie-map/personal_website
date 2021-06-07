@@ -19,9 +19,9 @@ title { /*remove the title from the page*/
 .lock.box {
 	background: #14ffec;
 	position: absolute;
-	top: 40%;
+	top: 80%;
 	left: 50%;
-	transform: translate(-50%, -100%);
+	transform: translate(-50%, -50%);
 	width: 120px;
 	height: 150px;
 	border-radius: 5px;
@@ -32,6 +32,7 @@ title { /*remove the title from the page*/
 .lock.box.open {
 	cursor: pointer;
 	background: #0DA89B;
+	transform: translate(-50%, -20%);
 }
 
 .lock.box.open h2 {
@@ -56,17 +57,18 @@ title { /*remove the title from the page*/
 	transform: translate(-50%, -60%);
 }
 
-.lock.loop div {
-	top: 45%;
+.lock.loop > div:first-child {
+	top: 48%;
+	width: 80px;
+	height: 60px;
 	background: #212121;
 	position: relative;
 	transition: 1.5s;
+	margin-left: 2px;
 	margin-left: -20px;
-	width: 20px;
-	height: 40px;
 }
 
-.lock.loop.open:hover div {
+.lock.loop.open > div:first-child:hover div {
 	transform: translate(0%, -10%);
 }
 
@@ -84,13 +86,14 @@ title { /*remove the title from the page*/
 
 .unlock {
 	position: absolute;
-	top: -22%;
+	top: -23%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	background: #eb5810;
+	background: #323232;
 	width: 80%;
 	height: 50%;
 	transition: 2s ease;
+	border-bottom: 20px solid #eb5810;
 	z-index: 4;
 }
 
@@ -143,12 +146,23 @@ title { /*remove the title from the page*/
   	margin-top: 18px;
 }
 
+#login-form div label {
+	position: absolute;
+}
+
+#names {
+	top: 20px;
+}
+
+#passwords {
+	top: 80px;
+}
+
 .form__label {
-  	position: absolute;
   	left: 0;
   	display: block;
 	font-size: 1.4rem;
-	margin: 24px 0;
+	margin: 26px 0;
   	cursor: text;
  	transition: margin 400ms ease;
  	transition: 700ms ease;
@@ -164,7 +178,6 @@ title { /*remove the title from the page*/
 }
 
 .form__label.open {
-    position: absolute;
     display: block;
     margin: -5px 0;
     font-size: 1rem;
@@ -180,8 +193,15 @@ title { /*remove the title from the page*/
 }
 
 .submission {
+	color: #eb5810;
 	margin: 0;
 	margin-top: 20px;
+	background: #323232;
+}
+
+.submission:hover {
+	color: #323232;
+	background: #eb5810;
 }
 
 #wrong-password {
@@ -203,4 +223,8 @@ title { /*remove the title from the page*/
 #wrong-password.open {
 	transition: 1s ease;
 	left: -3%;
+}
+
+@media only screen and (max-width: 400px) {
+
 }
