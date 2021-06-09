@@ -214,6 +214,7 @@ $(".project-web-open-child").on('click', function() {
 
 		$(".old-project-web." + values[1]).addClass('open');
 		redraw_svg_elements($(".old-project-web." + values[1]), values[1]);
+		$("#clear-old-page-space").css("height", $("#old-page").height());
 
 		connectAll(this);
 	} else if (values[0] == "open-new-render") {

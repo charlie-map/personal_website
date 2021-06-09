@@ -26,6 +26,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 	let return_array = "";
 	let svg_path = [];
 	let needed_classes = [];
+	let depth = level;
 	return new Promise((resolve, reject) => {
 		let where_clause = !parent_id ? " parent_id IS NULL" : " parent_id=?"
 
@@ -42,6 +43,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				} else item.tree_sub_value = tree_path_value;
 				// making the javascript :/
 				let child_row_data = await pull_all_old_projects(item.id, item.tree_sub_value, level + 1);
+				depth = child_row_data[3];
 				let this_id = uuidv4();
 				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
 					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" + item.tree_sub_value + "||" + this_id + "||" + level + "'" +
@@ -64,7 +66,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				});
 			});
 			await Promise.all(await_all_rows);
-			resolve([return_array, svg_path.length ? svg_path : [], needed_classes]);
+			resolve([return_array, svg_path.length ? svg_path : [], needed_classes, depth]);
 		});
 	});
 }
