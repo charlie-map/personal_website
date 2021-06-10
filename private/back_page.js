@@ -73,7 +73,7 @@ $("#submit").click(function(event) {
 			},
 			success: function(result) {
 				if (result == "1") {
-					window.location = "/backend/overview";
+					window.location = "/backend/overview#question1";
 				} else {
 					if (result == "-1") $("#wrong-password").text("uh oh! that username doesn't exist");
 					else if (result == "-2") $("#wrong-password").text("uh oh! incorrect password");

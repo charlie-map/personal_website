@@ -164,6 +164,7 @@ $(".project-menu").click(() => {
 $(".project-web-open-child").on('click', function() {
 	// if this route is already open, close it
 	let values = this.id.split("||");
+
 	if (values[0] == "open-child") {
 		$(".old-project-web").removeClass('open');
 
@@ -183,6 +184,9 @@ $(".project-web-open-child").on('click', function() {
 			$(this).removeClass('open');
 			$(this).parent().find('div').removeClass('open');
 			$(this).parent().find('button').removeClass('open');
+
+			let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
+			$("#clear-old-page-space").css("height", path_depth == 0 ? 70 : path_depth * 140 + (path_depth * -10));
 			return;
 		}
 
@@ -214,16 +218,14 @@ $(".project-web-open-child").on('click', function() {
 
 		$(".old-project-web." + values[1]).addClass('open');
 		redraw_svg_elements($(".old-project-web." + values[1]), values[1]);
-		$("#clear-old-page-space").css("height", $("#old-page").height());
+		let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
+		$("#clear-old-page-space").css("height", path_depth * 140 + (path_depth * -10));
+
 
 		connectAll(this);
 	} else if (values[0] == "open-new-render") {
 		// need to find the old open background and remove the 'open' class from it
-		let all_buttons = $("#old-page").find('button');
-		for (let find_old_background = 0; find_old_background < all_buttons.length; find_old_background++) {
-			if ($(all_buttons[find_old_background]).attr('id').split("||")[0] == "open-new-render" && $(all_buttons[find_old_background]).hasClass('open'))
-				$(all_buttons[find_old_background]).removeClass('open');
-		}
+		let all_buttons = $("#old-page").find('button').removeClass("current-background");
 
 		// remove the old canvase
 		$("#defaultCanvas0").remove();

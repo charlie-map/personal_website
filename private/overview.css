@@ -85,10 +85,6 @@ section {
   display: none;
 }
 
-.accordion-item:target .answer{
-  max-height: 20rem;
-}
-
 .answer{
   max-height: 0;
   overflow: hidden;
@@ -121,5 +117,5 @@ section {
 
 #old-page {
 	top: 0px;
-	margin-top: 40px;
+	margin-top: 45px;
 }
