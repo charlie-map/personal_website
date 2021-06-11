@@ -285,3 +285,9 @@ function connectAll(id) {
 		connectElements($("#svg" + full_tree_id), $("#path" + children_uuid[2]), $(connect_children), $(id));
 	});
 }
+
+$("ion-icon").hover(function() {
+	console.log("grabbed", $(this).attr('title'), $(this).attr('id'));
+	let id_split = $(this).attr('id').split("||");
+	$("#display-icon-descript" + id_split[0] + id_split[1]).text($(this).attr('title'));
+}, function() { /*do nothing*/ });

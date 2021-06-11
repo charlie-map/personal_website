@@ -182,12 +182,20 @@ button:hover > div, button > div:hover {
 ion-icon {
 	transform: scale(1.2);
 	border-radius: 3px;
-	transition: 1s ease;
+	transition: 0.7s ease;
 }
 
 ion-icon:hover {
-	transform: scale(2);
+	transform: scale(1.7);
 	cursor: pointer;
 	background-color: rgba(20, 255, 236, 0.4);
-	transition: 0.7s ease;
+	transition: 0.4s ease;
+}
+
+.tooltip > div {
+	position: absolute;
+	font-size: 18px;
+	width: 80%;
+	height: 18px;
+	bottom: 3px;
 }

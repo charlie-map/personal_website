@@ -48,15 +48,22 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
 					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" +
 							item.tree_sub_value + "||" + this_id + "||" + level + "'" + ">" +
-							item.title + "<div class='tooltip'><ion-icon name='trash-outline'></ion-icon>" + 
-							"<ion-icon name='clipboard-outline'></ion-icon><ion-icon name='add-circle-outline'></ion-icon></div></button>") : item.type == "background_change" ?
+							item.title + "<div class='tooltip'>" +
+							"<ion-icon title='delete' id='" + item.title + "||" + this_id +
+							"' name='trash-outline'></ion-icon>" +
+							"<ion-icon title='rename' id='" + item.title + "||" + this_id +
+							"' name='clipboard-outline'></ion-icon>" +
+							"<ion-icon title='add' id='" + item.title + "||" + this_id +
+							"' name='add-circle-outline'></ion-icon>" +
+							"<div id='display-icon-descript" + item.title + this_id + "'></div>" +
+							"</div></button>") : item.type == "background_change" ?
 						("<button class='project-web-open-child option-background'" +
 							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level +
-							"||" + item.project_link + "'>" + item.title + "<div class='tooltip'><ion-icon name='trash-outline'></ion-icon>" + 
+							"||" + item.project_link + "'>" + item.title + "<div class='tooltip'><ion-icon name='trash-outline'></ion-icon>" +
 							"<ion-icon name='add-circle-outline'></ion-icon>" +
 							"<ion-icon name='clipboard-outline'></ion-icon></div></button>") : ("<a href='" +
 							/* NEED LINK */
-							+ "</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
+							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
 						child_row_data[0].toString().replace(/,/g, "") +
 						"</div>" : "") + "</div>";
 				needed_classes.push(...child_row_data[2]);
