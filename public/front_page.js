@@ -221,7 +221,6 @@ $(".project-web-open-child").on('click', function() {
 		let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
 		$("#clear-old-page-space").css("height", path_depth * 140 + (path_depth * -10));
 
-
 		connectAll(this);
 	} else if (values[0] == "open-new-render") {
 		// need to find the old open background and remove the 'open' class from it
