@@ -108,11 +108,14 @@ back.get("/overview", async (req, res) => {
 	let svg_obj = old_project_obj.splice(1);
 	let background_values = svg_obj.splice(1)[0];
 
+	let max_height = 75 + ((height - 1) * 130);
+
 	res.render("back_page", {
 		NAME: "charlie hall",
 		SPIDER_WEB: old_project_obj[0].toString().replace(/,/g, ""),
 		SVG_ROWS: svg_obj[0],
-		HEIGHT: 75 + ((height - 1) * 130) + "px"
+		HEIGHT: max_height + "px",
+		MAX_HEIGHT: max_height
 	});
 });
 

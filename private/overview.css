@@ -11,7 +11,39 @@ html {
 	text-transform: lowercase;
   	font-size: 10px;
   	box-sizing: border-box;
+  	color: transparent;
   	overflow: hidden;
+}
+
+body {
+	background-color: #323232;
+	color: #323232;
+}
+
+.open-greeting {
+	position: absolute;
+	width: 80%;
+	height: 130px;
+	left: 10%;
+	top: -130px;
+	font-size: 4rem;
+	background: #33F27C;
+	color: #323232;
+	transition: 1s ease;
+	display: flex;
+	align-items: center;
+}
+
+.open-greeting > h3 {
+	top: 400px;
+	margin-left: 5px;
+	font-size: 80%;
+}
+
+.open-greeting.play {
+	transition: 1s ease;
+	top: 0px;
+	left: 10%;
 }
 
 /*Section used for centering process*/
@@ -20,7 +52,6 @@ section {
 	top: 0px;*/
   	width: 100%;
   	height: 100vh;
-  	background-color: #323232;
   	display: flex;
   	align-items: center;
   	justify-content: center;
@@ -117,7 +148,7 @@ section {
 
 #old-page {
 	top: 0px;
-	margin-top: 45px;
+	overflow-y: hidden;
 }
 
 /* 
@@ -129,10 +160,34 @@ section {
                                                             
 */
 
+button > div {
+	display: none;
+}
+
 button:hover > div, button > div:hover {
+	cursor: initial;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 	position: absolute;
+	border-radius: 3px;
+	top: -15px;
+	left: -101px;
 	width: 100px;
-	height: 100px;
+	height: 60px;
 	background: #fff;
 	z-index: 120;
+}
+
+ion-icon {
+	transform: scale(1.2);
+	border-radius: 3px;
+	transition: 1s ease;
+}
+
+ion-icon:hover {
+	transform: scale(2);
+	cursor: pointer;
+	background-color: rgba(20, 255, 236, 0.4);
+	transition: 0.7s ease;
 }

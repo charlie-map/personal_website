@@ -2,6 +2,12 @@ $(".menu-btn").addClass('open');
 $(".menu-options").addClass('open');
 $(".menu-options_color").addClass('color');
 
+$(".open-greeting").addClass('play');
+
+setTimeout(function() {
+	$(".open-greeting").removeClass('play');
+}, 7000);
+
 $(".menu-btn").click(() => {
 	$(".unlock").removeClass('login');
 });
@@ -206,7 +212,7 @@ $(".project-web-open-child").on('click', function() {
 			$(this).parent().find('button').removeClass('open');
 
 			let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
-			$("#clear-old-page-space").css("height", path_depth == 0 ? 70 : path_depth * 140 + (path_depth * -10));
+			$("#clear-old-page-space").css("height", path_depth * 90 + 70);
 			return;
 		}
 
@@ -238,8 +244,9 @@ $(".project-web-open-child").on('click', function() {
 
 		$(".old-project-web." + values[1]).addClass('open');
 		redraw_svg_elements($(".old-project-web." + values[1]), values[1]);
+
 		let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
-		$("#clear-old-page-space").css("height", path_depth * 140 + (path_depth * -10));
+		$("#clear-old-page-space").css("height", path_depth * 90 + 70);
 
 		connectAll(this);
 	} else if (values[0] == "open-new-render") {
