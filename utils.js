@@ -45,28 +45,28 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				let child_row_data = await pull_all_old_projects(item.id, item.tree_sub_value, level + 1);
 				depth = child_row_data[3];
 				let this_id = uuidv4();
-				let id_conc_level = this_id + "_" + level + "_" + item.parent_id;
+				let id_conc_level = this_id + "_" + level + "_" + item.parent_id + "_" + item.tree_sub_value;
 				let icon_item_title = item.title.replace(/ /g, "");
 				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
 					(item.type == "button" ? ("<button class='project-web-open-child' id='open-child||" +
 							item.tree_sub_value + "||" + this_id + "||" + level + "'" + ">" +
 							item.title + "<div class='tooltip'>" +
-							"<ion-icon title='delete' id='" + icon_item_title + "_" + id_conc_level +
+							"<ion-icon title='delete' id='" + icon_item_title + "_" + id_conc_level + "_open-child" +
 							"' name='trash-outline'></ion-icon>" +
-							"<ion-icon title='rename' id='" + icon_item_title + "_" + id_conc_level +
+							"<ion-icon title='rename' id='" + icon_item_title + "_" + id_conc_level + "_open-child" +
 							"' name='clipboard-outline'></ion-icon>" +
-							"<ion-icon title='add' id='" + icon_item_title + "_" + id_conc_level +
+							"<ion-icon title='add' id='" + icon_item_title + "_" + id_conc_level + "_open-child" +
 							"' name='add-circle-outline'></ion-icon>" +
 							"<div id='display-icon-descript" + icon_item_title + this_id + "'></div>" +
 							"</div></button>") : item.type == "background_change" ?
 						("<button class='project-web-open-child option-background'" +
 							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level +
 							"||" + item.project_link + "'>" + icon_item_title + "<div class='tooltip'>" +
-							"<ion-icon title='delete' id='" + icon_item_title + "_" + id_conc_level +
+							"<ion-icon title='delete' id='" + icon_item_title + "_" + id_conc_level + "_open-new-render" +
 							"' name='trash-outline'></ion-icon>" +
-							"<ion-icon title='rename' id='" + icon_item_title + "_" + id_conc_level +
+							"<ion-icon title='rename' id='" + icon_item_title + "_" + id_conc_level + "_open-new-render" +
 							"' name='clipboard-outline'></ion-icon>" +
-							"<ion-icon title='add' id='" + icon_item_title + "_" + id_conc_level +
+							"<ion-icon title='add' id='" + icon_item_title + "_" + id_conc_level + "_open-new-render" +
 							"' name='add-circle-outline'></ion-icon>" +
 							"</div></button>") : ("<a href='" +
 							/* NEED LINK */

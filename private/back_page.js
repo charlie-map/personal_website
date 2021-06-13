@@ -126,8 +126,21 @@ $("#submit-rename").click(function(event) {
 				renamed_value: $("#renamed").val(),
 			},
 			success: function(result) {
-				if (result) {
-					console.log("complete");
+				console.log(result);
+				if (result == "1") { // renaming
+					console.log("running for level", $(".important_data").text());
+					let level = $(".important_data").text().split("_")[2];
+					let check_buttons = $(".old-project-web." + $(".important_data").text().split("_")[4]).find('button');
+					
+					for (let find_button = 0; find_button < check_buttons.length; find_button++) {
+
+						if ($(check_buttons[find_button]).attr('id').split("||")[3] == level) {
+
+							$(check_buttons[find_button]).html($("#renamed").val());
+							
+							break;
+						}
+					}
 				}
 			}
 		});
@@ -347,5 +360,7 @@ $("ion-icon").click(function() {
 	if ($(this).attr('title') == "rename") {
 		$(".important_data").text(this.id);
 		$(".rename").show();
+	} else if ($(this).attr('title') == "delete") {
+		$(".important_data").text(this.id);
 	}
 });
