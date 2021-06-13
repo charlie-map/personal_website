@@ -199,3 +199,27 @@ ion-icon:hover {
 	height: 18px;
 	bottom: 3px;
 }
+
+.form__label {
+	margin: 20px 0;
+}
+
+#renameds {
+	top: 20px;
+}
+
+#wrong-password-background {
+	position: absolute;
+	/*background: #eb5810;*/
+	background: #323232;
+	left: -100%;
+	top: 0px;
+	width: 100%;
+	height: 15%;
+	transition: 1s ease;
+}
+
+#wrong-password-background.open {
+	transition: 1s ease;
+	left: 0px;
+}

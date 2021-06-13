@@ -4,6 +4,10 @@ $(".menu-options_color").addClass('color');
 
 $(".open-greeting").addClass('play');
 
+$(".rename").hide();
+$(".delete").hide();
+$(".add").hide();
+
 setTimeout(function() {
 	$(".open-greeting").removeClass('play');
 }, 7000);
@@ -43,17 +47,24 @@ $(".lock.box").click(function() {
 	}
 });
 
+let window_values = window.location.href.split("/");
+
 $(".form__field").focus(function() {
 	$("#wrong-password").removeClass('open');
-	$("label[for='" + this.id + "']").addClass('open');
+	if (window_values[3] == "backend" && window_values[4].split("#")[0] == "overview") $("label[for='" + $(this).attr('name') + "']").addClass('open');
+	else if (window_values[3] == "backend") $("label[for='" + this.id + "']").addClass('open');
 });
 
 $(".form__field").focusout(function() {
-	$("label[for='" + this.id + "']").removeClass('open');
+	let work_on = window_values[3] == "backend" && window_values[4].split("#")[0] == "overview" ?
+		$(this).attr('name') : window_values[3] == "backend" ? this.id : null;
+	if (!work_on) return;
+
+	$("label[for='" + work_on + "']").removeClass('open');
 	if ($(this).val()) {
-		$("label[for='" + this.id + "']").empty();
+		$("label[for='" + work_on + "']").empty();
 	} else {
-		$("label[for='" + this.id + "']").text(this.id);
+		$("label[for='" + work_on + "']").text(window_values[4].split("#")[0] == "overview" ? "new name" : this.id);
 	}
 });
 
@@ -85,6 +96,38 @@ $("#submit").click(function(event) {
 					else if (result == "-2") $("#wrong-password").text("uh oh! incorrect password");
 					else $("#wrong-password").text("there was an error in trying to login...");
 					$("#wrong-password").addClass('open');
+				}
+			}
+		});
+	}
+});
+
+function hide_err() {
+	$("#wrong-password").removeClass('open');
+	$("#wrong-password-background").removeClass('open');
+}
+
+$("#submit-rename").click(function(event) {
+	event.preventDefault();
+
+	if ($("#renamed").val().length == 0) {
+		$("#wrong-password").text("please fill out the selected field");
+		$("#wrong-password").addClass('open');
+		$("#wrong-password-background").addClass('open');
+		setTimeout(hide_err, 4000);
+	} else {
+
+		$.ajax({
+			type: "POST",
+			url: "/backend/rename",
+			dataType: "html",
+			data: {
+				change_item: $(".important_data").text(),
+				renamed_value: $("#renamed").val(),
+			},
+			success: function(result) {
+				if (result) {
+					console.log("complete");
 				}
 			}
 		});
@@ -286,8 +329,23 @@ function connectAll(id) {
 	});
 }
 
+$(".accordion-item").click(function() {
+	if (this.id == "question1" || this.id == "question2") {
+		$(".rename").hide();
+		$(".delete").hide();
+		$(".add").hide();
+	}
+});
+
 $("ion-icon").hover(function() {
-	console.log("grabbed", $(this).attr('title'), $(this).attr('id'));
-	let id_split = $(this).attr('id').split("||");
+	let id_split = $(this).attr('id').split("_");
 	$("#display-icon-descript" + id_split[0] + id_split[1]).text($(this).attr('title'));
 }, function() { /*do nothing*/ });
+
+$("ion-icon").click(function() {
+	let id_split = $(this).attr('id').split("_");
+	if ($(this).attr('title') == "rename") {
+		$(".important_data").text(this.id);
+		$(".rename").show();
+	}
+});

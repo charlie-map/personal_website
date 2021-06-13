@@ -22,6 +22,10 @@ const {
 
 const back = express.Router();
 
+const isLoggedIn = function() {
+
+}
+
 passport.use(
 	new strat({
 			passReqToCallback: true // passing as a return value
@@ -98,7 +102,6 @@ back.get("/", (req, res) => {
 });
 
 back.get("/overview", async (req, res) => {
-	console.log("overview page");
 	let old_project_obj;
 
 	// grabs all projects from database, creates recursive div and
@@ -116,6 +119,27 @@ back.get("/overview", async (req, res) => {
 		SVG_ROWS: svg_obj[0],
 		HEIGHT: max_height + "px",
 		MAX_HEIGHT: max_height
+	});
+});
+
+back.post("/rename", (req, res) => {
+
+	// ensure that there are no repititions
+	let id_split = req.body.change_item.split("_");
+	connection.query("SELECT * FROM old_project_web WHERE title=? AND parent_id=?", [req.body.renamed_value, id_split[3]], (err, options) => {
+		if (err) console.log(err);
+
+		if (options.length)
+			res.end("0"); // can't be named this
+		else 
+			console.log("updating to", req.body.renamed_value, "after", id_split[3], id_split[0]);
+			let parent_id_where = id_split[3] == "null" ? " IS NULL" : "=?";
+			let answer_build = id_split[3] == "null" ? [req.body.renamed_value, id_split[0]] : [req.body.renamed_value, id_split[3], id_split[0]];
+			connection.query("UPDATE old_project_web SET title=? WHERE parent_id" + parent_id_where + " AND title=?", answer_build, (err, complete) => {
+				if (err) console.log(err);
+
+				res.end("1");
+			});
 	});
 });
 
