@@ -135,6 +135,7 @@ back.post("/rename", (req, res) => {
 			console.log("updating to", req.body.renamed_value, "after", id_split[3], id_split[0]);
 			let parent_id_where = id_split[3] == "null" ? " IS NULL" : "=?";
 			let answer_build = id_split[3] == "null" ? [req.body.renamed_value, id_split[0]] : [req.body.renamed_value, id_split[3], id_split[0]];
+			console.log("update with", answer_build);
 			connection.query("UPDATE old_project_web SET title=? WHERE parent_id" + parent_id_where + " AND title=?", answer_build, (err, complete) => {
 				if (err) console.log(err);
 

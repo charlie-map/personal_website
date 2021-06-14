@@ -116,6 +116,9 @@ $("#submit-rename").click(function(event) {
 		$("#wrong-password-background").addClass('open');
 		setTimeout(hide_err, 4000);
 	} else {
+		let important_data_split = $(".important_data").text().split("_");
+		let new_build_data = $($(".important_data").text()).parent().parent().children("p")[0].text();
+		console.log(new_build_data);
 
 		$.ajax({
 			type: "POST",
@@ -137,7 +140,9 @@ $("#submit-rename").click(function(event) {
 						if ($(check_buttons[find_button]).attr('id').split("||")[3] == level) {
 
 							$(check_buttons[find_button]).html($("#renamed").val());
-							
+
+							$("#renamed").val("");
+							$("#renamed").blur();
 							break;
 						}
 					}
@@ -268,7 +273,7 @@ $(".project-web-open-child").on('click', function() {
 			$(this).parent().find('button').removeClass('open');
 
 			let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
-			$("#clear-old-page-space").css("height", path_depth * 90 + 70);
+			$("#clear-old-page-space").css("height", path_depth * 100 + 100);
 			return;
 		}
 
@@ -302,7 +307,7 @@ $(".project-web-open-child").on('click', function() {
 		redraw_svg_elements($(".old-project-web." + values[1]), values[1]);
 
 		let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
-		$("#clear-old-page-space").css("height", path_depth * 90 + 70);
+		$("#clear-old-page-space").css("height", path_depth * 100 + 100);
 
 		connectAll(this);
 	} else if (values[0] == "open-new-render") {

@@ -124,12 +124,10 @@ section {
   transition: max-height 650ms;
 }
 
-
-.answer p{
+.answer > p{
   color: #fff;
   font-size: 15px;
   padding: 2rem;
-  
 }
 
 .accordion-item:target .accordion-link .ion-md-arrow-forward{
@@ -164,6 +162,15 @@ button > div {
 	display: none;
 }
 
+button p {
+	font-size: 15px;
+	color: #0d7377;
+}
+
+button:hover p {
+	color: #323232;
+}
+
 button:hover > div, button > div:hover {
 	cursor: initial;
 	display: flex;
@@ -171,8 +178,9 @@ button:hover > div, button > div:hover {
 	align-items: center;
 	position: absolute;
 	border-radius: 3px;
-	top: -15px;
-	left: -101px;
+	top: 31px;
+	left: 50%;
+	transform: translateX(-50%);
 	width: 100px;
 	height: 60px;
 	background: #fff;

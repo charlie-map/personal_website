@@ -31,8 +31,11 @@ app.get("/", async (req, res) => {
 	// grabs all projects from database, creates recursive div and
 	// adds all the data into svg, which is used for line drawing
 	old_project_obj = await pull_all_old_projects(null, 0, 0);
+	let height = old_project_obj[3];
 	let svg_obj = old_project_obj.splice(1);
 	let background_values = svg_obj.splice(1)[0];
+
+	let max_height = 75 + ((height - 1) * 130);
 
 	res.render("front_page", {
 		NAME: "charlie hall",
@@ -44,7 +47,8 @@ app.get("/", async (req, res) => {
 		SPIDER_WEB: old_project_obj[0].toString().replace(/,/g, ""),
 		SVG_ROWS: svg_obj[0],
 		CHOICE_SCRIPT: "hex.js",
-		PULL_NEEDED_VALUES: background_values.join('\n\t\t\t')
+		PULL_NEEDED_VALUES: background_values.join('\n\t\t\t'),
+		HEIGHT: max_height + "px"
 	});
 });
 
