@@ -117,8 +117,10 @@ $("#submit-rename").click(function(event) {
 		setTimeout(hide_err, 4000);
 	} else {
 		let important_data_split = $(".important_data").text().split("_");
-		let new_build_data = $($(".important_data").text()).parent().parent().children("p")[0].text();
-		console.log(new_build_data);
+		let new_data_name = $("#renamed").val();
+		console.log(important_data_split);
+		// let new_build_data = $($(".important_data").text()).parent().parent().children("p")[0].text();
+		// console.log(new_build_data);
 
 		$.ajax({
 			type: "POST",
@@ -129,7 +131,6 @@ $("#submit-rename").click(function(event) {
 				renamed_value: $("#renamed").val(),
 			},
 			success: function(result) {
-				console.log(result);
 				if (result == "1") { // renaming
 					console.log("running for level", $(".important_data").text());
 					let level = $(".important_data").text().split("_")[2];
@@ -139,7 +140,18 @@ $("#submit-rename").click(function(event) {
 
 						if ($(check_buttons[find_button]).attr('id').split("||")[3] == level) {
 
-							$(check_buttons[find_button]).html($("#renamed").val());
+							$(check_buttons[find_button]).empty();
+							let renamed_value = $("#renamed").val().replace(/ /g, '');
+							let new_title = renamed_value + '_' + important_data_split[1] + '_' + important_data_split[2] + '_' + important_data_split[3] + '_' + important_data_split[4] + '_' + important_data_split[5];
+							$(check_buttons[find_button]).append(
+								`<p>${$("#renamed").val()}</p>` +
+								`<div class='tooltip'>` +
+									`<ion-icon id='${new_title}' title='delete' name='trash-outline'></ion-icon>` +
+									`<ion-icon id='${new_title}' title='rename' name='clipboard-outline'></ion-icon>` +
+									`<ion-icon id='${new_title}' title='add' name='add-circle-outline'></ion-icon>` +
+									`<div id='display-icon-descript${renamed_value + important_data_split[1]}'></div>` +
+								`</div>`
+							);
 
 							$("#renamed").val("");
 							$("#renamed").blur();

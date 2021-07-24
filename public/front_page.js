@@ -77,7 +77,8 @@ let menuOpen = false;
 
 $(".project-popup").hide();
 
-$(".menu-btn").click(() => {
+$("#menuSelectorOpen").click(function() {
+	console.log("clicked");
 	if (!menuOpen) {
 		$(".menu-btn").addClass('open');
 		$(".menu-options").addClass('open');

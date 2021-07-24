@@ -166,7 +166,6 @@ span {
 
 .menu-options.open button, .submission {
 	background-color: #323232;
-	max-width: 120px;
 	height: 30px;
 	display: inline;
 	border-radius: 4px;
