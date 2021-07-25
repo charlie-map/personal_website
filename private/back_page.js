@@ -133,7 +133,7 @@ $("#submit-rename").click(function(event) {
 				if (result == "1") { // renaming
 					let level = $(".important_data").text().split("_")[2];
 					let check_buttons = $(".old-project-web." + $(".important_data").text().split("_")[4]).find('button');
-					
+
 					for (let find_button = 0; find_button < check_buttons.length; find_button++) {
 
 						if ($(check_buttons[find_button]).attr('id').split("||")[3] == level) {
@@ -144,10 +144,10 @@ $("#submit-rename").click(function(event) {
 							$(check_buttons[find_button]).append(
 								`<p>${$("#renamed").val()}</p>` +
 								`<div class='tooltip'>` +
-									`<ion-icon id='${new_title}' title='delete' name='trash-outline'></ion-icon>` +
-									`<ion-icon id='${new_title}' title='rename' name='clipboard-outline'></ion-icon>` +
-									`<ion-icon id='${new_title}' title='add' name='add-circle-outline'></ion-icon>` +
-									`<div id='display-icon-descript${renamed_value + important_data_split[1]}'></div>` +
+								`<ion-icon id='${new_title}' title='delete' name='trash-outline'></ion-icon>` +
+								`<ion-icon id='${new_title}' title='rename' name='clipboard-outline'></ion-icon>` +
+								`<ion-icon id='${new_title}' title='add' name='add-circle-outline'></ion-icon>` +
+								`<div id='display-icon-descript${renamed_value + important_data_split[1]}'></div>` +
 								`</div>`
 							);
 
@@ -258,15 +258,15 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 	}
 }
 
-$(".project-web-open-child").on('click', function() {
+function draw_routes(object, id) {
 	// if this route is already open, close it
-	let values = this.id.split("||");
+	let values = id.split("||");
 
 	if (values[0] == "open-child") {
 		$(".old-project-web").removeClass('open');
 
-		if ($(this).hasClass('open')) {
-			//$("#path" + this.id.split("||")[2]).attr('d', 'M0 0');
+		if ($(object).hasClass('open')) {
+			//$("#path" + object.id.split("||")[2]).attr('d', 'M0 0');
 			let children_object = $("#old-page").children('.' + values[1]).find('button');
 			// loop through only ones that have a level the same or greater than the one we are currently on
 
@@ -278,9 +278,9 @@ $(".project-web-open-child").on('click', function() {
 					$("#path" + build_children_id[2]).attr('d', "M0 0");
 			}
 
-			$(this).removeClass('open');
-			$(this).parent().find('div').removeClass('open');
-			$(this).parent().find('button').removeClass('open');
+			$(object).removeClass('open');
+			$(object).parent().find('div').removeClass('open');
+			$(object).parent().find('button').removeClass('open');
 
 			let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
 			$("#clear-old-page-space").css("height", path_depth * 100 + 100);
@@ -288,9 +288,9 @@ $(".project-web-open-child").on('click', function() {
 		}
 
 		// make sure all pathes are closed on sibling divs
-		$(this).parent().siblings().removeClass('open');
-		$(this).parent().siblings().children('button').removeClass('open');
-		$(this).parent().siblings().children('div').removeClass('open');
+		$(object).parent().siblings().removeClass('open');
+		$(object).parent().siblings().children('button').removeClass('open');
+		$(object).parent().siblings().children('div').removeClass('open');
 
 		children_object = $("#svgContainer").children('svg');
 		let possible_pathes;
@@ -305,12 +305,12 @@ $(".project-web-open-child").on('click', function() {
 			}
 		}
 
-		// first go through this level and make sure every other div is closed
+		// first go through object level and make sure every other div is closed
 
 		// add the 'open' class so css can correctly draw everything
-		$(this).addClass('open');
-		$(this).parent().children('div').addClass('open');
-		$(this).parent().children('div').css('width', $("#old-page").width());
+		$(object).addClass('open');
+		$(object).parent().children('div').addClass('open');
+		$(object).parent().children('div').css('width', $("#old-page").width());
 		// then draw the lines between the parent and the children
 
 		$(".old-project-web." + values[1]).addClass('open');
@@ -319,7 +319,7 @@ $(".project-web-open-child").on('click', function() {
 		let path_depth = $(".old-project-web." + values[1]).find(".children-project-web.open").length;
 		$("#clear-old-page-space").css("height", path_depth * 100 + 100);
 
-		connectAll(this);
+		connectAll(object);
 	} else if (values[0] == "open-new-render") {
 		// need to find the old open background and remove the 'open' class from it
 		let all_buttons = $("#old-page").find('button').removeClass("current-background");
@@ -328,11 +328,15 @@ $(".project-web-open-child").on('click', function() {
 		$("#defaultCanvas0").remove();
 
 		// change nothing on old projects, just open the background to a different game
-		$(this).addClass('current-background');
+		$(object).addClass('current-background');
 		$("#current_script").remove();
 		$('body').append('<script id="current_script" language="javascript" type="text/javascript" src="' + this.id.split("||")[4] + '"></script>');
 		setup();
 	}
+}
+
+$(".project-web-open-child").on('click', function() {
+	draw_routes(this, this.id);
 });
 
 function connectAll(id) {
@@ -366,20 +370,36 @@ $(".accordion-item").click(function() {
 });
 
 $(".delete").on('click', '.delete-button', function() {
-	console.log($(this).attr('id'));
 	let item_id = $(`#display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`).parent().siblings("p").attr('id');
+	let display_name = $(".important_data").text();
+	let named_item = $(this).text();
 
 	console.log(item_id);
-	if ($(this).attr('id') == "delete_recursive") {
-		$.ajax({
-			url: "/backend/delete",
-			type: "POST",
-			data: {
-				id: item_id,
-				delete_flow: 0
+	$.ajax({
+		url: "/backend/delete",
+		type: "POST",
+		data: {
+			id: item_id,
+			delete_flow: $(this).attr('id') == "delete_recursive" ? 0 :
+				$(this).attr('id') == "delete_merge" ? $(this).text() : null
+		},
+		success: function() {
+			$("#" + display_name).parent().parent().parent().remove();
+			
+			let all_tags = $("#old-page").find("p");
+			let button_object;
+
+			for (let find_item = 0; find_item < all_tags.length; find_item++) {
+
+				if ($(all_tags[find_item]).text() == named_item) {
+					button_object = $(all_tags[find_item]).parent();
+					break;
+				}
 			}
-		})
-	}
+
+			draw_routes(button_object, $(button_object).attr('id'));
+		}
+	})
 });
 
 $("ion-icon").hover(function() {
@@ -400,9 +420,9 @@ $("ion-icon").click(function() {
 		// grab each sibling branch - title
 		$(".dropdown-content").empty();
 		let branches = $(`#display-icon-descript${this.id.split("_")[0] + this.id.split("_")[1]}`).parent().parent().parent().siblings(".old-project-web");
-		
+
 		for (let get_titles = 0; get_titles < branches.length; get_titles++) {
-			$(".dropdown-content").append(`<a class='delete-button'>${$(branches[get_titles]).children("button").children("p").text()}</a>`)
+			$(".dropdown-content").append(`<a id='delete_merge' class='delete-button'>${$(branches[get_titles]).children("button").children("p").text()}</a>`)
 			branch_title.push($(branches[get_titles]).children("button").children("p").text());
 		}
 		$(".delete").show();

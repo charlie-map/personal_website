@@ -146,7 +146,7 @@ back.post("/rename", (req, res) => {
 	In here will be a recursive process that will first go through the whole tree,
 	and then work its way back up, deleting values as the process curries upwards
 */
-async function delete_full_branch(id) {
+function delete_full_branch(id) {
 	return new Promise((resolve, reject) => {
 		connection.query("SELECT id FROM old_project_web WHERE parent_id=?", id, async (err, sub_web) => {
 			if (err) console.log(err);
@@ -166,6 +166,19 @@ async function delete_full_branch(id) {
 }
 
 /*
+	Running through a branch and curating a sub-branch to return to the main program
+*/
+function pull_off_branch(id) {
+	return new Promise((resolve, reject) => {
+		connection.query("SELECT id FROM old_project_web WHERE parent_id=?", id, async (err, sub_web) => {
+			if (err) console.log(err);
+
+			resolve(sub_web);
+		});
+	});
+}
+
+/*
 	Two params for delete:
 	id: the id of the item being delete (integer)
 	delete_flow: this is an option to either delete all of the items (recursively)
@@ -174,10 +187,33 @@ async function delete_full_branch(id) {
 				 -- integer for merge (merging into a different branch)
 */
 back.post("/delete", async (req, res) => {
-	console.log(req.body);
 	if (parseInt(req.body.delete_flow, 10) == 0) { // remove all items related to the main one
 		await delete_full_branch(req.body.id);
 		res.end();
+	} else { // want to recursively generate an object, and then add it onto another branch
+		let branch_adds = await pull_off_branch(req.body.id, 0);
+		if (!branch_adds || !branch_adds.length) return res.end();
+
+		connection.query("SELECT id FROM old_project_web WHERE title=? AND parent_id IS NULL", req.body.delete_flow, async (err, complete) => {
+			if (err) console.log(err);
+
+			let branch_fixes = branch_adds.map(branch => {
+				return new Promise((resolve, reject) => {
+					connection.query("UPDATE old_project_web SET parent_id=? WHERE id=?", [complete[0].id, branch.id], (err, branch_done) => {
+						if (err) console.log(err);
+
+						resolve();
+					});
+				});
+			});
+
+			await Promise.all(branch_fixes);
+			connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (er, finish) => {
+				if (err) console.log(err);
+
+				res.end();
+			});
+		});
 	}
 });
 
