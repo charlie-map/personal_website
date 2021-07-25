@@ -371,6 +371,8 @@ $(".accordion-item").click(function() {
 
 $(".delete").on('click', '.delete-button', function() {
 	let item_id = $(`#display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`).parent().siblings("p").attr('id');
+	let parent_id = $(`#display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`).parent().parent().parent().parent().siblings("button").children("p").attr('id');
+
 	let display_name = $(".important_data").text();
 	let named_item = $(this).text();
 
@@ -380,12 +382,12 @@ $(".delete").on('click', '.delete-button', function() {
 		type: "POST",
 		data: {
 			id: item_id,
-			delete_flow: $(this).attr('id') == "delete_recursive" ? 0 :
-				$(this).attr('id') == "delete_merge" ? $(this).text() : null
+			delete_flow: $(this).attr('id') == "delete_recursive" ? 0 : $(this).attr('id') == "delete_merge" ? $(this).text() : null,
+			parent_id: parent_id ? parent_id : 0
 		},
 		success: function() {
 			$("#" + display_name).parent().parent().parent().remove();
-			
+
 			let all_tags = $("#old-page").find("p");
 			let button_object;
 
@@ -397,7 +399,8 @@ $(".delete").on('click', '.delete-button', function() {
 				}
 			}
 
-			draw_routes(button_object, $(button_object).attr('id'));
+			if (button_object) draw_routes(button_object, $(button_object).attr('id'));
+			else draw_routes($($("#old-page").children(".old-project-web")[0]), $($("#old-page").children(".old-project-web")[0]).attr('id'));
 		}
 	})
 });

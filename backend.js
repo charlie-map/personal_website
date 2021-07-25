@@ -191,29 +191,37 @@ back.post("/delete", async (req, res) => {
 		await delete_full_branch(req.body.id);
 		res.end();
 	} else { // want to recursively generate an object, and then add it onto another branch
-		let branch_adds = await pull_off_branch(req.body.id, 0);
-		if (!branch_adds || !branch_adds.length) return res.end();
-
-		connection.query("SELECT id FROM old_project_web WHERE title=? AND parent_id IS NULL", req.body.delete_flow, async (err, complete) => {
+		let branch_adds = await pull_off_branch(req.body.id);
+		let parent_string = parseInt(req.body.parent_id, 10) ? " parent_id=?" : " parent_id IS NULL";
+		let query_params = req.body.parent_id ? [req.body.delete_flow, req.body.parent_id] : req.body.delete_flow
+		if (branch_adds && branch_adds.length) connection.query("SELECT id FROM old_project_web WHERE title=? AND " + parent_string, query_params, async (err, complete) => {
 			if (err) console.log(err);
 
-			let branch_fixes = branch_adds.map(branch => {
-				return new Promise((resolve, reject) => {
-					connection.query("UPDATE old_project_web SET parent_id=? WHERE id=?", [complete[0].id, branch.id], (err, branch_done) => {
-						if (err) console.log(err);
+			if (complete && complete.length) {
+				let branch_fixes = branch_adds.map(branch => {
+					console.log(branch);
+					return new Promise((resolve, reject) => {
+						connection.query("UPDATE old_project_web SET parent_id=? WHERE id=?", [complete[0].id, branch.id], (err, branch_done) => {
+							if (err) console.log(err);
 
-						resolve();
+							resolve();
+						});
 					});
 				});
-			});
 
-			await Promise.all(branch_fixes);
-			connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (er, finish) => {
+				await Promise.all(branch_fixes);
+			}
+			connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (err, finish) => {
 				if (err) console.log(err);
 
 				res.end();
 			});
 		});
+		else connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (err, finish) => {
+			if (err) console.log(err);
+
+			res.end();
+		})	
 	}
 });
 
