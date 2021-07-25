@@ -118,21 +118,19 @@ $("#submit-rename").click(function(event) {
 	} else {
 		let important_data_split = $(".important_data").text().split("_");
 		let new_data_name = $("#renamed").val();
-		console.log(important_data_split);
-		// let new_build_data = $($(".important_data").text()).parent().parent().children("p")[0].text();
-		// console.log(new_build_data);
+		let new_build_data = $(`#display-icon-descript${important_data_split[0] + important_data_split[1]}`).parent().parent().children("p").text();
 
 		$.ajax({
 			type: "POST",
 			url: "/backend/rename",
 			dataType: "html",
 			data: {
-				change_item: $(".important_data").text(),
+				previous_name: new_build_data,
 				renamed_value: $("#renamed").val(),
+				parent_id: important_data_split[3]
 			},
 			success: function(result) {
 				if (result == "1") { // renaming
-					console.log("running for level", $(".important_data").text());
 					let level = $(".important_data").text().split("_")[2];
 					let check_buttons = $(".old-project-web." + $(".important_data").text().split("_")[4]).find('button');
 					
@@ -367,10 +365,29 @@ $(".accordion-item").click(function() {
 	}
 });
 
+$(".delete").on('click', '.delete-button', function() {
+	console.log($(this).attr('id'));
+	let item_id = $(`#display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`).parent().siblings("p").attr('id');
+
+	console.log(item_id);
+	if ($(this).attr('id') == "delete_recursive") {
+		$.ajax({
+			url: "/backend/delete",
+			type: "POST",
+			data: {
+				id: item_id,
+				delete_flow: 0
+			}
+		})
+	}
+});
+
 $("ion-icon").hover(function() {
 	let id_split = $(this).attr('id').split("_");
 	$("#display-icon-descript" + id_split[0] + id_split[1]).text($(this).attr('title'));
 }, function() { /*do nothing*/ });
+
+let branch_title = [];
 
 $("ion-icon").click(function() {
 	let id_split = $(this).attr('id').split("_");
@@ -379,5 +396,15 @@ $("ion-icon").click(function() {
 		$(".rename").show();
 	} else if ($(this).attr('title') == "delete") {
 		$(".important_data").text(this.id);
+
+		// grab each sibling branch - title
+		$(".dropdown-content").empty();
+		let branches = $(`#display-icon-descript${this.id.split("_")[0] + this.id.split("_")[1]}`).parent().parent().parent().siblings(".old-project-web");
+		
+		for (let get_titles = 0; get_titles < branches.length; get_titles++) {
+			$(".dropdown-content").append(`<a class='delete-button'>${$(branches[get_titles]).children("button").children("p").text()}</a>`)
+			branch_title.push($(branches[get_titles]).children("button").children("p").text());
+		}
+		$(".delete").show();
 	}
 });

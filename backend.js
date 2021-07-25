@@ -125,23 +125,60 @@ back.get("/overview", async (req, res) => {
 back.post("/rename", (req, res) => {
 
 	// ensure that there are no repititions
-	let id_split = req.body.change_item.split("_");
-	connection.query("SELECT * FROM old_project_web WHERE title=? AND parent_id=?", [req.body.renamed_value, id_split[3]], (err, options) => {
+	connection.query("SELECT * FROM old_project_web WHERE title=? AND parent_id=?", [req.body.renamed_value, req.body.parent_id], (err, options) => {
 		if (err) console.log(err);
 
 		if (options.length)
 			res.end("0"); // can't be named this
-		else 
-			console.log("updating to", req.body.renamed_value, "after", id_split[3], id_split[0]);
-			let parent_id_where = id_split[3] == "null" ? " IS NULL" : "=?";
-			let answer_build = id_split[3] == "null" ? [req.body.renamed_value, id_split[0]] : [req.body.renamed_value, id_split[3], id_split[0]];
-			console.log("update with", answer_build);
+		else {
+			let parent_id_where = req.body.parent_id == "null" ? " IS NULL" : "=?";
+			let answer_build = req.body.parent_id == "null" ? [req.body.renamed_value, req.body.previous_name] : [req.body.renamed_value, req.body.parent_id, req.body.previous_name];
+
 			connection.query("UPDATE old_project_web SET title=? WHERE parent_id" + parent_id_where + " AND title=?", answer_build, (err, complete) => {
 				if (err) console.log(err);
-
 				res.end("1");
 			});
+		}
 	});
+});
+
+/*
+	In here will be a recursive process that will first go through the whole tree,
+	and then work its way back up, deleting values as the process curries upwards
+*/
+async function delete_full_branch(id) {
+	return new Promise((resolve, reject) => {
+		connection.query("SELECT id FROM old_project_web WHERE parent_id=?", id, async (err, sub_web) => {
+			if (err) console.log(err);
+
+			let webs = sub_web.map(under_subs => {
+				delete_full_branch(under_subs.id);
+			});
+
+			await Promise.all(webs);
+			connection.query("DELETE FROM old_project_web WHERE id=?", id, (err, completed) => {
+				if (err) console.log(err);
+
+				resolve();
+			});
+		});
+	});
+}
+
+/*
+	Two params for delete:
+	id: the id of the item being delete (integer)
+	delete_flow: this is an option to either delete all of the items (recursively)
+				 or merge the sub values into a different branch (woof!)
+				 -- 0 for delete recursively
+				 -- integer for merge (merging into a different branch)
+*/
+back.post("/delete", async (req, res) => {
+	console.log(req.body);
+	if (parseInt(req.body.delete_flow, 10) == 0) { // remove all items related to the main one
+		await delete_full_branch(req.body.id);
+		res.end();
+	}
 });
 
 module.exports = {
