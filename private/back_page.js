@@ -385,8 +385,20 @@ $(".delete").on('click', '.delete-button', function() {
 			delete_flow: $(this).attr('id') == "delete_recursive" ? 0 : $(this).attr('id') == "delete_merge" ? $(this).text() : null,
 			parent_id: parent_id ? parent_id : 0
 		},
-		success: function() {
+		success: function(value) {
+			// make sure to grab the children first
+			let build_html = "";
+			if (parseInt(value, 10) == 1) {
+
+				let children_html = $("#" + display_name).parent().parent().siblings(".children-project-web");
+
+				for (let add_html = 0; add_html < children_html.length; add_html++) {
+					build_html += $(children_html[add_html]).html();
+				}
+			}
 			$("#" + display_name).parent().parent().parent().remove();
+
+
 
 			let all_tags = $("#old-page").find("p");
 			let button_object;
@@ -397,6 +409,15 @@ $(".delete").on('click', '.delete-button', function() {
 					button_object = $(all_tags[find_item]).parent();
 					break;
 				}
+			}
+
+			console.log(build_html);
+			if (build_html) {
+				console.log($(button_object).parent().children('.children-project-web').length);
+				if (!$(button_object).parent().children('.children-project-web').length)
+					$(button_object).parent().append(`<div class='children-project-web'></div>`);
+
+				$(button_object).parent().children('.children-project-web').append(build_html);
 			}
 
 			if (button_object) draw_routes(button_object, $(button_object).attr('id'));

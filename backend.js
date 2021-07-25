@@ -214,13 +214,13 @@ back.post("/delete", async (req, res) => {
 			connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (err, finish) => {
 				if (err) console.log(err);
 
-				res.end();
+				res.end("1");
 			});
 		});
 		else connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (err, finish) => {
 			if (err) console.log(err);
 
-			res.end();
+			res.end("1");
 		})	
 	}
 });
