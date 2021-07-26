@@ -4,9 +4,13 @@ $(".menu-options_color").addClass('color');
 
 $(".open-greeting").addClass('play');
 
-$(".rename").hide();
-$(".delete").hide();
-$(".add").hide();
+function hide_branch_options() {
+	$(".rename").hide();
+	$(".delete").hide();
+	$(".add").hide();
+}
+
+hide_branch_options();
 
 setTimeout(function() {
 	$(".open-greeting").removeClass('play');
@@ -428,19 +432,118 @@ $(".delete").on('click', '.delete-button', function() {
 	})
 });
 
+function clean_dropdown_adder() {
+	$("#add_branch_selector").empty();
+
+	$("#add_branch_selector").append(
+		`<button class="dropbtn">select type</button>
+		<div class="dropdown-content">
+			<a class='new-branch'>add folder</a>
+			<a class='new-background-display'>add playable file</a>
+		</div>`
+	);
+}
+
+let root_addition = false;
+
 $(".root-adding").click(function() {
+	clean_dropdown_adder();
+
+	root_addition = true;
 
 	$(".add").show();
 });
 
+$("#add_branch_selector").on('click', '.new-branch', function() {
+	if ($("#add_branch_selector").children("button").text() == "add playable file")
+		$("#add_branch_selector").children(".dropdown-content").append(
+			`<a class='new-background-display'>add playable file</a>`
+		);
+
+	$(".new-branch").remove();
+	$("#add_branch_selector").children("button").text("add folder");
+
+	$(".add-file-backend").css("display", "none");
+});
+
+$("#add_branch_selector").on('click', '.new-background-display', function() {
+	if ($("#add_branch_selector").children("button").text() == 'add folder')
+		$("#add_branch_selector").children(".dropdown-content").append(
+			`<a class='new-branch'>add folder</a>`
+		);
+
+	$(".new-background-display").remove();
+	$("#add_branch_selector").children("button").text("add playable file");
+
+	$(".add-file-backend").css("display", "block");
+});
+
+$("#submit-add").click(function(event) {
+	event.preventDefault();
+
+	let branch_decider = $("#add_branch_selector").children("button").text();
+	console.log(branch_decider);
+	if (branch_decider == "select type" || (branch_decider != "add playable file" && branch_decider != "add folder")) {
+		$("#wrong-password").text("please select an option in the dropdown");
+		$("#wrong-password").addClass('open');
+		$("#wrong-password-background").addClass('open');
+		setTimeout(hide_err, 4000);
+		return;
+	}
+
+	console.log($("#added").val());
+
+	if ($("#added").val() == "") {
+		$("#wrong-password").text("please insert a name for the " + branch_decider.split(" ")[branch_decider.split(" ").length - 1]);
+		$("#wrong-password").addClass('open');
+		$("#wrong-password-background").addClass('open');
+		setTimeout(hide_err, 4000);
+		return;
+	}
+
+	let parent_id = $(document.getElementById($(".important_data").text())).parent().siblings("p").attr('id');
+
+	$.ajax({
+		url: "/backend/add",
+		type: "POST",
+		data: {
+			name: $("#added").val(),
+			folder_type: branch_decider.split(" ")[branch_decider.split(" ").length - 1],
+			parent_id: root_addition ? null : parent_id
+		},
+		success: function() {
+			if (parent_id) {
+
+			} else {
+				let current_branches = $("#old-page").children(".old-project-web");
+
+				let current_branch_max = 0;
+
+				for (let run_through_branches = 0; run_through_branches < current_branches.length; run_through_branches++) {
+
+					if (current_branch_max < $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1]) {
+						current_branch_max = $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1];
+					}
+				}
+
+				// using that row line up, need to add into the html
+				
+			}
+		}
+	});
+});
+
 $("ion-icon").hover(function() {
 	let id_split = $(this).attr('id').split("_");
+
+	if (id_split[0] == 'no-icon') return;
 	$(document.getElementById("display-icon-descript" + id_split[0] + id_split[1])).text($(this).attr('title'));
 }, function() { /*do nothing*/ });
 
 let branch_title = [];
 
 $("ion-icon").click(function() {
+	hide_branch_options();
 	let id_split = $(this).attr('id').split("_");
 	if ($(this).attr('title') == "rename") {
 		$(".important_data").text(this.id);
@@ -457,5 +560,11 @@ $("ion-icon").click(function() {
 			branch_title.push($(branches[get_titles]).children("button").children("p").text());
 		}
 		$(".delete").show();
+	} else if ($(this).attr('title') == "add") {
+		$(".important_data").text(this.id);
+		clean_dropdown_adder();
+		root_addition = false;
+
+		$(".add").show();
 	}
 });

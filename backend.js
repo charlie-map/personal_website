@@ -225,6 +225,25 @@ back.post("/delete", async (req, res) => {
 	}
 });
 
+back.post("/add", (req, res) => {
+	let project_link, class_needed = 0;
+
+	let insert_object = [
+		req.body.parent_id.length ? req.body.parent_id : null,
+		req.body.name,
+		req.body.folder_type == "folder" ? "button" : req.body.folder_type == "file" ? "background_change" : "link",
+		req.body.completion_date,
+		project_link,
+		class_needed
+	]
+
+	connection.query("INSERT INTO old_project_web (parent_id, title, type, completion_date, project_link, class_needed)" +
+		"VALUES(?, ?, ?, ?, ?, ?)", insert_object, (err, complete) => {
+			if (err) console.log(err);
+
+		});
+});
+
 module.exports = {
 	back
 };
