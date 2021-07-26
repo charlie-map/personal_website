@@ -57,14 +57,12 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 							`<div id='display-icon-descript${icon_item_title + this_id}'></div>` +
 							"</div></button>") : item.type == "background_change" ?
 						("<button class='project-web-open-child option-background'" +
-							" id='open-new-render||" + item.tree_sub_value + "||" + this_id + "||" + level +
-							"||" + item.project_link + "'><p>" + icon_item_title + "</p><div class='tooltip'>" +
+							` id='open-new-render||${item.tree_sub_value}||${this_id}||${level}||${item.project_link}'><p>${icon_item_title}</p>` +
+							"<div class='tooltip'>" +
 							"<ion-icon title='delete' id='" + icon_item_title + "_" + id_conc_level + "_open-new-render" +
 							"' name='trash-outline'></ion-icon>" +
 							"<ion-icon title='rename' id='" + icon_item_title + "_" + id_conc_level + "_open-new-render" +
 							"' name='clipboard-outline'></ion-icon>" +
-							"<ion-icon title='add' id='" + icon_item_title + "_" + id_conc_level + "_open-new-render" +
-							"' name='add-circle-outline'></ion-icon>" +
 							"<div id='display-icon-descript" + icon_item_title + this_id + "'></div>" +
 							"</div></button>") : ("<a href='" +
 							/* NEED LINK */

@@ -87,6 +87,9 @@
 								<ul>
 									<li>lay out old projects on the project tree</li>
 								</ul>
+								<button class='root-adding old-project-web'>
+								<ion-icon name="add-circle-outline"></ion-icon>
+								</button>
 							</div>
 							<i class="icon ion-md-arrow-forward"></i>
 							<i class="icon ion-md-arrow-down"></i>
@@ -135,6 +138,20 @@
 						<button>cancel</button>
 					</div>
 					<div class="add">
+						<div class="dropdown" id="add_branch_selector">
+							<button class="dropbtn">select type</button>
+							<div class="dropdown-content">
+								<a class='new-branch'>add folder</a>
+								<a class='new-brackground-display'>add playable file</a>
+							</div> 
+						</div>
+						<form method="POST" action="/backend/add" id="login-form">
+							<div>
+								<input type="input" class="form__field" id="added" name="added">
+								<label for="added" id="addeds" class="form__label">new name</label>
+							</div>
+							<input class="submission" type="submit" id="submit-add" value="add">
+						</form>
 					</div>
 				</div>
 			</div>

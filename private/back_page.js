@@ -156,6 +156,7 @@ $("#submit-rename").click(function(event) {
 							break;
 						}
 					}
+					$(".rename").hide();
 				}
 			}
 		});
@@ -422,8 +423,14 @@ $(".delete").on('click', '.delete-button', function() {
 
 			if (button_object) draw_routes(button_object, $(button_object).attr('id'));
 			else draw_routes($($("#old-page").children(".old-project-web")[0]), $($("#old-page").children(".old-project-web")[0]).attr('id'));
+			$(".delete").hide();
 		}
 	})
+});
+
+$(".root-adding").click(function() {
+
+	$(".add").show();
 });
 
 $("ion-icon").hover(function() {
