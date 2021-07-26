@@ -118,7 +118,7 @@ $("#submit-rename").click(function(event) {
 	} else {
 		let important_data_split = $(".important_data").text().split("_");
 		let new_data_name = $("#renamed").val();
-		let new_build_data = $(`#display-icon-descript${important_data_split[0] + important_data_split[1]}`).parent().parent().children("p").text();
+		let new_build_data = $(document.getElementById(`display-icon-descript${important_data_split[0] + important_data_split[1]}`)).parent().parent().children("p").text();
 
 		$.ajax({
 			type: "POST",
@@ -428,7 +428,7 @@ $(".delete").on('click', '.delete-button', function() {
 
 $("ion-icon").hover(function() {
 	let id_split = $(this).attr('id').split("_");
-	$("#display-icon-descript" + id_split[0] + id_split[1]).text($(this).attr('title'));
+	$(document.getElementById("display-icon-descript" + id_split[0] + id_split[1])).text($(this).attr('title'));
 }, function() { /*do nothing*/ });
 
 let branch_title = [];
