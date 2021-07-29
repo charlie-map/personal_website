@@ -221,9 +221,22 @@ back.post("/delete", async (req, res) => {
 			if (err) console.log(err);
 
 			res.end("1");
-		})	
+		})
 	}
 });
+
+function get_level(parent_id) {
+	if (!parent_id) return 0;
+
+	return new Promise((resolve, reject) => {
+
+		connection.query("SELECT parent_id FROM old_project_web WHERE id=?", parent_id, async (err, new_value) => {
+			if (err) reject(err);
+
+			resolve(1 + await get_level(new_value[0].parent_id));
+		});
+	});
+}
 
 back.post("/add", (req, res) => {
 	let project_link, class_needed = 0;
@@ -241,6 +254,19 @@ back.post("/add", (req, res) => {
 		"VALUES(?, ?, ?, ?, ?, ?)", insert_object, (err, complete) => {
 			if (err) console.log(err);
 
+			connection.query("SELECT last_insert_id() FROM old_project_web", async (err, insert_id) => {
+				if (err) console.log(err);
+
+				res.end(JSON.stringify({
+					id: insert_id[0]['last_insert_id()'],
+					uuid: uuidv4(),
+					parent_id: insert_object[0],
+					folder_type: insert_object[2] == "button" ? "open-child" : insert_object[2] == "background_change" ? "open-new-render" : "link",
+					level: await get_level(insert_object[0]),
+					name: insert_object[1],
+					program_name: insert_object[4]
+				}));
+			});
 		});
 });
 

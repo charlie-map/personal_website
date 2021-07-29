@@ -340,7 +340,7 @@ function draw_routes(object, id) {
 	}
 }
 
-$(".project-web-open-child").on('click', function() {
+$("#old-page").on('click', '.project-web-open-child', function() {
 	draw_routes(this, this.id);
 });
 
@@ -448,6 +448,7 @@ let root_addition = false;
 
 $(".root-adding").click(function() {
 	clean_dropdown_adder();
+	hide_branch_options();
 
 	root_addition = true;
 
@@ -482,7 +483,6 @@ $("#submit-add").click(function(event) {
 	event.preventDefault();
 
 	let branch_decider = $("#add_branch_selector").children("button").text();
-	console.log(branch_decider);
 	if (branch_decider == "select type" || (branch_decider != "add playable file" && branch_decider != "add folder")) {
 		$("#wrong-password").text("please select an option in the dropdown");
 		$("#wrong-password").addClass('open');
@@ -490,8 +490,6 @@ $("#submit-add").click(function(event) {
 		setTimeout(hide_err, 4000);
 		return;
 	}
-
-	console.log($("#added").val());
 
 	if ($("#added").val() == "") {
 		$("#wrong-password").text("please insert a name for the " + branch_decider.split(" ")[branch_decider.split(" ").length - 1]);
@@ -501,7 +499,7 @@ $("#submit-add").click(function(event) {
 		return;
 	}
 
-	let parent_id = $(document.getElementById($(".important_data").text())).parent().siblings("p").attr('id');
+	let parent_id = root_addition ? null : $(document.getElementById($(".important_data").text())).parent().siblings("p").attr('id');
 
 	$.ajax({
 		url: "/backend/add",
@@ -509,9 +507,11 @@ $("#submit-add").click(function(event) {
 		data: {
 			name: $("#added").val(),
 			folder_type: branch_decider.split(" ")[branch_decider.split(" ").length - 1],
-			parent_id: root_addition ? null : parent_id
+			parent_id: parent_id
 		},
-		success: function() {
+		success: function(return_value) {
+			return_value = JSON.parse(return_value);
+			console.log(return_value);
 			if (parent_id) {
 
 			} else {
@@ -527,14 +527,51 @@ $("#submit-add").click(function(event) {
 				}
 
 				// using that row line up, need to add into the html
-				
+				current_branch_max++;
+
+				$("#old-page").append(`
+					<div class='old-project-web ${current_branch_max}'>
+						${
+							return_value.folder_type == 'open-child' ?
+							`<button class='project-web-open-child'
+								id='open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}'>
+								<p id='${return_value.id}'>${return_value.name}</p>
+								${make_tooltip(return_value, current_branch_max)}
+							</button>` :
+							return_value.folder_type == 'open-new-render' ?
+							`<button class='project-web-open-child option-background'
+								id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.program_name}'>
+								<p id='${return_value.id}'>${return_value.name}</p>
+								${make_tooltip(return_value, current_branch_max)}
+							</button>`
+							:
+							`<a href=${return_value.program_name}>`
+						}
+					</div>
+				`);
 			}
 		}
 	});
 });
 
-$("ion-icon").hover(function() {
+function make_tooltip(full_values, branch_max) {
+	let value_name = full_values.name.replace(/ /g, "");
+	return `
+		<div class='tooltip'>
+			<ion-icon title='delete' id='${value_name}_${full_values.uuid}_${full_values.level}_${full_values.parent_id}_${branch_max}_${full_values.folder_type}' name='trash-outline'></ion-icon>
+			<ion-icon title='rename' id='${value_name}_${full_values.uuid}_${full_values.level}_${full_values.parent_id}_${branch_max}_${full_values.folder_type}' name='clipboard-outline'></ion-icon>
+			${
+				full_values.folder_type == 'open-child' ? `<ion-icon title='add' id='${value_name}_${full_values.uuid}_${full_values.level}_${full_values.parent_id}_${branch_max}_${full_values.folder_type}' name='add-circle-outline'></ion-icon>` : ""
+			}
+			<div id='display-icon-descript${value_name}${full_values.uuid}'></div>
+		</div>
+	`;
+}
+
+$("#old-page").hover(function() {
+	console.log("mouse entered");
 	let id_split = $(this).attr('id').split("_");
+	console.log(id_split);
 
 	if (id_split[0] == 'no-icon') return;
 	$(document.getElementById("display-icon-descript" + id_split[0] + id_split[1])).text($(this).attr('title'));
@@ -542,7 +579,7 @@ $("ion-icon").hover(function() {
 
 let branch_title = [];
 
-$("ion-icon").click(function() {
+$("#old-page").on('click', 'ion-icon', function() {
 	hide_branch_options();
 	let id_split = $(this).attr('id').split("_");
 	if ($(this).attr('title') == "rename") {
