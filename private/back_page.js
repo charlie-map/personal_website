@@ -45,7 +45,6 @@ $(".lock.box").click(function() {
 
 		// for (let label_posn = 0; label_posn < labels.length; label_posn++) {
 
-		// 	console.log($(labels[label_posn]).attr('id'));
 		// 	$(labels[label_posn]).css("padding-top: " + label_posn * 40 + ";");
 		// }
 	}
@@ -376,13 +375,12 @@ $(".accordion-item").click(function() {
 });
 
 $(".delete").on('click', '.delete-button', function() {
-	let item_id = $(`#display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`).parent().siblings("p").attr('id');
-	let parent_id = $(`#display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`).parent().parent().parent().parent().siblings("button").children("p").attr('id');
+	let item_id = $(document.getElementById(`display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`)).parent().siblings("p").attr('id');
+	let parent_id = $(document.getElementById(`display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`)).parent().parent().parent().parent().siblings("button").children("p").attr('id');
 
 	let display_name = $(".important_data").text();
 	let named_item = $(this).text();
 
-	console.log(item_id);
 	$.ajax({
 		url: "/backend/delete",
 		type: "POST",
@@ -396,13 +394,13 @@ $(".delete").on('click', '.delete-button', function() {
 			let build_html = "";
 			if (parseInt(value, 10) == 1) {
 
-				let children_html = $("#" + display_name).parent().parent().siblings(".children-project-web");
+				let children_html = $(document.getElementById(display_name)).parent().parent().siblings(".children-project-web");
 
 				for (let add_html = 0; add_html < children_html.length; add_html++) {
 					build_html += $(children_html[add_html]).html();
 				}
 			}
-			$("#" + display_name).parent().parent().parent().remove();
+			$(document.getElementById(display_name)).parent().parent().parent().remove();
 
 
 
@@ -418,7 +416,6 @@ $(".delete").on('click', '.delete-button', function() {
 			}
 
 			if (build_html) {
-				console.log($(button_object).parent().children('.children-project-web').length);
 				if (!$(button_object).parent().children('.children-project-web').length)
 					$(button_object).parent().append(`<div class='children-project-web'></div>`);
 
@@ -501,13 +498,8 @@ $("#submit-add").click(function(event) {
 
 	let parent_id = root_addition ? null : $(document.getElementById($(".important_data").text())).parent().siblings("p").attr('id');
 	let important_data_split = $(".important_data").text().split("_");
-	console.log(important_data_split);
 	let parent_button_id = `${important_data_split[5]}||${important_data_split[4]}||${important_data_split[1]}||${important_data_split[2]}`;
-	console.log(parent_button_id);
 
-/*
-open-child||3||23e33b8b-eba4-4966-a465-df6a9b4f2a8d||null	
-*/
 	$.ajax({
 		url: "/backend/add",
 		type: "POST",
@@ -518,21 +510,22 @@ open-child||3||23e33b8b-eba4-4966-a465-df6a9b4f2a8d||null
 		},
 		success: function(return_value) {
 			return_value = JSON.parse(return_value);
-			console.log(return_value);
 
 			let current_branches = $("#old-page").children(".old-project-web");
 
 			let current_branch_max = 0;
 
-			for (let run_through_branches = 0; run_through_branches < current_branches.length; run_through_branches++) {
+			if (!parent_id) {
+				for (let run_through_branches = 0; run_through_branches < current_branches.length; run_through_branches++)
 
-				if (current_branch_max < $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1]) {
-					current_branch_max = $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1];
-				}
+					if (current_branch_max < $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1])
+						current_branch_max = $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1];
+
+				// using that row line up, need to add into the html
+				current_branch_max++;
+			} else {
+				current_branch_max = important_data_split[4];
 			}
-
-			// using that row line up, need to add into the html
-			current_branch_max++;
 
 			if (parent_id && !$(document.getElementById(parent_button_id)).siblings(".children-project-web").length)
 				$(document.getElementById(parent_button_id)).parent().append(`<div class='children-project-web'></div>`);
@@ -569,7 +562,31 @@ open-child||3||23e33b8b-eba4-4966-a465-df6a9b4f2a8d||null
 					});
 			});
 
-			
+			let check_svg = $("#svgContainer").children(`#svg${current_branch_max}`);
+
+			if (parent_id || check_svg.length) {
+				$(`#svg${current_branch_max}`).append(`
+					<path
+						id='path${return_value.uuid}'
+						d = 'M0 0'
+						style='stroke: #eb5810; fill: none; stroke-width: 7px;'/>
+				`);
+			} else {
+				$("#svgContainer").append(`
+					<svg id='svg${current_branch_max}'>
+						<path
+							id="path${return_value.uuid}"
+							d = "M0 0"
+							style="
+							stroke: #eb5810;
+							fill: none;
+							stroke-width: 7px;"/>
+					</svg>
+				`);
+			}
+
+			$(`#svg${current_branch_max}`).html($(`#svg${current_branch_max}`).html());
+			$(".add").hide();
 		}
 	});
 });
@@ -606,24 +623,28 @@ $("#old-page").on('click', 'ion-icon', function() {
 	let id_split = $(this).attr('id').split("_");
 	if ($(this).attr('title') == "rename") {
 		$(".important_data").text(this.id);
+
+		$("#renamed").val("");
 		$(".rename").show();
 	} else if ($(this).attr('title') == "delete") {
 		$(".important_data").text(this.id);
 
 		// grab each sibling branch - title
 		$(".dropdown-content").empty();
-		let branches = $(`#display-icon-descript${this.id.split("_")[0] + this.id.split("_")[1]}`).parent().parent().parent().siblings(".old-project-web");
+		let branches = $(document.getElementById(`display-icon-descript${this.id.split("_")[0] + this.id.split("_")[1]}`)).parent().parent().parent().siblings(".old-project-web");
 
 		for (let get_titles = 0; get_titles < branches.length; get_titles++) {
 			$(".dropdown-content").append(`<a id='delete_merge' class='delete-button'>${$(branches[get_titles]).children("button").children("p").text()}</a>`)
 			branch_title.push($(branches[get_titles]).children("button").children("p").text());
 		}
+
 		$(".delete").show();
 	} else if ($(this).attr('title') == "add") {
 		$(".important_data").text(this.id);
 		clean_dropdown_adder();
 		root_addition = false;
 
+		$("#added").val("");
 		$(".add").show();
 	}
 });
