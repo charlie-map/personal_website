@@ -417,7 +417,6 @@ $(".delete").on('click', '.delete-button', function() {
 				}
 			}
 
-			console.log(build_html);
 			if (build_html) {
 				console.log($(button_object).parent().children('.children-project-web').length);
 				if (!$(button_object).parent().children('.children-project-web').length)
@@ -501,7 +500,14 @@ $("#submit-add").click(function(event) {
 	}
 
 	let parent_id = root_addition ? null : $(document.getElementById($(".important_data").text())).parent().siblings("p").attr('id');
+	let important_data_split = $(".important_data").text().split("_");
+	console.log(important_data_split);
+	let parent_button_id = `${important_data_split[5]}||${important_data_split[4]}||${important_data_split[1]}||${important_data_split[2]}`;
+	console.log(parent_button_id);
 
+/*
+open-child||3||23e33b8b-eba4-4966-a465-df6a9b4f2a8d||null	
+*/
 	$.ajax({
 		url: "/backend/add",
 		type: "POST",
@@ -513,55 +519,57 @@ $("#submit-add").click(function(event) {
 		success: function(return_value) {
 			return_value = JSON.parse(return_value);
 			console.log(return_value);
-			if (parent_id) {
 
-			} else {
-				let current_branches = $("#old-page").children(".old-project-web");
+			let current_branches = $("#old-page").children(".old-project-web");
 
-				let current_branch_max = 0;
+			let current_branch_max = 0;
 
-				for (let run_through_branches = 0; run_through_branches < current_branches.length; run_through_branches++) {
+			for (let run_through_branches = 0; run_through_branches < current_branches.length; run_through_branches++) {
 
-					if (current_branch_max < $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1]) {
-						current_branch_max = $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1];
-					}
+				if (current_branch_max < $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1]) {
+					current_branch_max = $(current_branches[run_through_branches]).children("button").attr('id').split("||")[1];
 				}
-
-				// using that row line up, need to add into the html
-				current_branch_max++;
-
-				$("#old-page").append(`
-					<div class='old-project-web ${current_branch_max}'>
-						${
-							return_value.folder_type == 'open-child' ?
-							`<button class='project-web-open-child'
-								id='open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}'>
-								<p id='${return_value.id}'>${return_value.name}</p>
-								${make_tooltip(return_value, current_branch_max)}
-							</button>` :
-							return_value.folder_type == 'open-new-render' ?
-							`<button class='project-web-open-child option-background'
-								id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.program_name}'>
-								<p id='${return_value.id}'>${return_value.name}</p>
-								${make_tooltip(return_value, current_branch_max)}
-							</button>`
-							:
-							`<a href=${return_value.program_name}>`
-						}
-					</div>
-				`);
-
-				// add event listeners on each ion_icon
-				let button_children = document.getElementById(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`).children[1].children;
-
-				Object.values(button_children).forEach(child => {
-
-					if (child.nodeName == "ION-ICON")
-						child.addEventListener('mouseover', function() {
-							run_hover(this);
-						});
-				});
 			}
+
+			// using that row line up, need to add into the html
+			current_branch_max++;
+
+			if (parent_id && !$(document.getElementById(parent_button_id)).siblings(".children-project-web").length)
+				$(document.getElementById(parent_button_id)).parent().append(`<div class='children-project-web'></div>`);
+
+			$(parent_id ? $(document.getElementById(parent_button_id)).siblings(".children-project-web") : "#old-page").append(`
+				<div class='old-project-web ${current_branch_max}'>
+					${
+						return_value.folder_type == 'open-child' ?
+						`<button class='project-web-open-child'
+							id='open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}'>
+							<p id='${return_value.id}'>${return_value.name}</p>
+							${make_tooltip(return_value, current_branch_max)}
+						</button>` :
+						return_value.folder_type == 'open-new-render' ?
+						`<button class='project-web-open-child option-background'
+							id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.program_name}'>
+							<p id='${return_value.id}'>${return_value.name}</p>
+							${make_tooltip(return_value, current_branch_max)}
+						</button>`
+						:
+						`<a href=${return_value.program_name}>`
+					}
+				</div>
+			`);
+
+			// add event listeners on each ion_icon
+			let button_children = document.getElementById(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`).children[1].children;
+
+			Object.values(button_children).forEach(child => {
+
+				if (child.nodeName == "ION-ICON")
+					child.addEventListener('mouseover', function() {
+						run_hover(this);
+					});
+			});
+
+			
 		}
 	});
 });
