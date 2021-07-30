@@ -264,6 +264,7 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 }
 
 function draw_routes(object, id) {
+	if (!object || !id) return;
 	// if this route is already open, close it
 	let values = id.split("||");
 
@@ -549,6 +550,17 @@ $("#submit-add").click(function(event) {
 						}
 					</div>
 				`);
+
+				// add event listeners on each ion_icon
+				let button_children = document.getElementById(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`).children[1].children;
+
+				Object.values(button_children).forEach(child => {
+
+					if (child.nodeName == "ION-ICON")
+						child.addEventListener('mouseover', function() {
+							run_hover(this);
+						});
+				});
 			}
 		}
 	});
@@ -568,13 +580,15 @@ function make_tooltip(full_values, branch_max) {
 	`;
 }
 
-$("#old-page").hover(function() {
-	console.log("mouse entered");
-	let id_split = $(this).attr('id').split("_");
-	console.log(id_split);
+function run_hover(val) {
+	let id_split = $(val).attr('id').split("_");
 
 	if (id_split[0] == 'no-icon') return;
-	$(document.getElementById("display-icon-descript" + id_split[0] + id_split[1])).text($(this).attr('title'));
+	$(document.getElementById("display-icon-descript" + id_split[0] + id_split[1])).text($(val).attr('title'));
+}
+
+$("ion-icon").hover(function() {
+	run_hover(this);
 }, function() { /*do nothing*/ });
 
 let branch_title = [];
