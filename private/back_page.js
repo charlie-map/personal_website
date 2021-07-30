@@ -262,15 +262,28 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 	}
 }
 
-function draw_routes(object, id) {
+/*
+	     _                                      _            
+  __| |_ __ __ ___      __  _ __ ___  _   _| |_ ___  ___ 
+ / _` | '__/ _` \ \ /\ / / | '__/ _ \| | | | __/ _ \/ __|
+| (_| | | | (_| |\ V  V /  | | | (_) | |_| | ||  __/\__ \
+ \__,_|_|  \__,_| \_/\_/___|_|  \___/ \__,_|\__\___||___/
+                      |_____|                            
+	
+	object: the button you want to draw from (for redraws it goes from root node)
+	id: the id of the button you sent as the the object
+*/
+function draw_routes(object, id, no_open) {
 	if (!object || !id) return;
+
+	let close_rows = no_open ? false : true;
 	// if this route is already open, close it
 	let values = id.split("||");
 
 	if (values[0] == "open-child") {
-		$(".old-project-web").removeClass('open');
+		if (close_rows) $(".old-project-web").removeClass('open');
 
-		if ($(object).hasClass('open')) {
+		if ($(object).hasClass('open') && no_open) {
 			//$("#path" + object.id.split("||")[2]).attr('d', 'M0 0');
 			let children_object = $("#old-page").children('.' + values[1]).find('button');
 			// loop through only ones that have a level the same or greater than the one we are currently on
@@ -379,7 +392,15 @@ $(".delete").on('click', '.delete-button', function() {
 	let parent_id = $(document.getElementById(`display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`)).parent().parent().parent().parent().siblings("button").children("p").attr('id');
 
 	let display_name = $(".important_data").text();
-	let named_item = $(this).text();
+	let path_name = "path" + display_name.split("_")[1];
+
+	let current_branches = $("#svgContainer").children("#svg" + display_name.split("_")[4]).children("path");
+	let current_branch_max = 0;
+
+	for (let run_through_branches = 0; run_through_branches < current_branches.length; run_through_branches++)
+
+		if (path_name == $(current_branches[run_through_branches]).attr('id'))
+			$(current_branches[run_through_branches]).attr("d", "M0 0");
 
 	$.ajax({
 		url: "/backend/delete",
@@ -398,18 +419,17 @@ $(".delete").on('click', '.delete-button', function() {
 
 				for (let add_html = 0; add_html < children_html.length; add_html++) {
 					build_html += $(children_html[add_html]).html();
-				}
+				};
 			}
 			$(document.getElementById(display_name)).parent().parent().parent().remove();
-
-
 
 			let all_tags = $("#old-page").find("p");
 			let button_object;
 
 			for (let find_item = 0; find_item < all_tags.length; find_item++) {
 
-				if ($(all_tags[find_item]).text() == named_item) {
+				if ($(all_tags[find_item]).attr('id') == parent_id) {
+					console.log("found", parent_id);
 					button_object = $(all_tags[find_item]).parent();
 					break;
 				}
@@ -422,8 +442,7 @@ $(".delete").on('click', '.delete-button', function() {
 				$(button_object).parent().children('.children-project-web').append(build_html);
 			}
 
-			if (button_object) draw_routes(button_object, $(button_object).attr('id'));
-			else draw_routes($($("#old-page").children(".old-project-web")[0]), $($("#old-page").children(".old-project-web")[0]).attr('id'));
+			draw_routes($(button_object), $(button_object).attr('id'), true);
 			$(".delete").hide();
 		}
 	})
@@ -449,6 +468,7 @@ $(".root-adding").click(function() {
 
 	root_addition = true;
 
+	$("#added").val("");
 	$(".add").show();
 });
 
@@ -586,6 +606,11 @@ $("#submit-add").click(function(event) {
 			}
 
 			$(`#svg${current_branch_max}`).html($(`#svg${current_branch_max}`).html());
+
+			//open_added_folder(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`);
+
+			if (parent_id || check_svg.length) // redraw lines
+				draw_routes($("#old-page").children(`.old-project-web.${current_branch_max}`).children("button"), $("#old-page").children(`.old-project-web.${current_branch_max}`).children("button").attr('id'));
 			$(".add").hide();
 		}
 	});
@@ -633,6 +658,10 @@ $("#old-page").on('click', 'ion-icon', function() {
 		$(".dropdown-content").empty();
 		let branches = $(document.getElementById(`display-icon-descript${this.id.split("_")[0] + this.id.split("_")[1]}`)).parent().parent().parent().siblings(".old-project-web");
 
+		if (!branches.length || !$(this).parent().parent().siblings(".children_project_web").length)
+			$(".delete").children(".dropdown").hide();
+		else
+			$(".delete").children(".dropdown").show();	
 		for (let get_titles = 0; get_titles < branches.length; get_titles++) {
 			$(".dropdown-content").append(`<a id='delete_merge' class='delete-button'>${$(branches[get_titles]).children("button").children("p").text()}</a>`)
 			branch_title.push($(branches[get_titles]).children("button").children("p").text());
