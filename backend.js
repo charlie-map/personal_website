@@ -2,6 +2,7 @@ require('dotenv').config({
 	path: __dirname + "/.env"
 });
 const express = require('express');
+const fs = require('fs');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 11;
@@ -238,16 +239,33 @@ function get_level(parent_id) {
 	});
 }
 
-back.post("/add", (req, res) => {
-	let project_link, class_needed = 0;
+back.post("/add", async (req, res) => {
+	if (req.body.project_link) {
+		// check to make sure it's a javascript file
+		if (req.body.project_link.split(".")[req.body.project_link.split(".").length - 1] != "js")
+			return res.end("102");
+
+		await new Promise((resolve, reject) => {
+			fs.readdir('./public/', (err, files) => { // check for duplicates
+				files.forEach((fi) => {
+
+					if (fi == req.body.project_link)
+						return res.end("103");
+				});
+
+				fs.appendFileSync('./public/' + req.body.project_link, req.body.project_code);
+				resolve();
+			});
+		});
+	}
 
 	let insert_object = [
 		req.body.parent_id.length ? req.body.parent_id : null,
 		req.body.name,
 		req.body.folder_type == "folder" ? "button" : req.body.folder_type == "file" ? "background_change" : "link",
 		req.body.completion_date,
-		project_link,
-		class_needed
+		project_link = req.body.project_link,
+		class_needed = req.body.class_needed
 	]
 
 	connection.query("INSERT INTO old_project_web (parent_id, title, type, completion_date, project_link, class_needed)" +

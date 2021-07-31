@@ -493,26 +493,49 @@ $("#add_branch_selector").on('click', '.new-background-display', function() {
 	$(".new-background-display").remove();
 	$("#add_branch_selector").children("button").text("add playable file");
 
+	display_notification("please ensure that if a class is used it is not stated globally - use an array (if necessary) and name it after the title of the file");
+
 	$(".add-file-backend").css("display", "block");
 });
+
+let inputElement = document.getElementById("file-input-adding");
+let text_content, project_link;
+
+inputElement.onchange = (e) => {
+	let file = inputElement.files[0];
+	if (!file) return;
+	const reader = new FileReader();
+	reader.onload = (e) => {
+		// e.target points to the reader
+		text_content = e.target.result;
+		project_link = file.name
+		console.log(`The content of ${file.name} is ${text_content}`);
+	}
+	reader.onerror = (e) => {
+		const error = e.target.error;
+		console.error(`Error occured while reading ${file.name}`, error);
+	}
+	reader.readAsText(file);
+}
+
+function display_notification(message) {
+	$("#wrong-password").text(message);
+	$("#wrong-password").addClass('open');
+	$("#wrong-password-background").addClass('open');
+	setTimeout(hide_err, 4000);
+}
 
 $("#submit-add").click(function(event) {
 	event.preventDefault();
 
 	let branch_decider = $("#add_branch_selector").children("button").text();
 	if (branch_decider == "select type" || (branch_decider != "add playable file" && branch_decider != "add folder")) {
-		$("#wrong-password").text("please select an option in the dropdown");
-		$("#wrong-password").addClass('open');
-		$("#wrong-password-background").addClass('open');
-		setTimeout(hide_err, 4000);
+		display_notification("please select an option in the dropdown")
 		return;
 	}
 
 	if ($("#added").val() == "") {
-		$("#wrong-password").text("please insert a name for the " + branch_decider.split(" ")[branch_decider.split(" ").length - 1]);
-		$("#wrong-password").addClass('open');
-		$("#wrong-password-background").addClass('open');
-		setTimeout(hide_err, 4000);
+		display_notification("please insert a name for the " + branch_decider.split(" ")[branch_decider.split(" ").length - 1]);
 		return;
 	}
 
@@ -520,15 +543,34 @@ $("#submit-add").click(function(event) {
 	let important_data_split = $(".important_data").text().split("_");
 	let parent_button_id = `${important_data_split[5]}||${important_data_split[4]}||${important_data_split[1]}||${important_data_split[2]}`;
 
+	let class_needed = 0;
+	if (branch_decider == "add playable file") { // check for a class, and check for the correct file type
+
+		if (text_content.indexOf("new") != -1)
+			class_needed = 1
+	}
+
 	$.ajax({
 		url: "/backend/add",
 		type: "POST",
 		data: {
 			name: $("#added").val(),
 			folder_type: branch_decider.split(" ")[branch_decider.split(" ").length - 1],
-			parent_id: parent_id
+			parent_id: parent_id,
+			project_code: text_content,
+			project_link: project_link,
+			class_needed
 		},
 		success: function(return_value) {
+			if (parseInt(return_value, 10) == 102) {
+				display_notification("the file you uploaded must end with \".js\"");
+				return;
+			}
+			if (parseInt(return_value, 10) == 103) {
+				display_notification("a file under this name already exists");
+				return;
+			}
+
 			return_value = JSON.parse(return_value);
 
 			let current_branches = $("#old-page").children(".old-project-web");
@@ -661,7 +703,7 @@ $("#old-page").on('click', 'ion-icon', function() {
 		if (!branches.length || !$(this).parent().parent().siblings(".children_project_web").length)
 			$(".delete").children(".dropdown").hide();
 		else
-			$(".delete").children(".dropdown").show();	
+			$(".delete").children(".dropdown").show();
 		for (let get_titles = 0; get_titles < branches.length; get_titles++) {
 			$(".dropdown-content").append(`<a id='delete_merge' class='delete-button'>${$(branches[get_titles]).children("button").children("p").text()}</a>`)
 			branch_title.push($(branches[get_titles]).children("button").children("p").text());
