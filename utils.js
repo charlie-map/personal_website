@@ -14,7 +14,8 @@ const connection = mysql.createConnection({
 	database: process.env.DATABASE,
 	user: process.env.USER_NAME,
 	password: process.env.PASSWORD,
-	insecureAuth: false
+	insecureAuth: false,
+	multipleStatements: true
 });
 
 connection.connect((err) => {
@@ -57,7 +58,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 							`<div id='display-icon-descript${icon_item_title + this_id}'></div>` +
 							"</div></button>") : item.type == "background_change" ?
 						("<button class='project-web-open-child option-background'" +
-							` id='open-new-render||${item.tree_sub_value}||${this_id}||${level}||${item.project_link}'><p>${icon_item_title}</p><div class='tooltip'>` +
+							` id='open-new-render||${item.tree_sub_value}||${this_id}||${level}||${item.project_link}'><p id=${item.id}>${item.title}</p><div class='tooltip'>` +
 							`<ion-icon title='delete' id='${icon_item_title}_${id_conc_level}_open-new-render' name='trash-outline'></ion-icon>` +
 							`<ion-icon title='rename' id='${icon_item_title}_${id_conc_level}_open-new-render' name='clipboard-outline'></ion-icon>` +
 							"<div id='display-icon-descript" + icon_item_title + this_id + "'></div>" +
@@ -67,7 +68,13 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 						child_row_data[0].toString().replace(/,/g, "") +
 						"</div>" : "") + "</div>";
 				needed_classes.push(...child_row_data[2]);
-				if (item.class_needed) needed_classes.push("let " + item.project_link.split('.')[0] + " = [];");
+				if (item.class_needed) {
+					let project_classes = item.project_link.split('.');
+
+					for (let i = 0; i < project_classes.length - 1; i++) {
+						needed_classes.push("let " + item.project_link.split('.')[i] + " = [];");
+					}
+				}
 
 				if (level == 0) svg_path[index].ROW_LINES.push(...child_row_data[1], {
 					CHILD_ELEMENT_NAME: this_id

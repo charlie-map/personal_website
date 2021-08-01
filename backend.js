@@ -152,13 +152,19 @@ function delete_full_branch(id) {
 		connection.query("SELECT id FROM old_project_web WHERE parent_id=?", id, async (err, sub_web) => {
 			if (err) console.log(err);
 
-			let webs = sub_web.map(under_subs => {
-				delete_full_branch(under_subs.id);
-			});
+			if (sub_web && sub_web.length) {
+				let webs = sub_web.map(under_subs => {
+					delete_full_branch(under_subs.id);
+				});
 
-			await Promise.all(webs);
-			connection.query("DELETE FROM old_project_web WHERE id=?", id, (err, completed) => {
+				await Promise.all(webs);
+			}
+
+			connection.query("SELECT project_link FROM old_project_web WHERE id=?; DELETE FROM old_project_web WHERE id=?", [id, id], (err, completed) => {
 				if (err) console.log(err);
+
+				if (completed && completed.length && completed[0].length && completed[0][0].project_link)
+					fs.unlinkSync(__dirname + "/public/" + completed[0][0].project_link);
 
 				resolve();
 			});
@@ -189,8 +195,13 @@ function pull_off_branch(id) {
 */
 back.post("/delete", async (req, res) => {
 	if (parseInt(req.body.delete_flow, 10) == 0) { // remove all items related to the main one
-		await delete_full_branch(req.body.id);
-		res.end();
+		connection.query("SELECT parent_id FROM old_project_web WHERE id=?", req.body.id, async (err, id_check) => {
+			if (err) console.log(err);
+
+			await delete_full_branch(req.body.id);
+
+			res.end((id_check && id_check[0].parent_id) ? "2" : "");
+		});
 	} else { // want to recursively generate an object, and then add it onto another branch
 		let branch_adds = await pull_off_branch(req.body.id);
 		let parent_string = parseInt(req.body.parent_id, 10) ? " parent_id=?" : " parent_id IS NULL";
@@ -200,7 +211,6 @@ back.post("/delete", async (req, res) => {
 
 			if (complete && complete.length) {
 				let branch_fixes = branch_adds.map(branch => {
-					console.log(branch);
 					return new Promise((resolve, reject) => {
 						connection.query("UPDATE old_project_web SET parent_id=? WHERE id=?", [complete[0].id, branch.id], (err, branch_done) => {
 							if (err) console.log(err);
@@ -212,14 +222,20 @@ back.post("/delete", async (req, res) => {
 
 				await Promise.all(branch_fixes);
 			}
-			connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (err, finish) => {
+			connection.query("SELECT project_link FROM old_project_web WHERE id=?; DELETE FROM old_project_web WHERE id=?", [req.body.id, req.body.id], (err, finish) => {
 				if (err) console.log(err);
+
+				if (completed[0].project_link)
+					fs.unlinkSync("./public/" + completed[0].project_link);
 
 				res.end("1");
 			});
 		});
-		else connection.query("DELETE FROM old_project_web WHERE id=?", req.body.id, (err, finish) => {
+		else connection.query("SELECT project_link FROM old_project_web WHERE id=?; DELETE FROM old_project_web WHERE id=?", [req.body.id, req.body.id], (err, finish) => {
 			if (err) console.log(err);
+
+			if (completed[0].project_link)
+				fs.unlinkSync(__dirname + "/public/" + completed[0].project_link);
 
 			res.end("1");
 		})
@@ -245,18 +261,20 @@ back.post("/add", async (req, res) => {
 		if (req.body.project_link.split(".")[req.body.project_link.split(".").length - 1] != "js")
 			return res.end("102");
 
-		await new Promise((resolve, reject) => {
+		let error = await new Promise((resolve, reject) => {
 			fs.readdir('./public/', (err, files) => { // check for duplicates
 				files.forEach((fi) => {
 
 					if (fi == req.body.project_link)
-						return res.end("103");
+						resolve("103");
 				});
 
 				fs.appendFileSync('./public/' + req.body.project_link, req.body.project_code);
 				resolve();
 			});
 		});
+
+		if (error) return res.end(error);
 	}
 
 	let insert_object = [

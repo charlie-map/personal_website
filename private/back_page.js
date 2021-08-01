@@ -283,7 +283,7 @@ function draw_routes(object, id, no_open) {
 	if (values[0] == "open-child") {
 		if (close_rows) $(".old-project-web").removeClass('open');
 
-		if ($(object).hasClass('open') && no_open) {
+		if ($(object).hasClass('open') && close_rows) {
 			//$("#path" + object.id.split("||")[2]).attr('d', 'M0 0');
 			let children_object = $("#old-page").children('.' + values[1]).find('button');
 			// loop through only ones that have a level the same or greater than the one we are currently on
@@ -354,7 +354,8 @@ function draw_routes(object, id, no_open) {
 }
 
 $("#old-page").on('click', '.project-web-open-child', function() {
-	draw_routes(this, this.id);
+	if ($(this).hasClass('option-background')) return;
+	draw_routes(this, this.id, false);
 });
 
 function connectAll(id) {
@@ -419,7 +420,7 @@ $(".delete").on('click', '.delete-button', function() {
 
 				for (let add_html = 0; add_html < children_html.length; add_html++) {
 					build_html += $(children_html[add_html]).html();
-				};
+				}
 			}
 			$(document.getElementById(display_name)).parent().parent().parent().remove();
 
@@ -429,10 +430,13 @@ $(".delete").on('click', '.delete-button', function() {
 			for (let find_item = 0; find_item < all_tags.length; find_item++) {
 
 				if ($(all_tags[find_item]).attr('id') == parent_id) {
-					console.log("found", parent_id);
 					button_object = $(all_tags[find_item]).parent();
 					break;
 				}
+			}
+
+			if (parseInt(return_value, 10) == 2) {
+				$("#svg" + item_id).remove();
 			}
 
 			if (build_html) {
@@ -562,6 +566,9 @@ $("#submit-add").click(function(event) {
 			class_needed
 		},
 		success: function(return_value) {
+			text_content = "";
+			project_link = "";
+			console.log(return_value);
 			if (parseInt(return_value, 10) == 102) {
 				display_notification("the file you uploaded must end with \".js\"");
 				return;
@@ -603,7 +610,7 @@ $("#submit-add").click(function(event) {
 						</button>` :
 						return_value.folder_type == 'open-new-render' ?
 						`<button class='project-web-open-child option-background'
-							id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.program_name}'>
+							id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.name}'>
 							<p id='${return_value.id}'>${return_value.name}</p>
 							${make_tooltip(return_value, current_branch_max)}
 						</button>`
@@ -613,8 +620,13 @@ $("#submit-add").click(function(event) {
 				</div>
 			`);
 
+			let button_children;
 			// add event listeners on each ion_icon
-			let button_children = document.getElementById(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`).children[1].children;
+			if (branch_decider == "add folder") {
+				button_children = document.getElementById(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`).children[1].children;
+			} else if (branch_decider == "add playable file") {
+				button_children = document.getElementById(`open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.name}`).children[1].children;
+			}
 
 			Object.values(button_children).forEach(child => {
 
@@ -653,6 +665,7 @@ $("#submit-add").click(function(event) {
 
 			if (parent_id || check_svg.length) // redraw lines
 				draw_routes($("#old-page").children(`.old-project-web.${current_branch_max}`).children("button"), $("#old-page").children(`.old-project-web.${current_branch_max}`).children("button").attr('id'));
+			$("#added").val("");
 			$(".add").hide();
 		}
 	});

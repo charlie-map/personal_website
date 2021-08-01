@@ -206,6 +206,10 @@ title { /*remove the title from the page*/
 	background: #eb5810;
 }
 
+#old-page {
+	overflow-y: scroll !important;
+}
+
 #wrong-password {
 	position: absolute;
 	/*background: #eb5810;*/
