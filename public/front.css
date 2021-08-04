@@ -456,6 +456,14 @@ span {
 		transform: translate(-50%);
 	}
 
+	.profile-words {
+		margin-left: 2px;
+	}
+
+	.profile-words > li {
+		text-align: center;
+	}
+
   	.profile-picture {
   		margin-left: 50%;
   		transform: translate(-35%);

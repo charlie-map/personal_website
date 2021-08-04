@@ -22,6 +22,42 @@ connection.connect((err) => {
 	if (err) throw err;
 });
 
+/*
+	a fancy little function which takes in a length of an array, and a wanted length
+	and returns an array of random values for accessing the array in the current_array_length
+
+	ex.
+	array = [12,34,35,75]
+
+	current_array_length = 4
+	wanted_length = 2
+
+	returns: [75,34]
+
+----other than the case I use it in, not sure why it is necessary :P
+*/
+function get_random_values(current_array_length, wanted_length) {
+	let values = [];
+	if (current_array_length <= wanted_length) {
+		for (let run_through = 0; run_through < current_array_length; run_through++)
+			values.push(run_through);
+		
+		return values;
+	} else {
+		for (let run_through = 0; run_through < wanted_length; run_through++) {
+			let random_value;
+
+			do {
+				random_value = Math.floor(Math.random() * current_array_length);
+			} while (values.includes(random_value));
+
+			values.push(random_value);
+		}
+
+		return values;
+	}
+}
+
 function pull_current_profile_words() {
 	return new Promise((resolve, reject) => {
 		connection.query("SELECT * FROM user_info_profile_words", (err, all_words) => {
@@ -35,7 +71,13 @@ function pull_current_profile_words() {
 				word.PROFILE_WORD = word.PROFILE_WORD.length > 8 ? [word.PROFILE_WORD.substring(0, 8), word.PROFILE_WORD.substring(8)].join("-") : word.PROFILE_WORD;
 			});
 
-			resolve(all_words);
+			let grab_three = get_random_values(all_words.length, 3);
+			let return_words = [];
+			grab_three.forEach(number => {
+				return_words.push(all_words[number]);
+			});
+
+			resolve(return_words);
 		});
 	});
 }
