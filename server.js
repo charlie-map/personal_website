@@ -4,7 +4,8 @@ const {
 	connection,
 	mustache,
 	bodyParser,
-	pull_all_old_projects
+	pull_all_old_projects,
+	pull_current_profile_words
 } = require('./utils');
 const {
 	back
@@ -35,15 +36,13 @@ app.get("/", async (req, res) => {
 	let svg_obj = old_project_obj.splice(1);
 	let background_values = svg_obj.splice(1)[0];
 
+	let profile_words = await pull_current_profile_words();
+
 	let max_height = 75 + ((height - 1) * 130);
 
 	res.render("front_page", {
 		NAME: "charlie hall",
-		PROFILE_WORDS: [{
-			PROFILE_WORD: "first test?"
-		}, {
-			PROFILE_WORD: "second test!"
-		}],
+		PROFILE_WORDS: profile_words,
 		SPIDER_WEB: old_project_obj[0].toString().replace(/,/g, ""),
 		SVG_ROWS: svg_obj[0],
 		CHOICE_SCRIPT: "hex.js",

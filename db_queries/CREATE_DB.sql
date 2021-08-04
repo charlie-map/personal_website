@@ -28,3 +28,9 @@ CREATE TABLE old_project_web (
 			called `background_change`
 		3. a link to another page (e.g. https://glitch.com)
 */
+
+CREATE TABLE user_info_profile_words (
+	id INT AUTO_INCREMENT,
+	profile_word VARCHAR(60) NOT NULL,
+	PRIMARY KEY(id)
+);

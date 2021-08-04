@@ -24,7 +24,7 @@ title { /*remove the title from the page*/
 	top: 80%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 120px;
+	width: 150px;
 	height: 150px;
 	border-radius: 5px;
 	z-index: 3;
@@ -47,7 +47,7 @@ title { /*remove the title from the page*/
 	left: 50%;
 	top: 25%;
 	transform: translate(-50%, -50%);
-	width: 100px;
+	width: 120px;
 	height: 200px;
 	border-radius: 30%;
 	z-index: 1;
@@ -231,7 +231,7 @@ title { /*remove the title from the page*/
 	left: -3%;
 }
 
-.delete-button.old-project-web, .root-adding.old-project-web, .add-file-backend.old-project-web {
+.delete-button.old-project-web, .root-adding.old-project-web, .add-file-backend.old-project-web, .p5-buttons.old-project-web {
 	background-color: #323232;
 	min-height: 30px;
 	display: inline;
@@ -248,7 +248,7 @@ title { /*remove the title from the page*/
 	z-index: 100;
 }
 
-.delete-button.old-project-web:hover, .root-adding.old-project-web:hover {
+.delete-button.old-project-web:hover, .root-adding.old-project-web:hover, .p5-buttons.old-project-web:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;

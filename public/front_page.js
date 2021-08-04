@@ -226,6 +226,7 @@ $(".project-web-open-child").on('click', function() {
 	} else if (values[0] == "open-new-render") {
 		// need to find the old open background and remove the 'open' class from it
 		let all_buttons = $("#old-page").find('button').removeClass("current-background");
+		$(".p5-buttons").remove();
 
 		// remove the old canvase
 		$("#defaultCanvas0").remove();
@@ -233,7 +234,7 @@ $(".project-web-open-child").on('click', function() {
 		// change nothing on old projects, just open the background to a different game
 		$(this).addClass('current-background');
 		$("#current_script").remove();
-		$('body').append('<script id="current_script" language="javascript" type="text/javascript" src="' + this.id.split("||")[4] + '"></script>');
+		$('body').append(`<script id="current_script" language="javascript" type="text/javascript" src='${this.id.split("||")[4]}'></script>`);
 		setup();
 	}
 });

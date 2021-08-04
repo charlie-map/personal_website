@@ -23,10 +23,6 @@ const {
 
 const back = express.Router();
 
-const isLoggedIn = function() {
-
-}
-
 passport.use(
 	new strat({
 			passReqToCallback: true // passing as a return value
@@ -42,6 +38,7 @@ passport.use(
 				if (password != user[0].password)
 					return done("-2", false);
 
+				console.log(user);
 				return done(null, user[0]);
 				// bcrypt.compare(password, user[0].password, (err, sim_check) => {
 				// 	if (err) return done(err, false);
@@ -66,6 +63,11 @@ passport.deserializeUser((id, done) => {
 	});
 });
 
+const isLoggedIn = function(req, res, next) {
+	if (req.isAuthenticated) return next();
+	res.redirect("/backend");
+}
+
 back.use(morgan('dev'));
 back.use(express.static(__dirname + "/private"));
 
@@ -85,12 +87,14 @@ back.use(flash());
 
 back.post("/login", (req, res, next) => {
 	passport.authenticate('local', function(err, user, info) {
+		console.log(err, info);
 		if (err == "-1" || err == "-2") {
 			return res.end(err);
 		} else if (err) {
 			return res.end(err);
 		}
 		if (user) {
+			console.log(user);
 			return res.end("1");
 		}
 	})(req, res, next);
@@ -102,7 +106,7 @@ back.get("/", (req, res) => {
 	});
 });
 
-back.get("/overview", async (req, res) => {
+back.get("/overview", isLoggedIn, async (req, res, next) => {
 	let old_project_obj;
 
 	// grabs all projects from database, creates recursive div and
@@ -123,7 +127,7 @@ back.get("/overview", async (req, res) => {
 	});
 });
 
-back.post("/rename", (req, res) => {
+back.post("/rename", (req, res, next) => {
 
 	// ensure that there are no repititions
 	connection.query("SELECT * FROM old_project_web WHERE title=? AND parent_id=?", [req.body.renamed_value, req.body.parent_id], (err, options) => {
@@ -193,7 +197,7 @@ function pull_off_branch(id) {
 				 -- 0 for delete recursively
 				 -- integer for merge (merging into a different branch)
 */
-back.post("/delete", async (req, res) => {
+back.post("/delete", async (req, res, next) => {
 	if (parseInt(req.body.delete_flow, 10) == 0) { // remove all items related to the main one
 		connection.query("SELECT parent_id FROM old_project_web WHERE id=?", req.body.id, async (err, id_check) => {
 			if (err) console.log(err);
@@ -255,7 +259,7 @@ function get_level(parent_id) {
 	});
 }
 
-back.post("/add", async (req, res) => {
+back.post("/add", async (req, res, next) => {
 	if (req.body.project_link) {
 		// check to make sure it's a javascript file
 		if (req.body.project_link.split(".")[req.body.project_link.split(".").length - 1] != "js")

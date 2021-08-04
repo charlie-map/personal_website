@@ -610,7 +610,7 @@ $("#submit-add").click(function(event) {
 						</button>` :
 						return_value.folder_type == 'open-new-render' ?
 						`<button class='project-web-open-child option-background'
-							id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.name}'>
+							id='open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.program_name}'>
 							<p id='${return_value.id}'>${return_value.name}</p>
 							${make_tooltip(return_value, current_branch_max)}
 						</button>`
@@ -625,7 +625,7 @@ $("#submit-add").click(function(event) {
 			if (branch_decider == "add folder") {
 				button_children = document.getElementById(`open-child||${current_branch_max}||${return_value.uuid}||${return_value.level}`).children[1].children;
 			} else if (branch_decider == "add playable file") {
-				button_children = document.getElementById(`open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.name}`).children[1].children;
+				button_children = document.getElementById(`open-new-render||${current_branch_max}||${return_value.uuid}||${return_value.level}||${return_value.program_name}`).children[1].children;
 			}
 
 			Object.values(button_children).forEach(child => {

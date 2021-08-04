@@ -6,6 +6,7 @@
 	text-align: center;
 	font-family: 'Source Code Pro', monospace;
 	font-transform: uppercase;
+	overflow-wrap: break-word;
 }
 
 body {
@@ -270,6 +271,12 @@ span {
 	position: relative;
 	top: 100px;
 	list-style-type: disc;
+	margin-left: 10px;
+}
+
+.profile-words > li {
+	text-align: left;
+	margin-top: 2px;
 }
 
 .profile-picture {
@@ -415,7 +422,31 @@ span {
 	transition: 2s ease-in-out;
 }
 
-@media only screen and (max-width: 400px) {
+.p5-buttons.old-project-web {
+	background-color: #323232;
+	min-height: 30px;
+	display: inline;
+	border-radius: 4px;
+	transition: ease-out 0.3s;
+	font-size: 15px;
+	outline: none;
+	border: none;
+	position: relative;
+	padding-left: 6px;
+	padding-right: 6px;
+	font-weight: bold;
+	color: #0d7377;
+	z-index: 100;
+}
+
+.p5-buttons.old-project-web:hover {
+	cursor: pointer;
+	font-weight: bold;
+	color: #323232;
+	background-color: #14ffec;
+}
+
+@media only screen and (max-width: 550px) {
 	.profile-background {
 		margin-top: 20px;
 		width: 105px;

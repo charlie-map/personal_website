@@ -22,6 +22,24 @@ connection.connect((err) => {
 	if (err) throw err;
 });
 
+function pull_current_profile_words() {
+	return new Promise((resolve, reject) => {
+		connection.query("SELECT * FROM user_info_profile_words", (err, all_words) => {
+			if (err || !all_words) reject(err);
+
+			all_words.forEach(word => {
+				word.PROFILE_WORD = word.profile_word;
+				word.ID = word.id;
+
+				word.PROFILE_WORD.replace(/ /g, "-");
+				word.PROFILE_WORD = word.PROFILE_WORD.length > 8 ? [word.PROFILE_WORD.substring(0, 8), word.PROFILE_WORD.substring(8)].join("-") : word.PROFILE_WORD;
+			});
+
+			resolve(all_words);
+		});
+	});
+}
+
 // go through the root objects recursively
 function pull_all_old_projects(parent_id, tree_path_value, level) {
 	let return_array = "";
@@ -94,6 +112,7 @@ module.exports = {
 	mustache,
 	bodyParser,
 	pull_all_old_projects,
+	pull_current_profile_words,
 	uuidv4,
 	morgan
 };

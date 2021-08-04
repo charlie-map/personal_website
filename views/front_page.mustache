@@ -48,10 +48,10 @@
 			<h2 id="project-name"></h2>
 			<hr>
 			<div id="about-page">
-				Where am I in life?
+				where am i in life?
 				<div class="profile-background">
 					<div class="profile-picture">
-						<img src="http://pm1.narvii.com/7564/d597f18ed75fb6c8875ee116b7f11652d8f05839r1-517-517v2_00.jpg">
+						<img src="https://st.depositphotos.com/1000350/1663/i/950/depositphotos_16632665-stock-photo-shocked-bald-man-holding-comb.jpg">
 						<div class="hex-rect fir"></div>
 						<div class="hex-rect sec"></div>
 						<div class="hex-rect thi"></div>
@@ -62,7 +62,7 @@
 						<div class="hex-circ fou"></div>
 					</div>
 					<ul class="profile-words">{{#PROFILE_WORDS}}
-						<li>- {{PROFILE_WORD}}</li>
+						<li>{{PROFILE_WORD}}</li>
 					{{/PROFILE_WORDS}}</ul>
 				</div>
 			</div>
@@ -80,6 +80,15 @@
 				[158, 52, 0],
 				[235, 88, 16]
 			];
+			let PIXEL_SIZE = 20;
+
+			/* image sort values*/
+			let img, array_see_image_button, array_new_image_button, unsort_image = false, check_image_completion = 0, completed_image = false, max_image_complete;
+
+			/* langtons ans variables*/
+			let direction_langton_ant;
+			let x_langton_ant, y_langton_ant;
+			let GRID_SIZE_LANGTON_W, GRID_SIZE_LANGTON_H;
 			{{{PULL_NEEDED_VALUES}}}
 		</script>
 		<script id="current_script" language="javascript" type="text/javascript" src="{{CHOICE_SCRIPT}}"></script>
