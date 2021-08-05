@@ -34,3 +34,11 @@ CREATE TABLE user_info_profile_words (
 	profile_word VARCHAR(60) NOT NULL,
 	PRIMARY KEY(id)
 );
+
+/* user_info_values:
+	used for storing some variables that may be needed in the program
+*/
+CREATE TABLE user_info_values (
+	variable_name VARCHAR(255) NOT NULL,
+	value VARCHAR(255) NOT NULL
+);

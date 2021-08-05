@@ -74,3 +74,8 @@ INSERT INTO old_project_web (title, parent_id, type, project_link, class_needed)
 	"hex.js",
 	1
 );
+
+INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAP_WIDTH", 30);
+INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAXIMUM_WIDTH", 160);
+INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAP_HEIGHT", 30);
+INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAXIMUM_HEIGHT", 100);

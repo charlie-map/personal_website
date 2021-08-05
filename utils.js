@@ -41,7 +41,7 @@ function get_random_values(current_array_length, wanted_length) {
 	if (current_array_length <= wanted_length) {
 		for (let run_through = 0; run_through < current_array_length; run_through++)
 			values.push(run_through);
-		
+
 		return values;
 	} else {
 		for (let run_through = 0; run_through < wanted_length; run_through++) {
@@ -78,6 +78,25 @@ function pull_current_profile_words() {
 			});
 
 			resolve(return_words);
+		});
+	});
+}
+
+/*
+	Pull different information needed:
+	currently only for image location dot on the page
+*/
+function about_me_settings() {
+	return new Promise((resolve, reject) => {
+		connection.query("SELECT * FROM user_info_values", (err, all_values) => {
+			if (err || !all_values) return reject(err);
+
+			let return_array = [];
+
+			all_values.forEach(value => {
+				return_array.push(`let ${value.variable_name} = ${value.value}`);
+			});
+			resolve(return_array);
 		});
 	});
 }
@@ -155,6 +174,7 @@ module.exports = {
 	bodyParser,
 	pull_all_old_projects,
 	pull_current_profile_words,
+	about_me_settings,
 	uuidv4,
 	morgan
 };

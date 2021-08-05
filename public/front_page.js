@@ -78,7 +78,6 @@ let menuOpen = false;
 $(".project-popup").hide();
 
 $("#menuSelectorOpen").click(function() {
-	console.log("clicked");
 	if (!menuOpen) {
 		$(".menu-btn").addClass('open');
 		$(".menu-options").addClass('open');
@@ -133,7 +132,11 @@ $(".menu-button").click(function() {
 	hide_svg_lines();
 	$("#old-page").hide();
 
-	if (this.id == "about me") $("#about-page").show();
+	if (this.id == "about me") {
+		$("#about-page").show();
+		$(".img-homeland-location").removeClass('open');
+		$("#img-location-div-connect").hide();
+	}
 	if (this.id == "current works") $("#current-works-page").show();
 	if (this.id == "old projects") {
 		// look at which one of the projects is open
@@ -260,3 +263,40 @@ function connectAll(id) {
 		connectElements($("#svg" + full_tree_id), $("#path" + children_uuid[2]), $(connect_children), $(id));
 	});
 }
+
+/*
+       _                 _                          _          __  __ 
+  __ _| |__   ___  _   _| |_   _ __ ___   ___   ___| |_ _   _ / _|/ _|
+ / _` | '_ \ / _ \| | | | __| | '_ ` _ \ / _ \ / __| __| | | | |_| |_ 
+| (_| | |_) | (_) | |_| | |_  | | | | | |  __/ \__ \ |_| |_| |  _|  _|
+ \__,_|_.__/ \___/ \__,_|\__| |_| |_| |_|\___| |___/\__|\__,_|_| |_|  
+                                                                      
+*/
+
+function set_div_img_position() {
+	let img_margin = ($(".img-homeland-location").outerWidth(true) - $(".img-homeland-location").outerWidth()) / 2;
+	let img_width = $(".img-homeland-location").outerWidth() / 2;
+	let img_height = $(".img-homeland-location").outerHeight() / 2;
+
+	$("#img-location-div-connect").css("margin-left", img_margin + img_width + (IMG_LOCATION_MAP_WIDTH * (img_width / IMG_LOCATION_MAXIMUM_WIDTH)));
+	$("#img-location-div-connect").css("margin-top", -1 * img_height - (IMG_LOCATION_MAP_HEIGHT * (img_height / IMG_LOCATION_MAXIMUM_HEIGHT)));
+}
+
+$(window).resize(function() {
+	if ($("#img-location-div-connect").is(":visible"))
+		set_div_img_position();
+});
+
+$(".homeland-current-location").click(function() {
+	// sets off the start of an animation
+
+	$(".img-homeland-location").addClass('open');
+	// first display the image
+
+	// then display the animation on top of it
+	setTimeout(function() {
+		$("#img-location-div-connect").show();
+
+		set_div_img_position();
+	}, 1500);
+});

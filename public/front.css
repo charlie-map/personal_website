@@ -293,7 +293,11 @@ span {
 }
 
 #about-page {
+	position: relative;
 	margin-bottom: 5px;
+	overflow-y: scroll;
+	z-index: 10;
+	height: calc(100% - 85px);
 }
 
 :root {
@@ -422,7 +426,7 @@ span {
 	transition: 2s ease-in-out;
 }
 
-.p5-buttons.old-project-web {
+.p5-buttons.old-project-web, .homeland-current-location {
 	background-color: #323232;
 	min-height: 30px;
 	display: inline;
@@ -436,14 +440,56 @@ span {
 	padding-right: 6px;
 	font-weight: bold;
 	color: #0d7377;
-	z-index: 100;
+	z-index: 2;
 }
 
-.p5-buttons.old-project-web:hover {
+.p5-buttons.old-project-web:hover, .homeland-current-location:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
 	background-color: #14ffec;
+}
+
+.homeland-current-location {
+	z-index: 100;
+}
+
+.homeland-base {
+	margin-top: 10px;
+	width: 80%;
+	margin-right: 0px;
+	display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.img-homeland-location {
+	z-index: 3;
+	width: 60%;
+	max-height: 0;
+	opacity: 0;
+	transition: opacity 1.5s ease-out;
+}
+
+.img-homeland-location.open {
+	width: 60%;
+	max-height: 800px;
+	opacity: 100%;
+	transition: opacity 1.5s ease-out;
+}
+
+#img-location-div-connect {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	border-radius: 100%;
+	background-color: red;
+}
+
+.homeland-current-location {
+	position: relative;
+	margin-left: 0;
 }
 
 @media only screen and (max-width: 550px) {

@@ -5,7 +5,8 @@ const {
 	mustache,
 	bodyParser,
 	pull_all_old_projects,
-	pull_current_profile_words
+	pull_current_profile_words,
+	about_me_settings
 } = require('./utils');
 const {
 	back
@@ -35,6 +36,8 @@ app.get("/", async (req, res) => {
 	let height = old_project_obj[3];
 	let svg_obj = old_project_obj.splice(1);
 	let background_values = svg_obj.splice(1)[0];
+
+	background_values = [...background_values, ...(await about_me_settings())];
 
 	let profile_words = await pull_current_profile_words();
 
