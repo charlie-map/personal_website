@@ -6,7 +6,8 @@ const {
 	bodyParser,
 	pull_all_old_projects,
 	pull_current_profile_words,
-	about_me_settings
+	about_me_settings,
+	about_me_home_base
 } = require('./utils');
 const {
 	back
@@ -43,6 +44,8 @@ app.get("/", async (req, res) => {
 
 	let max_height = 75 + ((height - 1) * 130);
 
+	let home_base_values = await about_me_home_base();
+
 	res.render("front_page", {
 		NAME: "charlie hall",
 		PROFILE_WORDS: profile_words,
@@ -50,7 +53,10 @@ app.get("/", async (req, res) => {
 		SVG_ROWS: svg_obj[0],
 		CHOICE_SCRIPT: "hex.js",
 		PULL_NEEDED_VALUES: background_values.join('\n\t\t\t'),
-		HEIGHT: max_height + "px"
+		HEIGHT: max_height + "px",
+		HOME_BASE_CITY: home_base_values[0].home_base_city,
+		HOME_BASE_STATE_COUNTRY: home_base_values[0].home_base_state_country,
+		HOME_BASE_URL: home_base_values[0].home_base_image
 	});
 });
 

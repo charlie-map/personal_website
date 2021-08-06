@@ -296,7 +296,6 @@ span {
 	position: relative;
 	margin-bottom: 5px;
 	overflow-y: scroll;
-	z-index: 10;
 	height: calc(100% - 85px);
 }
 
@@ -454,6 +453,11 @@ span {
 	z-index: 100;
 }
 
+.homeland-current-location.open {
+	color: #323232;
+	background-color: #14ffec;
+}
+
 .homeland-base {
 	margin-top: 10px;
 	width: 80%;
@@ -465,6 +469,7 @@ span {
 }
 
 .img-homeland-location {
+	margin-top: 5px;
 	z-index: 3;
 	width: 60%;
 	max-height: 0;
@@ -487,9 +492,38 @@ span {
 	background-color: red;
 }
 
+#home-base-nametag {
+	opacity: 0;
+	max-height: 0;
+	font-size: 20px;
+	transition: opacity 0.5s ease-out;
+}
+
+#home-base-nametag.height {
+	max-height: 100%;
+}
+
+#home-base-nametag.open {
+	opacity: 100%;
+}
+
+#home-base-nametag > p:first-child {
+	display: inline;
+}
+
+#home-base-nametag > p:last-child {
+	color: #a43d0b;
+	font-weight: bolder;
+	display: inline;
+}
+
 .homeland-current-location {
 	position: relative;
 	margin-left: 0;
+}
+
+.profile-background {
+	z-index: 10;
 }
 
 @media only screen and (max-width: 550px) {

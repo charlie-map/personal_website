@@ -94,9 +94,20 @@ function about_me_settings() {
 			let return_array = [];
 
 			all_values.forEach(value => {
-				return_array.push(`let ${value.variable_name} = ${value.value}`);
+				return_array.push(`let ${value.variable_name} = ${(typeof value.value == "string") ? "\'" + value.value + "\'" : value.value}`);
 			});
+
 			resolve(return_array);
+		});
+	});
+}
+
+function about_me_home_base() {
+	return new Promise((resolve, reject) => {
+		connection.query("SELECT home_base_image, home_base_city, home_base_state_country FROM user", (err, values) => {
+			if (err || !values) return reject(err);
+
+			resolve(values);
 		});
 	});
 }
@@ -175,6 +186,7 @@ module.exports = {
 	pull_all_old_projects,
 	pull_current_profile_words,
 	about_me_settings,
+	about_me_home_base,
 	uuidv4,
 	morgan
 };

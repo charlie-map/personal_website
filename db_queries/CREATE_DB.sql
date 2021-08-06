@@ -6,6 +6,10 @@ CREATE TABLE user (
 	id INT AUTO_INCREMENT,
 	username VARCHAR(255) NOT NULL,
 	password VARCHAR(60) NOT NULL,
+	home_base_image VARCHAR(511),
+	home_base_city VARCHAR(255) DEFAULT "classified",
+	home_base_state_country VARCHAR(255) DEFAULT "information",
+	home_base_background_info TEXT DEFAULT "there is no available information on this place.",
 	PRIMARY KEY (id)
 );
 
