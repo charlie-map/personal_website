@@ -117,6 +117,15 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 	}
 }
 
+function hide_about_me() {
+	$("#home-base-background-info").empty();
+	continue_run = false;
+	$("#img-location-button-connect").removeClass('open');
+
+	$(".about-me-hobbies").hide();
+	$(".hobby-station").addClass('remove');
+}
+
 $(".menu-button").click(function() {
 	if ($("#project-name").html() != this.id) {
 
@@ -127,6 +136,7 @@ $(".menu-button").click(function() {
 		$("#project-popup").show();
 	}
 
+	hide_about_me();
 	$("#about-page").hide();
 	$("#current-works-page").hide();
 	hide_svg_lines();
@@ -277,8 +287,10 @@ function connectAll(id) {
 
 function set_div_img_position() {
 	let img_margin = ($(".img-homeland-location").outerWidth(true) - $(".img-homeland-location").outerWidth()) / 2;
-	let img_width = $(".img-homeland-location").outerWidth() / 2;
-	let img_height = $(".img-homeland-location").outerHeight() / 2;
+	let img_width = $(".img-homeland-location").outerWidth() * 0.5;
+	let img_height = $(".img-homeland-location").outerHeight() * 0.5;
+
+	$("#home-base-background-info").css("max-width", img_width * 2 + 200);
 
 	$("#img-location-div-connect").css("margin-left", img_margin + img_width + (IMG_LOCATION_MAP_WIDTH * (img_width / IMG_LOCATION_MAXIMUM_WIDTH)));
 	$("#img-location-div-connect").css("margin-top", -1 * img_height - (IMG_LOCATION_MAP_HEIGHT * (img_height / IMG_LOCATION_MAXIMUM_HEIGHT)));
@@ -295,7 +307,13 @@ function background_info_type_words() {
 	if (type_background < HOME_BASE_BACKGROUND_INFO.length && continue_run) {
 		document.getElementById("home-base-background-info").innerHTML += HOME_BASE_BACKGROUND_INFO.charAt(type_background);
 		type_background++;
-		setTimeout(background_info_type_words, 35);
+		setTimeout(background_info_type_words, 50);
+	}
+
+	if (type_background == HOME_BASE_BACKGROUND_INFO.length) {
+		$(".about-me-hobbies").show();
+
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"));
 	}
 	return;
 }
@@ -305,14 +323,15 @@ function check_home_base_nametag() {
 		if (!$("#home-base-nametag").prev().hasClass('img-homeland-location')) {
 			let nametag_contents = $("#home-base-nametag").html();
 
-			$("#home-base-nametag").remove();
-			$(`<div id='home-base-nametag' class='height open'>${nametag_contents}</div>`).insertAfter(".img-homeland-location");
+			$("#home-base-nametag").removeClass('open');
+
+			$(`<div id='home-base-nametag-base' class='height open'>${nametag_contents}</div>`).insertAfter("#img-location-div-connect");
 		}
-	} else if ($("#home-base-nametag").prev().hasClass('img-homeland-location')) {
+	} else {
 		let nametag_contents = $("#home-base-nametag").html();
 
-		$("#home-base-nametag").remove();
-		$(".homeland-location-img-hold").prepend(`<div id='home-base-nametag' class='height open'>${nametag_contents}</div>`);
+		$("#home-base-nametag-base").remove();
+		$("#home-base-nametag").addClass('open');
 	}
 	return;
 }
@@ -328,11 +347,14 @@ $(window).resize(function() {
 $(".homeland-current-location").click(function() {
 	if ($(".homeland-current-location").hasClass('open')) {
 		$("#pathOffCurrentLocation").attr('d', "M0 0");
+		$("#pathCurrentLocation-Hobbies").attr('d', "M0 0");
 
 		$(".img-homeland-location").removeClass('open');
 		$("#img-location-div-connect").hide();
 		$("#home-base-nametag").removeClass('open');
 		$("#home-base-nametag").removeClass('height');
+
+		$(".about-me-hobbies").hide();
 
 		$(".homeland-current-location").removeClass('open');
 
@@ -361,7 +383,6 @@ $(".homeland-current-location").click(function() {
 			background_info_type_words();
 
 			check_home_base_nametag();
-			$("#home-base-nametag").addClass('open');
 		}, 800);
 	}, 1500);
 });

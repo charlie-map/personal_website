@@ -425,7 +425,7 @@ span {
 	transition: 2s ease-in-out;
 }
 
-.p5-buttons.old-project-web, .homeland-current-location {
+.p5-buttons.old-project-web, .homeland-current-location, #hobbies-select-connect {
 	background-color: #323232;
 	min-height: 30px;
 	display: inline;
@@ -439,10 +439,20 @@ span {
 	padding-right: 6px;
 	font-weight: bold;
 	color: #0d7377;
-	z-index: 2;
+	z-index: 4;
 }
 
-.p5-buttons.old-project-web:hover, .homeland-current-location:hover {
+.p5-buttons.old-project-web {
+	z-index: 1 !important;
+}
+
+#hobbies-select-connect {
+	right: 10px;
+	margin: 0;
+	padding-right: 10px;
+}
+
+.p5-buttons.old-project-web:hover, .homeland-current-location:hover, #hobbies-select-connect:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
@@ -492,29 +502,36 @@ span {
 	background-color: red;
 }
 
-#home-base-nametag {
+#home-base-nametag, #home-base-nametag-base {
+	position: relative;
 	opacity: 0;
 	max-height: 0;
 	font-size: 20px;
 	transition: opacity 0.5s ease-out;
+	z-index: 5;
 }
 
-#home-base-nametag.height {
+#home-base-nametag.height, #home-base-nametag-base.height {
 	max-height: 100%;
 }
 
-#home-base-nametag.open {
+#home-base-nametag.open, #home-base-nametag-base.open {
 	opacity: 100%;
 }
 
-#home-base-nametag > p:first-child {
+#home-base-nametag > p:first-child, #home-base-nametag-base > p:first-child {
 	display: inline;
 }
 
-#home-base-nametag > p:last-child {
+#home-base-nametag > p:last-child, #home-base-nametag-base > p:last-child {
 	color: #a43d0b;
 	font-weight: bolder;
 	display: inline;
+}
+
+#home-base-background-info {
+	position: relative;
+	z-index: 5;
 }
 
 .homeland-current-location {
@@ -524,6 +541,18 @@ span {
 
 .profile-background {
 	z-index: 10;
+}
+
+.about-me-hobbies {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+.hobby-station.remove {
+	display: none;
 }
 
 @media only screen and (max-width: 550px) {
