@@ -450,6 +450,7 @@ span {
 	right: 10px;
 	margin: 0;
 	padding-right: 10px;
+	border: 2px solid #14ffec;
 }
 
 .p5-buttons.old-project-web:hover, .homeland-current-location:hover, #hobbies-select-connect:hover {
@@ -463,7 +464,7 @@ span {
 	z-index: 100;
 }
 
-.homeland-current-location.open {
+.homeland-current-location.open, #hobbies-select-connect.open {
 	color: #323232;
 	background-color: #14ffec;
 }
@@ -544,6 +545,9 @@ span {
 }
 
 .about-me-hobbies {
+	width: 80%;
+	margin: 0;
+	margin-left: 20%;
 	margin-top: 10px;
 	display: flex;
 	flex-direction: column;
@@ -553,6 +557,29 @@ span {
 
 .hobby-station.remove {
 	display: none;
+}
+
+.hobby-station-biking {
+	height: 0;
+	transition: all 1.5s ease;
+}
+
+.hobby-station-biking.open {
+	height: 100%;
+}
+
+.hide-img-hobby-station-biking {
+	position: absolute;
+	background-color: #323232;
+}
+
+.img-hobby-station-biking {
+	transition: margin-top 1.5s ease-out;
+}
+
+.img-hobby-station-biking.move-up {
+	margin-top: 0;
+	transition: margin-top 1.5s ease-out;
 }
 
 @media only screen and (max-width: 550px) {

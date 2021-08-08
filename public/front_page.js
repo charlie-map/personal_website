@@ -342,6 +342,8 @@ $(window).resize(function() {
 
 		set_div_img_position();
 	}
+	if ($(".about-me-hobbies").is(":visible"))
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"));
 });
 
 $(".homeland-current-location").click(function() {
@@ -385,4 +387,25 @@ $(".homeland-current-location").click(function() {
 			check_home_base_nametag();
 		}, 800);
 	}, 1500);
+});
+
+$("#hobbies-select-connect").click(function() {
+
+	$(".hobby-station").removeClass('remove');
+
+	$("#hobbies-select-connect").addClass('open');
+
+	$(".hobby-station-biking").addClass('open');
+
+	$(".img-hobby-station-biking").css("margin-top", $(".img-hobby-station-biking").outerHeight());
+	$(".hide-img-hobby-station-biking").css("width", $(".img-hobby-station-biking").outerWidth());
+	$(".hide-img-hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
+
+	let img_offset = $(".hobby-station").offset();
+
+	console.log($(".hobby-station").offset().top, $(".img-hobby-station-biking").outerHeight(), $(".project-popup").offset().top);
+	$(".hide-img-hobby-station-biking").css("top", img_offset.top - $(".project-popup").offset().top + ($(".img-hobby-station-biking").outerHeight() * 0.5));
+	$(".hide-img-hobby-station-biking").css("left", img_offset.left + ($(".hobby-station").outerWidth() - $(".hobby-station").outerWidth(true)));
+
+	$(".img-hobby-station-biking").addClass('move-up');
 });
