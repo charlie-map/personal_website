@@ -302,6 +302,7 @@ span {
 :root {
 	--color-rect: #323232;
 	--color-circ: #323232;
+	--orange-color: #a53d0b;
 }
 
 .hex-rect {
@@ -555,6 +556,10 @@ span {
 	align-items: flex-end;
 }
 
+.hobby-station {
+	position: relative;
+}
+
 .hobby-station.remove {
 	display: none;
 }
@@ -574,12 +579,86 @@ span {
 }
 
 .img-hobby-station-biking {
-	transition: margin-top 1.5s ease-out;
+	transition: margin-top 2.5s ease-out;
 }
 
 .img-hobby-station-biking.move-up {
-	margin-top: 0;
-	transition: margin-top 1.5s ease-out;
+	margin-top: 0 !important;
+	display: none;
+}
+
+/*
+ _     _ _                      _                 _   _             
+| |__ (_) | _____    __ _ _ __ (_)_ __ ___   __ _| |_(_) ___  _ __  
+| '_ \| | |/ / _ \  / _` | '_ \| | '_ ` _ \ / _` | __| |/ _ \| '_ \ 
+| |_) | |   <  __/ | (_| | | | | | | | | | | (_| | |_| | (_) | | | |
+|_.__/|_|_|\_\___|  \__,_|_| |_|_|_| |_| |_|\__,_|\__|_|\___/|_| |_|
+                                                                    
+cred: Code Cary;
+*/
+
+.bicycle-container {
+	position: absolute;
+	left: 0;
+	max-width: 350px;
+	height: 300px;
+	overflow: hidden;
+}
+
+.bicycle-container .wheel {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	width: 120px;
+	height: 120px;
+	box-shadow: 0 10px 15px -12px rgba(0, 0, 0, .3);
+}
+
+.bicycle-container .wheel .tire {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
+	border: 10px solid #151515;
+	z-index: 2;
+}
+
+.bicycle-container .wheel .rim {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 114px;
+	height: 114px;
+	border-radius: 50%;
+	border: 10px solid var(--orange-color);
+	z-index: 1;
+}
+
+.bicycle-container .wheel .spokes {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 78px;
+	height: 78px;
+	border-radius: 50%;
+	border-left: 3px solid transparent;
+	border-right: 3px solid transparent;
+	border-top: 3px solid var(--orange-color);
+	z-index: 1;
+	animation: rt 2s infinite linear;
+	background: rgba(200, 100, 100, .1);
 }
 
 @media only screen and (max-width: 550px) {

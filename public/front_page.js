@@ -325,6 +325,7 @@ function check_home_base_nametag() {
 
 			$("#home-base-nametag").removeClass('open');
 
+			$("#home-base-nametag-base").remove();
 			$(`<div id='home-base-nametag-base' class='height open'>${nametag_contents}</div>`).insertAfter("#img-location-div-connect");
 		}
 	} else {
@@ -390,6 +391,15 @@ $(".homeland-current-location").click(function() {
 });
 
 $("#hobbies-select-connect").click(function() {
+	if ($("#hobbies-select-connect").hasClass('open')) {
+		$("#hobbies-select-connect").removeClass('open');
+
+		$(".img-hobby-station-biking").removeClass('move-up');
+
+		$(".hobby-station-biking").removeClass('open');
+		$(".hobby-station").addClass('remove');
+		return;
+	}
 
 	$(".hobby-station").removeClass('remove');
 
@@ -401,11 +411,11 @@ $("#hobbies-select-connect").click(function() {
 	$(".hide-img-hobby-station-biking").css("width", $(".img-hobby-station-biking").outerWidth());
 	$(".hide-img-hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
 
-	let img_offset = $(".hobby-station").offset();
-
-	console.log($(".hobby-station").offset().top, $(".img-hobby-station-biking").outerHeight(), $(".project-popup").offset().top);
-	$(".hide-img-hobby-station-biking").css("top", img_offset.top - $(".project-popup").offset().top + ($(".img-hobby-station-biking").outerHeight() * 0.5));
-	$(".hide-img-hobby-station-biking").css("left", img_offset.left + ($(".hobby-station").outerWidth() - $(".hobby-station").outerWidth(true)));
+	$(".hide-img-hobby-station-biking").css("top", $(".img-hobby-station-biking").outerHeight());
 
 	$(".img-hobby-station-biking").addClass('move-up');
+	setTimeout(function() {
+		$(".hide-img-hobby-station-biking").css("width", 0);
+		$(".hide-img-hobby-station-biking").css("height", 0);
+	}, 2500);
 });
