@@ -558,6 +558,7 @@ span {
 
 .hobby-station {
 	position: relative;
+	min-width: 300px;
 }
 
 .hobby-station.remove {
@@ -598,7 +599,7 @@ cred: Code Cary;
 */
 
 .bicycle-container {
-	position: absolute;
+	position: relative;
 	left: 0;
 	max-width: 350px;
 	height: 300px;
@@ -659,6 +660,71 @@ cred: Code Cary;
 	z-index: 1;
 	animation: rt 2s infinite linear;
 	background: rgba(200, 100, 100, .1);
+}
+
+.bicycle-container .wheel .spokes:nth-of-type(3) {
+	border-left: 3px solid transparent;
+	border-right: 3px solid transparent;
+	border-bottom: 3px solid var(--orange-color);
+}
+
+.bicycle-container .wheel .hub {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: var(--orange-color);
+}
+
+.bicycle-container .back-wheel {
+	left: 0;
+}
+
+.bicycle-container .front-wheel {
+	right: 0;
+}
+
+.bicycle-container .gear {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: calc(120px + 39.6px);'
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: #151515;
+	z-index: 4;
+	animation: rt 3s infinite linear;
+}
+
+.bicycle-container .gear .gear-red {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	border: 3px solid var(--orange-color);
+}
+
+.bicycle-container .gear .pedal-tube {
+	position: absolute;
+	margin: auto;
+	top: -30px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	transform: rotate(-90deg);
+	width: 20px;
 }
 
 @media only screen and (max-width: 550px) {
