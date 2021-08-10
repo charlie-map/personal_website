@@ -22,7 +22,7 @@ title { /*remove the title from the page*/
 	display: none;
 }
 
-#svgContainer { 
+#svgContainer, #svgContainer2 { 
 	z-index: 4;
 	position:absolute;
 	top: 80px;
@@ -34,7 +34,12 @@ title { /*remove the title from the page*/
 	padding: 0px;
 }
 
-#svgContainer svg {
+#svgContainer2 {
+	top: 0px !important;
+	height: 100% !important;
+}
+
+#svgContainer svg, #svgContainer2 svg {
 	z-index: 4;
 	position: absolute;
 	top: 0px;

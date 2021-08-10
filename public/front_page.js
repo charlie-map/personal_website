@@ -41,8 +41,8 @@ function drawPath(svg, path, startX, startY, endX, endY) {
 		" V" + endY);
 }
 
-function connectElements(svg, path, startElem, endElem) {
-	var svgContainer = $("#svgContainer");
+function connectElements(svg, path, startElem, endElem, svgContain) {
+	var svgContainer = svgContain ? $(svgContain) : $("#svgContainer");
 
 	// if first element is lower than the second, swap!
 	if (startElem.offset().top > endElem.offset().top) {
@@ -142,7 +142,11 @@ $(".menu-button").click(function() {
 	hide_svg_lines();
 	$("#old-page").hide();
 
+	$("#svgContainer").css("z-index", 4);
+
 	if (this.id == "about me") {
+		$("#svgContainer").css("z-index", 0);
+
 		$("#about-page").show();
 		$(".img-homeland-location").removeClass('open');
 		$("#home-base-nametag").removeClass('open');
@@ -297,7 +301,7 @@ function set_div_img_position() {
 
 	// svg, path, startElem, endElem
 	hide_svg_lines();
-	connectElements($("#svgAboutMeCurrentLocation"), $("#pathOffCurrentLocation"), $("#img-location-button-connect"), $("#img-location-div-connect"));
+	connectElements($("#svgAboutMeCurrentLocation"), $("#pathOffCurrentLocation"), $("#img-location-button-connect"), $("#img-location-div-connect"), $("#svgContainer2"));
 }
 
 let type_background;
@@ -313,7 +317,7 @@ function background_info_type_words() {
 	if (type_background == HOME_BASE_BACKGROUND_INFO.length) {
 		$(".about-me-hobbies").show();
 
-		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"));
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 	}
 	return;
 }
@@ -344,13 +348,15 @@ $(window).resize(function() {
 		set_div_img_position();
 	}
 	if ($(".about-me-hobbies").is(":visible"))
-		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"));
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 });
 
 $(".homeland-current-location").click(function() {
 	if ($(".homeland-current-location").hasClass('open')) {
 		$("#pathOffCurrentLocation").attr('d', "M0 0");
 		$("#pathCurrentLocation-Hobbies").attr('d', "M0 0");
+
+		$("#home-base-nametag-base").remove();
 
 		$(".img-homeland-location").removeClass('open');
 		$("#img-location-div-connect").hide();
