@@ -24,7 +24,6 @@
 	<div class="menu-options_color"></div>
 	<ul class="menu-options">
 		<li><div class="container menu-button" id="about me"><button>about me</button></div></li>
-		<li><div class="container menu-button" id="current works"><button>current work</button></div></li>
 		<li><div class="container menu-button" id="old projects"><button>old projects</button></div></li>
 	</ul>
 	<hr class="headline">
@@ -40,33 +39,35 @@
 						style="
 						stroke: #eb5810;
 						fill: none;
-						stroke-width: 7px;"/>
-					{{/ROW_LINES}}</svg>
+					stroke-width: 7px;"></path>
+				{{/ROW_LINES}}</svg>
 				{{/SVG_ROWS}}
+			</div>
+			<div id="svgContainer2">
+				<svg id='svgAboutMeCurrentLocation'>
+					<path
+						title="img-location-button-connect||img-location-div-connect"
+						id="pathOffCurrentLocation"
+						d = "M0 0"
+						style="
+						stroke: #eb5810;
+						fill: none;
+					stroke-width: 7px;"></path>
+					<path
+						title="img-location-div-connect||hobbies-select-connect"
+						id="pathCurrentLocation-Hobbies"
+						d = "M0 0"
+						style="
+						stroke: #eb5810;
+						fill: none;
+					stroke-width: 7px;"></path>
+				</svg>
 			</div>
 			<div class="project-menu"><div class="project-menu_burger"></div></div>
 			<h2 id="project-name"></h2>
 			<hr>
 			<div id="about-page">
-				<div id="svgContainer2">
-					<svg id='svgAboutMeCurrentLocatiuon'>
-						<path
-							id="pathOffCurrentLocation"
-							d = "M0 0"
-							style="
-							stroke: #eb5810;
-							fill: none;
-							stroke-width: 7px;"/>
-						<path
-							id="pathCurrentLocation-Hobbies"
-							d = "M0 0"
-							style="
-							stroke: #eb5810;
-							fill: none;
-							stroke-width: 7px;"/>
-					</svg>
-				</div>
-				where am i in life?
+				<p style="z-index: 10;">where am i in life?</p>
 				<div class="profile-background">
 					<div class="profile-picture">
 						<img src="https://st.depositphotos.com/1000350/1663/i/950/depositphotos_16632665-stock-photo-shocked-bald-man-holding-comb.jpg">
@@ -78,9 +79,11 @@
 						<div class="hex-circ thi"></div>
 						<div class="hex-circ fou"></div>
 					</div>
-					<ul class="profile-words">{{#PROFILE_WORDS}}
-						<li>{{PROFILE_WORD}}</li>
-					{{/PROFILE_WORDS}}</ul>
+					<div>
+						<ul class="profile-words">{{#PROFILE_WORDS}}
+							<li>{{PROFILE_WORD}}</li>
+						{{/PROFILE_WORDS}}</ul>
+					</div>
 				</div>
 				<div id="select-base-land" class="homeland-base">
 					<button id="img-location-button-connect" class="homeland-current-location">where am i currently based?</button>
@@ -100,7 +103,6 @@
 						<div class="hobby-station-biking">
 							<div class="hide-img-hobby-station-biking"></div>
 							<img class="img-hobby-station-biking" src="https://i.ibb.co/5szSTQC/mountain-biking-slice.png">
-
 							<div class="bicycle-container">
 								<div class="wheel back-wheel">
 									<div class="tire"></div>
@@ -137,9 +139,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div id="current-works-page">
-				test current
 			</div>
 			<div id="old-page">{{{SPIDER_WEB}}}</div>
 		</div>

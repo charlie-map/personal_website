@@ -9,6 +9,10 @@
 	overflow-wrap: break-word;
 }
 
+html {
+	overflow: hidden;
+}
+
 body {
   background-color: #212121;
   color: #14ffec;
@@ -32,11 +36,6 @@ title { /*remove the title from the page*/
 	background-color: transparent;
 	margin: 0px;
 	padding: 0px;
-}
-
-#svgContainer2 {
-	top: 0px !important;
-	height: 100% !important;
 }
 
 #svgContainer svg, #svgContainer2 svg {
@@ -457,6 +456,7 @@ span {
 	margin: 0;
 	padding-right: 10px;
 	border: 2px solid #14ffec;
+	margin-bottom: 3px;
 }
 
 .p5-buttons.old-project-web:hover, .homeland-current-location:hover, #hobbies-select-connect:hover {
@@ -564,6 +564,7 @@ span {
 .hobby-station {
 	position: relative;
 	min-width: 300px;
+	margin-left: -20%;
 }
 
 .hobby-station.remove {
@@ -585,12 +586,13 @@ span {
 }
 
 .img-hobby-station-biking {
-	transition: margin-top 2.5s ease-out;
+	height: 0;
+	transition: all 2.5s ease-out;
 }
 
 .img-hobby-station-biking.move-up {
 	margin-top: 0 !important;
-	display: none;
+	height: 100% !important;
 }
 
 /*
@@ -607,8 +609,10 @@ cred: Code Cary;
 	position: relative;
 	left: 0;
 	max-width: 350px;
+	width: 350px;
 	height: 300px;
 	overflow: hidden;
+	transform: scale(0.2);
 }
 
 .bicycle-container .wheel {
@@ -699,7 +703,7 @@ cred: Code Cary;
 	margin: auto;
 	top: 0;
 	bottom: 0;
-	left: calc(120px + 39.6px);'
+	left: calc(120px + 39.6px);
 	width: 36px;
 	height: 36px;
 	border-radius: 50%;
@@ -732,18 +736,147 @@ cred: Code Cary;
 	width: 20px;
 }
 
+.bicycle-container .gear .pedal {
+	position: absolute;
+	margin: auto;
+	top: -50px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 20px;
+	height: 5px;
+	background: var(--orange-color);
+	border-radius: 5px;
+	z-index: 3;
+}
+
+.bicycle-container .tube {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	height: 5px;
+	border-radius: 5px;
+	background: #151515;
+	z-index: 3;
+}
+
+.bicycle-container .chain-tube {
+	left: calc(120px * 0.5);
+	width: 120px;
+}
+
+.bicycle-container .seat-tube-back {
+	left: calc(120px * 0.5);
+	transform-origin: left;
+	transform: rotate(-60deg);
+	width: 120px;
+}
+
+.bicycle-container .seat-tube-front {
+	left: calc(120px * 0.5);
+	transform-origin: right;
+	transform: rotate(60deg);
+	width: 120px;
+}
+
+.bicycle-container .seat-tube-post {
+	left: calc((120px * 0.5) - 20px);
+	transform-origin: right;
+	transform: rotate(60deg);
+	background: var(--orange-color);
+	z-index: 1;
+	height: calc(5px -1px);
+	width: 140px;
+}
+
+.bicycle-container .top-tube {
+	left: 120px;
+	bottom: initial;
+	top: 44px;
+	width: 113px;
+}
+
+.bicycle-container .top-handlebar-tube {
+	right: 112px;
+	bottom: initial;
+	top: 25px;
+	width: 20px;
+	background: var(--orange-color);
+}
+
+.bicycle-container .top-handlebar-tube2 {
+	right: 90px;
+	bottom: initial;
+	top: 25px;
+	width: 25px;
+	background: #151515;
+	border-radius: 0%;
+}
+
+.bicycle-container .down-tube {
+	left: calc(120px + 60px);
+	width: 100px;
+	transform-origin: left;
+	transform: rotate(-50deg);
+}
+
+.bicycle-container .head-tube {
+	right: calc(120px * 0.5);
+	transform-origin: right;
+	transform: rotate(60deg);
+	width: 140px;
+	background: var(--orange-color);
+	z-index: 1;
+	height: calc(5px -1px);
+}
+
+.bicycle-container .saddle {
+	position: absolute;
+	margin: auto;
+	top: 20px;
+	left: 85px;
+	width: 50px;
+	height: 10px;
+	border-top-left-radius: 50%;
+	border-top-right-radius: 100%;
+	border-bottom-left-radius: 50%;
+	background: #151515;
+	z-index: 2;
+}
+
+.bicycle-container .handlebars {
+	position: absolute;
+	margin: auto;
+	top: 25px;
+	right: calc(100px * 0.5 + 25px);
+	width: 30px;
+	height: 30px;
+	border-top-right-radius: 60%;
+	border-bottom-right-radius: 50%;
+	border-top: 5px solid #151515;
+	border-right: 5px solid #151515;
+	border-bottom: 5px solid var(--orange-color);
+	z-index: 2;
+}
+
+@keyframes rt {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
 @media only screen and (max-width: 550px) {
 	.profile-background {
-		margin-top: 20px;
-		width: 105px;
-		height: 65%;
-		margin-right: 50%;
-		margin-left: 50%;
-		transform: translate(-50%);
+		top: 0px !important;
+		height: auto;
+		position: relative !important;
+		margin-bottom: 10px;
 	}
 
 	.profile-words {
 		margin-left: 2px;
+		top: 0px !important;
 	}
 
 	.profile-words > li {
@@ -751,12 +884,13 @@ cred: Code Cary;
 	}
 
   	.profile-picture {
-  		margin-left: 50%;
-  		transform: translate(-35%);
+  		position: relative !important;
+  		top: 0;
+  		left: 0;
   	}
 
   	.profile-picture img {
-  		margin-left: 0px;
+  		margin-left: 5px;
   	}
 
   	.hex-rect {
@@ -771,5 +905,9 @@ cred: Code Cary;
 
   	.hex-circ {
   		margin-left: calc(50% - 50px);
+ 	}
+
+ 	.homeland-base {
+ 		margin-right: auto !important;
  	}
 }
