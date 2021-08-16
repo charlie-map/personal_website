@@ -606,7 +606,7 @@ cred: Code Cary;
 */
 
 .bicycle-container {
-	position: relative;
+	position: fixed;
 	left: 0;
 	max-width: 350px;
 	width: 350px;

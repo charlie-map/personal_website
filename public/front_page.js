@@ -372,8 +372,11 @@ $(window).resize(function() {
 
 		set_div_img_position();
 	}
-	if ($(".about-me-hobbies").is(":visible"))
+	if ($(".about-me-hobbies").is(":visible")) {
+		$(".img-hobby-station-biking").css('width', $("#about-page").outerWidth() - $("#about-page").outerWidth() * 0.08);
+
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
+	}
 });
 
 $(".homeland-current-location").click(function() {
@@ -422,6 +425,22 @@ $(".homeland-current-location").click(function() {
 	}, 1500);
 });
 
+/*
+	This function will push the bike into frame, and attempt to make the bike
+	climb up a portion of the mountain
+*/
+function biking_about_me_animation() {
+
+	$(".bicycle-container").show();
+
+	console.log($(".bicycle-container").offset());
+	$(".bicycle-container").offset({
+		left: -70,
+		top: ($(".img-hobby-station-biking").offset().top - $(".img-hobby-station-biking").offset().top * 0.05) + ($(".img-hobby-station-biking").outerHeight() - 20)
+	});
+
+}
+
 $("#hobbies-select-connect").click(function() {
 	$(".bicycle-container").hide();
 	if ($("#hobbies-select-connect").hasClass('open')) {
@@ -454,5 +473,7 @@ $("#hobbies-select-connect").click(function() {
 	setTimeout(function() {
 		$(".hide-img-hobby-station-biking").css("width", 0);
 		$(".hide-img-hobby-station-biking").css("height", 0);
+
+		biking_about_me_animation();
 	}, 2500);
 });
