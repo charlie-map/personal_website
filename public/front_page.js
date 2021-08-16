@@ -324,10 +324,10 @@ function background_info_type_words() {
 
 	if (type_background == HOME_BASE_BACKGROUND_INFO.length) {
 		$(".about-me-hobbies").show();
-		scroll_bottom_about_page();
 
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 	}
+	scroll_bottom_about_page();
 	return;
 }
 
@@ -431,14 +431,12 @@ $(".homeland-current-location").click(function() {
 */
 function biking_about_me_animation() {
 
+	$(".bicycle-container").css("left", -250);
+	$(".bicycle-container").css("top", -70);
+
 	$(".bicycle-container").show();
 
-	console.log($(".bicycle-container").offset());
-	$(".bicycle-container").offset({
-		left: -70,
-		top: ($(".img-hobby-station-biking").offset().top - $(".img-hobby-station-biking").offset().top * 0.05) + ($(".img-hobby-station-biking").outerHeight() - 20)
-	});
-
+	$(".bicycle-container").addClass('animate');
 }
 
 $("#hobbies-select-connect").click(function() {
@@ -450,6 +448,8 @@ $("#hobbies-select-connect").click(function() {
 
 		$(".hobby-station-biking").removeClass('open');
 		$(".hobby-station").addClass('remove');
+
+		$(".bicycle-container").removeClass('animate');
 		return;
 	}
 
@@ -473,6 +473,8 @@ $("#hobbies-select-connect").click(function() {
 	setTimeout(function() {
 		$(".hide-img-hobby-station-biking").css("width", 0);
 		$(".hide-img-hobby-station-biking").css("height", 0);
+
+		$(".hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
 
 		biking_about_me_animation();
 	}, 2500);

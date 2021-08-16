@@ -606,13 +606,20 @@ cred: Code Cary;
 */
 
 .bicycle-container {
-	position: fixed;
+	position: absolute;
 	left: 0;
 	max-width: 350px;
 	width: 350px;
 	height: 300px;
 	overflow: hidden;
 	transform: scale(0.2);
+	transition: all 1s ease-in-out;
+}
+
+.bicycle-container.animate {
+	left: -87px !important;
+	top: -115px !important;
+	transform: rotate(-31deg) scale(0.2);
 }
 
 .bicycle-container .wheel {
