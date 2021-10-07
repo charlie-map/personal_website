@@ -551,9 +551,7 @@ span {
 }
 
 .about-me-hobbies {
-	width: 80%;
 	margin: 0;
-	margin-left: 20%;
 	margin-top: 10px;
 	display: flex;
 	flex-direction: column;
@@ -586,13 +584,15 @@ span {
 }
 
 .img-hobby-station-biking {
+	position: relative;
 	height: 0;
+	left: 20%;
 	transition: all 2.5s ease-out;
 }
 
 .img-hobby-station-biking.move-up {
 	margin-top: 0 !important;
-	height: 100% !important;
+	height: auto !important;
 }
 
 /*
@@ -610,16 +610,15 @@ cred: Code Cary;
 	left: 0;
 	max-width: 350px;
 	width: 350px;
-	height: 300px;
-	overflow: hidden;
-	transform: scale(0.2);
+	margin-top: -20px;
+	height: auto;
+	transform: scale(0.5);
 	transition: all 1s ease-in-out;
 }
 
 .bicycle-container.animate {
-	left: -87px !important;
-	top: -115px !important;
-	transform: rotate(-31deg) scale(0.2);
+	top: -112px !important;
+	transform: rotate(-38deg) scale(0.2);
 }
 
 .bicycle-container .wheel {
@@ -800,14 +799,14 @@ cred: Code Cary;
 .bicycle-container .top-tube {
 	left: 120px;
 	bottom: initial;
-	top: 44px;
+	top: -100px;
 	width: 113px;
 }
 
 .bicycle-container .top-handlebar-tube {
 	right: 112px;
 	bottom: initial;
-	top: 25px;
+	top: -140px;
 	width: 20px;
 	background: var(--orange-color);
 }
@@ -815,7 +814,7 @@ cred: Code Cary;
 .bicycle-container .top-handlebar-tube2 {
 	right: 90px;
 	bottom: initial;
-	top: 25px;
+	top: -140px;
 	width: 25px;
 	background: #151515;
 	border-radius: 0%;
@@ -841,7 +840,7 @@ cred: Code Cary;
 .bicycle-container .saddle {
 	position: absolute;
 	margin: auto;
-	top: 20px;
+	top: -130px;
 	left: 85px;
 	width: 50px;
 	height: 10px;
@@ -855,7 +854,7 @@ cred: Code Cary;
 .bicycle-container .handlebars {
 	position: absolute;
 	margin: auto;
-	top: 25px;
+	top: -140px;
 	right: calc(100px * 0.5 + 25px);
 	width: 30px;
 	height: 30px;

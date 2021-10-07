@@ -366,6 +366,8 @@ $("#about-page").scroll(function() {
 	connect_about_me_elements();
 });
 
+let prev_hobby_img_width = 0;
+
 $(window).resize(function() {
 	if ($("#img-location-div-connect").is(":visible")) {
 		check_home_base_nametag();
@@ -373,7 +375,9 @@ $(window).resize(function() {
 		set_div_img_position();
 	}
 	if ($(".about-me-hobbies").is(":visible")) {
-		$(".img-hobby-station-biking").css('width', $("#about-page").outerWidth() - $("#about-page").outerWidth() * 0.08);
+		prev_hobby_img_width = $("#about-page").outerWidth() * 0.9;
+
+		$(".img-hobby-station-biking").css('width', prev_hobby_img_width);
 
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 	}
@@ -431,12 +435,9 @@ $(".homeland-current-location").click(function() {
 */
 function biking_about_me_animation() {
 
-	$(".bicycle-container").css("left", -250);
-	$(".bicycle-container").css("top", -70);
+	$(".bicycle-container").css("left", "60%");
 
 	$(".bicycle-container").show();
-
-	$(".bicycle-container").addClass('animate');
 }
 
 $("#hobbies-select-connect").click(function() {
@@ -445,6 +446,7 @@ $("#hobbies-select-connect").click(function() {
 		$("#hobbies-select-connect").removeClass('open');
 
 		$(".img-hobby-station-biking").removeClass('move-up');
+		$(".img-hobby-station-biking").css("margin-top", 0);
 
 		$(".hobby-station-biking").removeClass('open');
 		$(".hobby-station").addClass('remove');
@@ -470,12 +472,11 @@ $("#hobbies-select-connect").click(function() {
 	scroll_bottom_about_page();
 	$(".img-hobby-station-biking").addClass('move-up');
 
-	setTimeout(function() {
-		$(".hide-img-hobby-station-biking").css("width", 0);
-		$(".hide-img-hobby-station-biking").css("height", 0);
+	$(".hide-img-hobby-station-biking").css("width", 0);
+	$(".hide-img-hobby-station-biking").css("height", 0);
 
-		$(".hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
+	$(".hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
 
-		biking_about_me_animation();
-	}, 2500);
+	prev_hobby_img_width = $(".img-hobby-station-biking").outerWidth();
+	biking_about_me_animation();
 });
