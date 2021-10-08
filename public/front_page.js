@@ -497,7 +497,7 @@ $("#hobbies-select-connect").click(function() {
 	$(".hide-img-hobby-station-biking").css("width", 0);
 	$(".hide-img-hobby-station-biking").css("height", 0);
 
-	$(".hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
+	//$(".hobby-station-biking").css("height", $(".img-hobby-station-biking").outerHeight());
 
 	prev_hobby_img_width = $(".img-hobby-station-biking").outerWidth();
 	biking_about_me_animation();

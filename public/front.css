@@ -618,7 +618,7 @@ cred: Code Cary;
 	position: relative;
 	margin: 0;
 	z-index: 40;
-	margin-left: 25px;
+	margin-left: 30px;
 }
 
 .bicycle-container {
@@ -932,4 +932,43 @@ cred: Code Cary;
  	.homeland-base {
  		margin-right: auto !important;
  	}
+}
+
+/*
+       _                   
+ _ __ (_) __ _ _ __   ___  
+| '_ \| |/ _` | '_ \ / _ \ 
+| |_) | | (_| | | | | (_) |
+| .__/|_|\__,_|_| |_|\___/ 
+|_|                        
+*/
+
+.white-key {
+	display: inline-block;
+	position: relative;
+	width: 20%;
+	height: 200px;
+	background: white;
+	z-index: 40;
+	border: black solid 1px;
+}
+
+.black-key {
+	display: inline-block;
+	position: relative;
+	width: 10%;
+	height: 160px;
+	background: black;
+	margin-left: -7.5%;
+	margin-right: -7.5%;
+	margin-bottom: 40px;
+	z-index: 50;
+}
+
+.white-key#F {
+	margin-left: 0;
+}
+
+.white-key:hover, .black-key:hover {
+	cursor: pointer;
 }
