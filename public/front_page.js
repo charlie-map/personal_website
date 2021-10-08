@@ -97,7 +97,8 @@ $(window).resize(() => {
 });
 
 function hide_svg_lines() {
-	let pathes = $("#svgContainer").find('path');
+	let pathes = [...$("#svgContainer").find('path'),
+		...$("#svgContainer2").find('path')];
 
 	for (let delete_pathes = 0; delete_pathes < pathes.length; delete_pathes++) {
 
@@ -120,6 +121,7 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 function hide_about_me() {
 	$("#home-base-background-info").empty();
 	continue_run = false;
+	$("#hobbies-select-connect").removeClass('open');
 	$("#img-location-button-connect").removeClass('open');
 
 	$(".about-me-hobbies").hide();
@@ -138,7 +140,6 @@ $(".menu-button").click(function() {
 
 	hide_about_me();
 	$("#about-page").hide();
-	$("#current-works-page").hide();
 	hide_svg_lines();
 	$("#old-page").hide();
 
@@ -152,9 +153,7 @@ $(".menu-button").click(function() {
 		$("#home-base-nametag").removeClass('open');
 		$("#home-base-nametag").removeClass('height');
 		$("#img-location-div-connect").hide();
-
 	}
-	if (this.id == "current works") $("#current-works-page").show();
 	if (this.id == "old projects") {
 		// look at which one of the projects is open
 
@@ -291,6 +290,7 @@ function connectAll(id) {
 */
 
 function scroll_bottom_about_page() {
+	console.log("scrolling?");
 	$("#about-page").animate({
 		scrollTop: $(
 			'html, body').get(0).scrollHeight
@@ -379,6 +379,7 @@ $(window).resize(function() {
 
 		$(".img-hobby-station-biking").css('width', prev_hobby_img_width);
 
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Hobbies"), $("#hobbies-select-connect"), $("#hobby-station-biking-redball"), $("#svgContainer2"));
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 	}
 });
@@ -395,6 +396,7 @@ $(".homeland-current-location").click(function() {
 		$("#home-base-nametag").removeClass('open');
 		$("#home-base-nametag").removeClass('height');
 
+		$("#hobbies-select-connect").removeClass('open');
 		$(".about-me-hobbies").hide();
 
 		$(".homeland-current-location").removeClass('open');
@@ -435,9 +437,29 @@ $(".homeland-current-location").click(function() {
 */
 function biking_about_me_animation() {
 
-	$(".bicycle-container").css("left", "60%");
+	//$(".bicycle-container").css("left", "60%");
 
 	$(".bicycle-container").show();
+
+	connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Hobbies"), $("#hobbies-select-connect"), $("#hobby-station-biking-redball"), $("#svgContainer2"));
+	background_info_type_bike_words();
+}
+
+let type_biking = 0;
+let continue_bike_type = true;
+
+function background_info_type_bike_words() {
+	if (type_biking < BIKE_OUTDOOR_INFO.length && continue_bike_type) {
+		document.getElementById("hobby-station-biking-info").innerHTML += BIKE_OUTDOOR_INFO[type_biking];
+		type_biking++;
+		setTimeout(background_info_type_bike_words, 50);
+	}
+
+	if (type_biking == BIKE_OUTDOOR_INFO.length) {
+		console.log("bike_type?");
+	}
+	scroll_bottom_about_page();
+	return;
 }
 
 $("#hobbies-select-connect").click(function() {
