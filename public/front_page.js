@@ -380,6 +380,7 @@ $(window).resize(function() {
 
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Hobbies"), $("#hobbies-select-connect"), $("#hobby-station-biking-redball"), $("#svgContainer2"));
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Piano"), $("#hobby-station-biking-redball"), $("#hobby-station-piano-open"), $("#svgContainer2"));
 	}
 });
 
@@ -455,13 +456,18 @@ function background_info_type_bike_words() {
 	}
 
 	if (type_biking == BIKE_OUTDOOR_INFO.length) {
-		console.log("bike_type?");
+		
+		$("#hobby-station-piano-open").show();
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Piano"), $("#hobby-station-biking-redball"), $("#hobby-station-piano-open"), $("#svgContainer2"));
 	}
+
 	scroll_bottom_about_page();
 	return;
 }
 
 $("#hobbies-select-connect").click(function() {
+	$("#hobby-station-piano-open").hide();
+
 	$(".bicycle-container").hide();
 	if ($("#hobbies-select-connect").hasClass('open')) {
 		$("#hobbies-select-connect").removeClass('open');
@@ -502,9 +508,37 @@ $("#hobbies-select-connect").click(function() {
 	biking_about_me_animation();
 });
 
+function hidePiano() {
+
+	$(".hobby-station-piano").addClass('close');
+}
+
+$("#hobby-station-piano-open").click(function() {
+
+	if ($("#hobby-station-piano-open").hasClass('open')) {
+
+		// hide all bits:
+		hidePiano();
+		$("#hobby-station-piano-open").removeClass('open');
+	} else {
+		$("#hobby-station-piano-open").addClass('open');
+
+		$(".hobby-station-piano").removeClass('close');
+		setTimeout(function() {
+			scroll_bottom_about_page();
+		}, 1010);
+	}
+});
+
 $(".key").click(function() {
+	$(this).addClass('compress');
 	// play sound of key:
 
 	let audio = new Audio(AUDIO_URL + this.id + ".mp3");
 	audio.play();
+
+	let remove = this.id;
+	setTimeout(function(id) {
+		$(`#${id}`).removeClass('compress');
+	}, 1010, remove);
 });
