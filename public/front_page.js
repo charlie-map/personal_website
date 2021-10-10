@@ -290,7 +290,6 @@ function connectAll(id) {
 */
 
 function scroll_bottom_about_page() {
-	console.log("scrolling?");
 	$("#about-page").animate({
 		scrollTop: $(
 			'html, body').get(0).scrollHeight
@@ -501,4 +500,11 @@ $("#hobbies-select-connect").click(function() {
 
 	prev_hobby_img_width = $(".img-hobby-station-biking").outerWidth();
 	biking_about_me_animation();
+});
+
+$(".key").click(function() {
+	// play sound of key:
+
+	let audio = new Audio(AUDIO_URL + this.id + ".mp3");
+	audio.play();
 });

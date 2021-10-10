@@ -38,7 +38,7 @@ app.get("/", async (req, res) => {
 	let svg_obj = old_project_obj.splice(1);
 	let background_values = svg_obj.splice(1)[0];
 
-	background_values = [...background_values, ...(await about_me_settings())];
+	background_values = [...background_values, ...(await about_me_settings()), `let AUDIO_URL = "${process.env.AUDIO_URL}";`];
 
 	let profile_words = await pull_current_profile_words();
 

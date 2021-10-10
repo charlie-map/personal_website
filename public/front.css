@@ -942,10 +942,18 @@ cred: Code Cary;
 | .__/|_|\__,_|_| |_|\___/ 
 |_|                        
 */
+.hobby-station-piano {
+	display: flex;
+	margin-top: 5px;
+	margin-left: 30px;
+}
 
-.white-key {
+.key {
 	display: inline-block;
 	position: relative;
+}
+
+.white-key {
 	width: 20%;
 	height: 200px;
 	background: white;
@@ -954,8 +962,6 @@ cred: Code Cary;
 }
 
 .black-key {
-	display: inline-block;
-	position: relative;
 	width: 10%;
 	height: 160px;
 	background: black;
