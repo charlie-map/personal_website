@@ -98,7 +98,8 @@ $(window).resize(() => {
 
 function hide_svg_lines() {
 	let pathes = [...$("#svgContainer").find('path'),
-		...$("#svgContainer2").find('path')];
+		...$("#svgContainer2").find('path')
+	];
 
 	for (let delete_pathes = 0; delete_pathes < pathes.length; delete_pathes++) {
 
@@ -124,6 +125,7 @@ function hide_about_me() {
 	$("#hobbies-select-connect").removeClass('open');
 	$("#img-location-button-connect").removeClass('open');
 
+	$(".about-me-close").addClass('close');
 	$(".about-me-hobbies").hide();
 	$(".hobby-station").addClass('remove');
 }
@@ -149,9 +151,12 @@ $(".menu-button").click(function() {
 		$("#svgContainer").css("z-index", 0);
 
 		$("#about-page").show();
-		$(".img-homeland-location").removeClass('open');
+
 		$("#home-base-nametag").removeClass('open');
 		$("#home-base-nametag").removeClass('height');
+		$("#home-base-nametag-base").remove();
+
+		$(".img-homeland-location").removeClass('open');
 		$("#img-location-div-connect").hide();
 	}
 	if (this.id == "old projects") {
@@ -291,9 +296,8 @@ function connectAll(id) {
 
 function scroll_bottom_about_page() {
 	$("#about-page").animate({
-		scrollTop: $(
-			'html, body').get(0).scrollHeight
-	}, 700);
+		scrollTop: 10000
+	}, "slow");
 }
 
 function set_div_img_position() {
@@ -382,6 +386,12 @@ $(window).resize(function() {
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Piano"), $("#hobby-station-biking-redball"), $("#hobby-station-piano-open"), $("#svgContainer2"));
 	}
+
+	if (!$(".about-me-close").hasClass('close')) {
+
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathToClose-see-more"), $("#see-more-about-me"), $("#about-me-close-redball"), $("#svgContainer2"));
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathToOld-projects"), $("#see-more-about-me"), $("#attach-to-old-projs-about-me"), $("#svgContainer2"));
+	}
 });
 
 $(".homeland-current-location").click(function() {
@@ -456,7 +466,7 @@ function background_info_type_bike_words() {
 	}
 
 	if (type_biking == BIKE_OUTDOOR_INFO.length) {
-		
+
 		$("#hobby-station-piano-open").show();
 		connectElements($("#svgAboutMeCurrentLocation"), $("#pathThroughBiking-Piano"), $("#hobby-station-biking-redball"), $("#hobby-station-piano-open"), $("#svgContainer2"));
 	}
@@ -469,6 +479,8 @@ $("#hobbies-select-connect").click(function() {
 	$("#hobby-station-piano-open").hide();
 
 	$(".bicycle-container").hide();
+
+	$("#see-more-about-me").hide();
 	if ($("#hobbies-select-connect").hasClass('open')) {
 		$("#hobbies-select-connect").removeClass('open');
 
@@ -479,6 +491,9 @@ $("#hobbies-select-connect").click(function() {
 		$(".hobby-station").addClass('remove');
 
 		$(".bicycle-container").removeClass('animate');
+		hide_svg_lines();
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathOffCurrentLocation"), $("#img-location-button-connect"), $("#img-location-div-connect"), $("#svgContainer2"));
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathCurrentLocation-Hobbies"), $("#img-location-div-connect"), $("#hobbies-select-connect"), $("#svgContainer2"));
 		return;
 	}
 
@@ -511,6 +526,9 @@ $("#hobbies-select-connect").click(function() {
 function hidePiano() {
 
 	$(".hobby-station-piano").addClass('close');
+	$("#hobby-piano-story").hide();
+
+	$(".about-me-close").addClass('close');
 }
 
 $("#hobby-station-piano-open").click(function() {
@@ -522,13 +540,36 @@ $("#hobby-station-piano-open").click(function() {
 		$("#hobby-station-piano-open").removeClass('open');
 	} else {
 		$("#hobby-station-piano-open").addClass('open');
+		$("#hobby-piano-story").show();
 
 		$(".hobby-station-piano").removeClass('close');
 		setTimeout(function() {
 			scroll_bottom_about_page();
+
+			background_piano();
 		}, 1010);
 	}
 });
+
+let piano_run_back = 0;
+let continue_piano_run = true;
+
+function background_piano() {
+
+	if (piano_run_back < PIANO_BACKGROUND.length && continue_piano_run) {
+		document.getElementById("hobby-piano-story").innerHTML += PIANO_BACKGROUND[piano_run_back];
+		piano_run_back++;
+		setTimeout(background_piano, 50);
+	}
+
+	if (piano_run_back == PIANO_BACKGROUND.length) {
+
+		$("#see-more-about-me").show();
+	}
+
+	scroll_bottom_about_page();
+	return;
+}
 
 $(".key").click(function() {
 	$(this).addClass('compress');
@@ -541,4 +582,11 @@ $(".key").click(function() {
 	setTimeout(function(id) {
 		$(`#${id}`).removeClass('compress');
 	}, 1010, remove);
+});
+
+$("#see-more-about-me").click(function() {
+
+	$(".about-me-close").removeClass('close');
+	connectElements($("#svgAboutMeCurrentLocation"), $("#pathToClose-see-more"), $("#see-more-about-me"), $("#about-me-close-redball"), $("#svgContainer2"));
+	connectElements($("#svgAboutMeCurrentLocation"), $("#pathToOld-projects"), $("#see-more-about-me"), $("#attach-to-old-projs-about-me"), $("#svgContainer2"));
 });

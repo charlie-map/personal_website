@@ -169,7 +169,23 @@ span {
 	display: none;
 }
 
-.menu-options.open button, .submission {
+.separater {
+	display: flex;
+	margin-bottom: 0;
+}
+
+.old-project-select-about-me button {
+	min-height: 30px;
+	height: auto !important;
+}
+
+#see-more-about-me {
+	height: 70px !important;
+	z-index: 40 !important;
+	border: solid 2px #12e6d4 !important;
+}
+
+.menu-options.open button, .submission, .old-project-select-about-me button, #all-personal-info, #see-more-about-me {
 	background-color: #323232;
 	height: 30px;
 	display: inline;
@@ -186,7 +202,7 @@ span {
 	z-index: 1;
 }
 
-.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover {
+.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover, .old-project-select-about-me button:hover, #all-personal-info:hover, #see-more-about-me:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
@@ -511,12 +527,19 @@ span {
 	transition: opacity 1.5s ease-out;
 }
 
-#img-location-div-connect {
+#img-location-div-connect, #about-me-close-redball {
 	position: absolute;
 	width: 15px;
 	height: 15px;
 	border-radius: 100%;
 	background-color: red;
+}
+
+#about-me-close-redball {
+	position: relative;
+	margin-left: 5px;
+	margin-top: 0px;
+	width: 30px;
 }
 
 #home-base-nametag, #home-base-nametag-base {
@@ -1004,4 +1027,72 @@ cred: Code Cary;
 
 .white-key:hover, .black-key:hover {
 	cursor: pointer;
+}
+
+#hobby-piano-story {
+	position: relative;
+	z-index: 40;
+	margin: 0;
+	margin-top: 2px;
+	margin-left: 3px;
+	width: calc(100% - 80px);
+}
+
+.story-plus-next {
+	display: flex;
+	margin-bottom: 10px;
+}
+
+/*
+FROM: CSS-tricks
+*/
+.about-me-close.close {
+	height: 0px;
+	display: none !important;
+}
+
+.about-me-close {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 220px;
+	position: relative;
+	z-index: 40;
+}
+
+.about-me-close.close .heart {
+	display: none;
+}
+
+.heart {
+  fill: red;
+  position: relative;
+  top: 5px;
+  width: 50px;
+  animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1); }
+  100% { transform: scale(0.8); }
+}
+
+.old-project-select-about-me button {
+	border: solid 2px #12e6d4;
+}
+
+#thanks-text-fill {
+	margin-left: 2px;
+	text-align: left;
+}
+
+.about-me-close-options {
+	margin: 0;
+	display: flex;
+}
+
+#github-cat {
+	transform: scale(0.4);
 }
