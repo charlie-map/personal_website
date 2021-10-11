@@ -128,6 +128,25 @@ function hide_about_me() {
 	$(".about-me-close").addClass('close');
 	$(".about-me-hobbies").hide();
 	$(".hobby-station").addClass('remove');
+
+	// hide all bits:
+	hidePiano();
+	$("#hobby-station-piano-open").removeClass('open');
+}
+
+function setupOldPage() {
+
+	console.log("fixing?");
+	let project_web_pages = $("#old-page").children('div');
+	for (let web_search = 0; web_search < project_web_pages.length; web_search++) {
+
+		if ($(project_web_pages[web_search]).hasClass('open')) {
+			let correct_page = $(project_web_pages[web_search]).attr('class').split(" ")[1];
+			console.log(correct_page);
+			redraw_svg_elements($(".old-project-web." + correct_page), correct_page);
+			break;
+		}
+	}
 }
 
 $(".menu-button").click(function() {
@@ -480,6 +499,7 @@ $("#hobbies-select-connect").click(function() {
 
 	$(".bicycle-container").hide();
 
+	$("#see-more-about-me").removeClass('open');
 	$("#see-more-about-me").hide();
 	if ($("#hobbies-select-connect").hasClass('open')) {
 		$("#hobbies-select-connect").removeClass('open');
@@ -529,6 +549,8 @@ function hidePiano() {
 	$("#hobby-piano-story").hide();
 
 	$(".about-me-close").addClass('close');
+	$("#see-more-about-me").removeClass('open');
+	$("#see-more-about-me").hide();
 }
 
 $("#hobby-station-piano-open").click(function() {
@@ -586,7 +608,38 @@ $(".key").click(function() {
 
 $("#see-more-about-me").click(function() {
 
-	$(".about-me-close").removeClass('close');
-	connectElements($("#svgAboutMeCurrentLocation"), $("#pathToClose-see-more"), $("#see-more-about-me"), $("#about-me-close-redball"), $("#svgContainer2"));
-	connectElements($("#svgAboutMeCurrentLocation"), $("#pathToOld-projects"), $("#see-more-about-me"), $("#attach-to-old-projs-about-me"), $("#svgContainer2"));
+	if ($("#see-more-about-me").hasClass('open')) {
+		$("#pathToClose-see-more").attr('d', "M0 0");
+		$("#pathToOld-projects").attr('d', "M0 0");
+
+		$("#see-more-about-me").removeClass('open');
+
+		$(".about-me-close").addClass('close');
+
+	} else {
+		$("#see-more-about-me").addClass('open');
+
+		$(".about-me-close").removeClass('close');
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathToClose-see-more"), $("#see-more-about-me"), $("#about-me-close-redball"), $("#svgContainer2"));
+		connectElements($("#svgAboutMeCurrentLocation"), $("#pathToOld-projects"), $("#see-more-about-me"), $("#attach-to-old-projs-about-me"), $("#svgContainer2"));
+	}
+});
+
+$("#attach-to-old-projs-about-me").click(function() {
+
+	$("#about-page").hide();
+	hide_about_me();
+
+	hide_svg_lines();
+
+	$("#old-page").show();
+
+	$("#project-name").html("old projects");
+	setupOldPage();
+});
+
+$("#github-cat").mouseenter(function() {
+	$("#body").attr('fill', '#12e6d4');
+}).mouseleave(function() {
+	$("#body").attr('fill', '#959DA5');
 });

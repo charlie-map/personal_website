@@ -180,12 +180,13 @@ span {
 }
 
 #see-more-about-me {
+	margin-top: 5px;
 	height: 70px !important;
 	z-index: 40 !important;
 	border: solid 2px #12e6d4 !important;
 }
 
-.menu-options.open button, .submission, .old-project-select-about-me button, #all-personal-info, #see-more-about-me {
+.menu-options.open button, .submission, .old-project-select-about-me button, #send-email, #see-more-about-me {
 	background-color: #323232;
 	height: 30px;
 	display: inline;
@@ -202,7 +203,7 @@ span {
 	z-index: 1;
 }
 
-.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover, .old-project-select-about-me button:hover, #all-personal-info:hover, #see-more-about-me:hover {
+.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover, .old-project-select-about-me button:hover, #send-email:hover, #see-more-about-me:hover, #see-more-about-me.open {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
@@ -284,6 +285,7 @@ span {
 	left: 0px;
 	width: 110px;
 	height: 70%;
+	margin-top: 2px;
 	background-color: #323232;
 }
 
@@ -927,6 +929,8 @@ cred: Code Cary;
 		height: auto;
 		position: relative !important;
 		margin-bottom: 10px;
+		width: 220px;
+		display: flex;
 	}
 
 	.profile-words {
@@ -956,6 +960,14 @@ cred: Code Cary;
 
   	.hex-rect.fir {
   		left: 7px;
+  	}
+
+  	.hex-rect.sec {
+  		left: 12px;
+  	}
+
+  	.hex-rect.thi {
+  		width: 17px;
   	}
 
   	.hex-circ {
@@ -1095,4 +1107,8 @@ FROM: CSS-tricks
 
 #github-cat {
 	transform: scale(0.4);
+}
+
+#github-cat:hover {
+	cursor: pointer;
 }
