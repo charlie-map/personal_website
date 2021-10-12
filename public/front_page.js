@@ -1,3 +1,13 @@
+$(document).on({
+	ajaxStart: function() {
+		$("svg.loader").addClass('open');
+	},
+	ajaxStop: function() {
+		$("svg.loader").removeClass('open');
+	}
+});
+
+
 //helper functions, it turned out chrome doesn't support Math.sgn() 
 function signum(x) {
 	return (x < 0) ? -1 : 1;
@@ -646,6 +656,7 @@ $("#github-cat").mouseenter(function() {
 
 $("#send-email").click(function() {
 
+	$("#send-email-email").css("border", "none");
 	if ($("#send-email").hasClass('open')) {
 
 		$(".separater").css("margin-top", "10px");
@@ -681,6 +692,22 @@ $("#shoot-off-email").click(function(event) {
 		},
 		success: function(dat) {
 			console.log(dat);
+
+			if (dat == "complete") {
+				$(".separater").css("margin-top", "10px");
+				$("#send-email").removeClass('open');
+				$("#send-email-fillout").removeClass('open');
+			} else {
+
+				$("#send-email-email").val(dat);
+				$("#send-email-email").css("border", "solid 1px #d44f0e");
+			}
 		}
 	});
+});
+
+$("#send-email-email").focus(function() {
+	$("#send-email-email").css("border", "none");
+}).focusout(function() {
+	$("#send-email-email").css("border", "none");
 });

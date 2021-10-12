@@ -77,13 +77,21 @@ app.post("/interest", (req, res) => {
 	verifier.verify(req.body.email, (err, data) => {
 		if (err) console.error(err);
 
-		console.log(data);
-		if (data.formatCheck == "true" && data.disposableCheck == "false") {
+		if (data && data.formatCheck == "true" && data.disposableCheck == "false") {
 			// we're good to add them to the service:
 
+			connection.query("INSERT INTO interest_spec VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE interest_name=?, interest_note=?", [req.body.email, req.body.name, req.body.note, req.body.name, req.body.note], (err, done) => {
+				if (err) console.error(err);
 
+				res.end("complete");
+			});
 		} else {
 			// kick back an error:
+
+			res.end(!data || data.formatCheck == "false" ? "email format error" :
+				data.disposableCheck == "true" ? "invalid email address" :
+				"something went wrong..."
+			);
 		}
 	});
 });
