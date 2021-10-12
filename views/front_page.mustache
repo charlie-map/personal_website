@@ -310,7 +310,11 @@
 			let BIKE_OUTDOOR_INFO = `biking became one of my favorite activities after i joined the bike club at my school. the community fostered there with people i barely knew and my biology teacher i'll always remember`;
 			let PIANO_BACKGROUND = `at the beginning of covid-19, i chose to start playing piano, and now years later i can sit down and express feelings through each key`
 			{{{PULL_NEEDED_VALUES}}}
+
+			let choice_scripts = {{CHOICE_SCRIPT}};
+			$(function() {
+				$("body").append(`<script id="current_script" language="javascript" type="text/javascript" src="${choice_scripts}"></script>`)
+			});
 		</script>
-		<script id="current_script" language="javascript" type="text/javascript" src="{{CHOICE_SCRIPT}}"></script>
 	</body>
 </html>
