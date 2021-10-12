@@ -643,3 +643,44 @@ $("#github-cat").mouseenter(function() {
 }).mouseleave(function() {
 	$("#body").attr('fill', '#959DA5');
 });
+
+$("#send-email").click(function() {
+
+	if ($("#send-email").hasClass('open')) {
+
+		$(".separater").css("margin-top", "10px");
+		$("#send-email").removeClass('open');
+		$("#send-email-fillout").removeClass('open');
+	} else {
+
+		$(".separater").css("margin-top", "140px");
+		$("#send-email").addClass('open');
+		$("#send-email-fillout").addClass('open');
+	}
+});
+
+$("#shoot-off-email").click(function(event) {
+	console.log("submitting");
+	let name = $("#send-email-name").val();
+	let email = $("#send-email-email").val();
+	let note = $("#send-email-note").val();
+
+	if (!name || !email) {
+		console.log(false);
+	}
+
+	event.preventDefault();
+
+	$.ajax({
+		url: "/interest",
+		type: "POST",
+		data: {
+			name,
+			email,
+			note
+		},
+		success: function(dat) {
+			console.log(dat);
+		}
+	});
+});

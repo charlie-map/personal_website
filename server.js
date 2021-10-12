@@ -1,4 +1,5 @@
 const express = require('express');
+const emailVerify = require("email-verifier");
 
 const {
 	connection,
@@ -62,6 +63,29 @@ app.get("/", async (req, res) => {
 
 app.get("/*", (req, res) => {
 	res.redirect("/");
+});
+
+app.post("/interest", (req, res) => {
+	// make sure we have the name and email:
+	let verifier = new emailVerify(process.env.EMAIL_VERIFICATION_API_KEY, {
+		checkCatchAll: false,
+		checkFree: false,
+		validateDNS: false,
+		validateSMTP: false
+	});
+
+	verifier.verify(req.body.email, (err, data) => {
+		if (err) console.error(err);
+
+		console.log(data);
+		if (data.formatCheck == "true" && data.disposableCheck == "false") {
+			// we're good to add them to the service:
+
+
+		} else {
+			// kick back an error:
+		}
+	});
 });
 
 app.listen(9988, () => {

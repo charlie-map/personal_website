@@ -186,7 +186,7 @@ span {
 	border: solid 2px #12e6d4 !important;
 }
 
-.menu-options.open button, .submission, .old-project-select-about-me button, #send-email, #see-more-about-me {
+.menu-options.open button, .submission, .old-project-select-about-me button, #send-email, #see-more-about-me, #shoot-off-mail {
 	background-color: #323232;
 	height: 30px;
 	display: inline;
@@ -203,7 +203,7 @@ span {
 	z-index: 1;
 }
 
-.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover, .old-project-select-about-me button:hover, #send-email:hover, #see-more-about-me:hover, #see-more-about-me.open {
+.menu-options.open button:hover, .project-web-open-child:hover, .project-web-open-child.open, .submission:hover, .old-project-select-about-me button:hover, #send-email:hover, #send-email.open, #see-more-about-me:hover, #see-more-about-me.open, #shoot-off-mail:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
@@ -1111,4 +1111,24 @@ FROM: CSS-tricks
 
 #github-cat:hover {
 	cursor: pointer;
+}
+
+#send-email-fillout {
+	display: none;
+}
+
+#send-email-fillout.open {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+#send-email-fillout input {
+	width: 90%;
+	border-radius: 0%;
+	border: none;
+	height: 30px;
+	margin-bottom: 2px;
+	background-color: #1d4147;
+	color: #12e6d4;
 }

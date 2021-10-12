@@ -46,3 +46,12 @@ CREATE TABLE user_info_values (
 	variable_name VARCHAR(255) NOT NULL,
 	value VARCHAR(255) NOT NULL
 );
+
+/* interest_spec:
+	holds the people interested in reaching out to a user:
+*/
+CREATE TABLE interest_spec (
+	interest_email VARCHAR(255) NOT NULL UNIQUE,
+	interest_name VARCHAR(255) NOT NULL,
+	interest_note TEXT 
+);
