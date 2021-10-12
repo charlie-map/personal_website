@@ -1,9 +1,13 @@
 /* Some initial insertion data for usage - may need changes based on what the needs of this website are for */
 USE my_site;
 
-INSERT INTO user (username, password) VALUES (
+INSERT INTO user (username, password, home_base_image, home_background_info, home_base_city, home_base_state_country) VALUES (
 	"charlie-map",
-	"password"
+	"password",
+	"https://upload.wikimedia.org/wikipedia/commons/f/f5/Virginia_map.png",
+	"there is no information on this place.",
+	"charlottesville",
+	"virginia"
 );
 
 /* An important note: parents must always be a button*/
