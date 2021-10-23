@@ -351,7 +351,7 @@ function background_info_type_words() {
 	if (type_background < HOME_BASE_BACKGROUND_INFO.length && continue_run) {
 		document.getElementById("home-base-background-info").innerHTML += HOME_BASE_BACKGROUND_INFO.charAt(type_background);
 		type_background++;
-		setTimeout(background_info_type_words, 50);
+		setTimeout(background_info_type_words, 10);
 	}
 
 	if (type_background == HOME_BASE_BACKGROUND_INFO.length) {
@@ -491,7 +491,7 @@ function background_info_type_bike_words() {
 	if (type_biking < BIKE_OUTDOOR_INFO.length && continue_bike_type) {
 		document.getElementById("hobby-station-biking-info").innerHTML += BIKE_OUTDOOR_INFO[type_biking];
 		type_biking++;
-		setTimeout(background_info_type_bike_words, 50);
+		setTimeout(background_info_type_bike_words, 10);
 	}
 
 	if (type_biking == BIKE_OUTDOOR_INFO.length) {
@@ -591,7 +591,7 @@ function background_piano() {
 	if (piano_run_back < PIANO_BACKGROUND.length && continue_piano_run) {
 		document.getElementById("hobby-piano-story").innerHTML += PIANO_BACKGROUND[piano_run_back];
 		piano_run_back++;
-		setTimeout(background_piano, 50);
+		setTimeout(background_piano, 10);
 	}
 
 	if (piano_run_back == PIANO_BACKGROUND.length) {
@@ -603,12 +603,25 @@ function background_piano() {
 	return;
 }
 
+let audio_sounds = {
+	C: new Audio(AUDIO_URL + "C.mp3"),
+	DM: new Audio(AUDIO_URL + "DM.mp3"),
+	D: new Audio(AUDIO_URL + "D.mp3"),
+	EM: new Audio(AUDIO_URL + "EM.mp3"),
+	E: new Audio(AUDIO_URL + "E.mp3"),
+	F: new Audio(AUDIO_URL + "F.mp3"),
+	GM: new Audio(AUDIO_URL + "GM.mp3"),
+	G: new Audio(AUDIO_URL + "G.mp3")
+}
+
 $(".key").click(function() {
 	$(this).addClass('compress');
 	// play sound of key:
 
-	let audio = new Audio(AUDIO_URL + this.id + ".mp3");
-	audio.play();
+	audio_sounds[this.id].pause();
+	audio_sounds[this.id].currentTime = 0;
+
+	audio_sounds[this.id].play();
 
 	let remove = this.id;
 	setTimeout(function(id) {

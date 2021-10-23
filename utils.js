@@ -94,7 +94,7 @@ function about_me_settings() {
 			let return_array = [];
 
 			all_values.forEach(value => {
-				return_array.push(`let ${value.variable_name} = ${(typeof value.value == "string") ? "\'" + value.value + "\'" : value.value}`);
+				return_array.push(`let ${value.variable_name} = ${(typeof value.value == "string") ? "\`" + value.value + "\`" : value.value}`);
 			});
 
 			resolve(return_array);
