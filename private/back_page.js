@@ -263,12 +263,11 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 }
 
 /*
-     _                                      _            
-  __| |_ __ __ ___      __  _ __ ___  _   _| |_ ___  ___ 
+     _                                      _
+  __| |_ __ __ ___      __  _ __ ___  _   _| |_ ___  ___
  / _` | '__/ _` \ \ /\ / / | '__/ _ \| | | | __/ _ \/ __|
 | (_| | | | (_| |\ V  V /  | | | (_) | |_| | ||  __/\__ \
  \__,_|_|  \__,_| \_/\_/   |_|  \___/ \__,_|\__\___||___/
-                                                         
 
 	object: the button you want to draw from (for redraws it goes from root node)
 	id: the id of the button you sent as the the object
@@ -438,7 +437,7 @@ $(".delete").on('click', '.delete-button', function() {
 				}
 			}
 
-			if (parseInt(return_value, 10) == 2) {
+			if (parseInt(value, 10) == 2) {
 				$("#svg" + item_id).remove();
 			}
 

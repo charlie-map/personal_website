@@ -198,6 +198,8 @@ function pull_off_branch(id) {
 				 -- integer for merge (merging into a different branch)
 */
 back.post("/delete", async (req, res, next) => {
+	console.log(req.body);
+
 	if (parseInt(req.body.delete_flow, 10) == 0) { // remove all items related to the main one
 		connection.query("SELECT parent_id FROM old_project_web WHERE id=?", req.body.id, async (err, id_check) => {
 			if (err) console.log(err);
@@ -270,10 +272,10 @@ back.post("/add", async (req, res, next) => {
 				files.forEach((fi) => {
 
 					if (fi == req.body.project_link)
-						resolve("103");
+						return resolve("103");
 				});
 
-				fs.appendFileSync('./public/' + req.body.project_link, req.body.project_code);
+				fs.appendFileSync(__dirname + '/public/' + req.body.project_link, req.body.project_code);
 				resolve();
 			});
 		});
