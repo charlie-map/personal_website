@@ -266,7 +266,7 @@ back.post("/add", async (req, res, next) => {
 			return res.end("102");
 
 		let error = await new Promise((resolve, reject) => {
-			fs.readdir('./public/', (err, files) => { // check for duplicates
+			fs.readdir(__dirname + '/public/', (err, files) => { // check for duplicates
 				files.forEach((fi) => {
 
 					if (fi == req.body.project_link)

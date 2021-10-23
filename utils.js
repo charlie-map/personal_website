@@ -138,7 +138,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				let this_id = uuidv4();
 
 				let id_conc_level = this_id + "_" + level + "_" + item.parent_id + "_" + item.tree_sub_value;
-				let icon_item_title = item.title.replace(/ /g, "");
+				let icon_item_title = item.title.replace(/ /g, "").replace(/[']/g, "&#39;");
 				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
 					(item.type == "button" ?
 						(`<button class='project-web-open-child' id='open-child||${item.tree_sub_value}||${this_id}||${level}'><p id=${item.id}>${item.title}</p><div class='tooltip'>` +

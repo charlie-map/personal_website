@@ -263,13 +263,13 @@ function redraw_svg_elements(main_web_obj, web_project_path) {
 }
 
 /*
-	     _                                      _            
+     _                                      _            
   __| |_ __ __ ___      __  _ __ ___  _   _| |_ ___  ___ 
  / _` | '__/ _` \ \ /\ / / | '__/ _ \| | | | __/ _ \/ __|
 | (_| | | | (_| |\ V  V /  | | | (_) | |_| | ||  __/\__ \
- \__,_|_|  \__,_| \_/\_/___|_|  \___/ \__,_|\__\___||___/
-                      |_____|                            
-	
+ \__,_|_|  \__,_| \_/\_/   |_|  \___/ \__,_|\__\___||___/
+                                                         
+
 	object: the button you want to draw from (for redraws it goes from root node)
 	id: the id of the button you sent as the the object
 */
@@ -389,6 +389,8 @@ $(".accordion-item").click(function() {
 });
 
 $(".delete").on('click', '.delete-button', function() {
+	console.log($(".important_data").text());
+	console.log($(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]);
 	let item_id = $(document.getElementById(`display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`)).parent().siblings("p").attr('id');
 	let parent_id = $(document.getElementById(`display-icon-descript${$(".important_data").text().split("_")[0] + $(".important_data").text().split("_")[1]}`)).parent().parent().parent().parent().siblings("button").children("p").attr('id');
 
@@ -403,6 +405,7 @@ $(".delete").on('click', '.delete-button', function() {
 		if (path_name == $(current_branches[run_through_branches]).attr('id'))
 			$(current_branches[run_through_branches]).attr("d", "M0 0");
 
+	console.log(item_id, parent_id, $(this).attr('id'));
 	$.ajax({
 		url: "/backend/delete",
 		type: "POST",

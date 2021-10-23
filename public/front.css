@@ -13,6 +13,10 @@ html {
 	overflow: hidden;
 }
 
+head {
+	display: none;
+}
+
 body {
   background-color: #212121;
   color: #14ffec;
@@ -284,7 +288,7 @@ span {
 	top: 85px;
 	left: 0px;
 	width: 110px;
-	height: 70%;
+	height: 232px;
 	margin-top: 2px;
 	background-color: #323232;
 }
@@ -930,6 +934,7 @@ cred: Code Cary;
 		position: relative !important;
 		margin-bottom: 10px;
 		width: 220px;
+		height: auto;
 		display: flex;
 	}
 
