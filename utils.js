@@ -152,9 +152,24 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 							`<ion-icon title='delete' id='${icon_item_title}_${id_conc_level}_open-new-render' name='trash-outline'></ion-icon>` +
 							`<ion-icon title='rename' id='${icon_item_title}_${id_conc_level}_open-new-render' name='clipboard-outline'></ion-icon>` +
 							"<div id='display-icon-descript" + icon_item_title + this_id + "'></div>" +
-							"</div></button>") : ("<a href='" +
-							/* NEED LINK */
-							+"</a>")) + (child_row_data[0].length ? "<div class='children-project-web'>" +
+							"</div></button>") :
+						(
+							`<button class='project-web-open-child info-link'
+							id='open-new-link||${item.tree_sub_value}||${this_id}||${level}||${item.project_link}'
+							description='${await function() {
+								return new Promise((resolve) => { // an injection...
+									connection.query("SELECT descript FROM link_project_description WHERE project_id=?", item.id, (err, ans) => {
+										if (err) console.log(err);
+
+										return resolve(ans[0].descript);
+									});
+								});
+							}}'><p id=${item.id}>${item.title}</p><div class='tooltip'>
+							<ion-icon title='delete' id='${icon_item_title}_${id_conc_level}_open-new-render' name='trash-outline'></ion-icon>
+							<ion-icon title='rename' id='${icon_item_title}_${id_conc_level}_open-new-render' name='clipboard-outline'></ion-icon>
+							<div id='display-icon-descript" + icon_item_title + this_id + "'></div>
+							</div></button>`
+						)) + (child_row_data[0].length ? "<div class='children-project-web'>" +
 						child_row_data[0].toString().replace(/,/g, "") +
 						"</div>" : "") + "</div>";
 				needed_classes.push(...child_row_data[2]);

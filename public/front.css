@@ -437,6 +437,13 @@ span {
 	background-color: #33F27C;
 }
 
+.project-web-open-child.info-link:hover {
+	cursor: pointer;
+	font-weight: bold;
+	color: #323232;
+	background-color: #00A3E6;
+}
+
 .children-project-web {
 	z-index: 100;
 	display: none;

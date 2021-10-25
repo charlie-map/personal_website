@@ -168,9 +168,11 @@ function delete_full_branch(id) {
 				if (err) console.log(err);
 
 				if (completed && completed.length && completed[0].length && completed[0][0].project_link)
-					fs.unlinkSync(__dirname + "/public/" + completed[0][0].project_link);
+					fs.unlink(__dirname + "/public/" + completed[0][0].project_link, (err) => {
+						if (err) console.log(err);
 
-				resolve();
+						resolve();
+					});
 			});
 		});
 	});

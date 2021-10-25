@@ -33,6 +33,16 @@ CREATE TABLE old_project_web (
 		3. a link to another page (e.g. https://glitch.com)
 */
 
+CREATE TABLE link_project_description (
+	project_id INT NOT NULL,
+	descript BIGTEXT NOT NULL,
+	FOREIGN KEY (project_id) REFERENCES old_project_web (id) ON DELETE CASCADE
+);
+
+/* DESCRIPT:
+	this will be an HTML page that connects with a certain descriptor
+*/
+
 CREATE TABLE user_info_profile_words (
 	id INT AUTO_INCREMENT,
 	profile_word VARCHAR(60) NOT NULL,

@@ -79,6 +79,13 @@ INSERT INTO old_project_web (title, parent_id, type, project_link, class_needed)
 	1
 );
 
+INSERT INTO old_project_web (title, parent_id, type, project_link) VALUES (
+	"Summer Spark Registration",
+	6,
+	"link",
+	"https://summerspark.stab.org/"
+);
+
 INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAP_WIDTH", 30);
 INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAXIMUM_WIDTH", 160);
 INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAP_HEIGHT", 30);
