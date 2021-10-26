@@ -195,7 +195,7 @@ function grabLinkDescript(ID) {
 			if (err) console.log(err);
 
 			if (ans.length)
-				return resolve(`description="${ans[0].descript}" github_link="${ans[0].github_link}" online_link="${ans[0].online_link}"`);
+				return resolve(`description="${ans[0].descript}" github_link="${ans[0].github_link}" online_link="${ans[0].online_link ? ans[0].online_link : ""}"`);
 			else
 				return resolve("");// send nothing
 		});

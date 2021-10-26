@@ -441,7 +441,7 @@ span {
 	text-decoration: none;
 	padding: 2px 6px 2px 6px;
 	border: 2px solid #00A3E6 !important;
-	display: flex !important;
+	display: flex;
 	align-items: center;
 }
 
@@ -1127,9 +1127,21 @@ FROM: CSS-tricks
 
 .link-popup-information {
 	position: relative;
-	z-index: 100;
+	z-index: 0;
 	background: #323232;
 	height: calc(100% - 83px);
+
+	left: 100%;
+	opacity: 0;
+	transition: 0.4s all ease-in-out;
+}
+
+.link-popup-information.slide {
+	z-index: 100;
+	left: 0px;
+	opacity: 100%;
+
+	transition: 0.4s all ease-in-out;
 }
 
 #link-proj-info {

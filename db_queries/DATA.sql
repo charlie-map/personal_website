@@ -79,14 +79,14 @@ INSERT INTO old_project_web (title, parent_id, type, project_link, class_needed)
 	1
 );
 
-INSERT INTO old_project_web (title, parent_id, type, project_link) VALUES (
-	"Summer Spark Registration",
-	6,
+INSERT INTO old_project_web (title, parent_id, type) VALUES (
+	"water4u",
+	7,
 	"link"
 );
 
-INSERT INTO link_project_description VALUES (
-	6,
+INSERT INTO link_project_description (project_id, descript, github_link, online_link) VALUES (
+	19,
 	"before the summer of 2020, another student and i worked on this project for registration at a summer camp called summer spark. this was a major milestone in my software development work. i also worked at the camp for 3 weeks as the lead instructor and director of vounteers.",
 	"https://github.com/Spark-Hackathon/registration",
 	"https://summerspark.stab.org/"

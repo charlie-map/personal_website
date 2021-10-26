@@ -173,7 +173,7 @@ $(".menu-button").click(function() {
 	$("#about-page").hide();
 	hide_svg_lines();
 	$("#old-page").hide();
-	$(".link-popup-information").hide();
+	$(".link-popup-information").removeClass('slide');
 
 	$("#svgContainer").css("z-index", 4);
 
@@ -214,7 +214,7 @@ $(".menu-button").click(function() {
 $(".project-menu").click(function() {
 
 	if ($(this).hasClass('open-linker'))
-		$(".link-popup-information").hide();
+		$(".link-popup-information").removeClass('slide');
 	else {
 		hide_svg_lines();
 		$(".project-popup").hide();
@@ -685,7 +685,7 @@ $(".info-link").on('click', function() {
 	// for the online link check to see if the attribute is there with something in it
 	// if it is:
 	let onlineLink = $(this).attr('online_link');
-	if (onlineLink != "null") {
+	if (onlineLink.length) {
 		// we want to show the button to it:
 
 		$("#project-info-linkID").attr('href', onlineLink);
@@ -697,7 +697,7 @@ $(".info-link").on('click', function() {
 	}
 
 	// then display the popup:
-	$(".link-popup-information").show();
+	$(".link-popup-information").addClass('slide');
 });
 
 $("#github-cat2").mouseenter(function() {
