@@ -440,6 +440,7 @@ span {
 #project-info-linkID {
 	text-decoration: none;
 	padding: 2px 6px 2px 6px;
+	border: 2px solid #00A3E6 !important;
 	display: flex !important;
 	align-items: center;
 }

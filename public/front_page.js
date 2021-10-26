@@ -685,7 +685,7 @@ $(".info-link").on('click', function() {
 	// for the online link check to see if the attribute is there with something in it
 	// if it is:
 	let onlineLink = $(this).attr('online_link');
-	if (onlineLink.length) {
+	if (onlineLink != "null") {
 		// we want to show the button to it:
 
 		$("#project-info-linkID").attr('href', onlineLink);
