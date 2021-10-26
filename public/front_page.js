@@ -173,6 +173,7 @@ $(".menu-button").click(function() {
 	$("#about-page").hide();
 	hide_svg_lines();
 	$("#old-page").hide();
+	$(".link-popup-information").hide();
 
 	$("#svgContainer").css("z-index", 4);
 
@@ -210,9 +211,14 @@ $(".menu-button").click(function() {
 	}
 });
 
-$(".project-menu").click(() => {
-	hide_svg_lines();
-	$(".project-popup").hide();
+$(".project-menu").click(function() {
+
+	if ($(this).hasClass('open-linker'))
+		$(".link-popup-information").hide();
+	else {
+		hide_svg_lines();
+		$(".project-popup").hide();
+	}
 });
 
 $(".project-web-open-child").on('click', function() {
@@ -659,6 +665,45 @@ $("#attach-to-old-projs-about-me").click(function() {
 
 	$("#project-name").html("old projects");
 	setupOldPage();
+});
+
+/*
+ _ _       _                                    
+| (_)_ __ | | __  _ __   ___  _ __  _   _ _ __  
+| | | '_ \| |/ / | '_ \ / _ \| '_ \| | | | '_ \ 
+| | | | | |   <  | |_) | (_) | |_) | |_| | |_) |
+|_|_|_| |_|_|\_\ | .__/ \___/| .__/ \__,_| .__/ 
+                 |_|         |_|         |_|  
+*/
+$(".info-link").on('click', function() {
+	// augment the popup window with the correct information
+	// then display it:
+
+	$("#link-proj-info").html($(this).attr('description'));
+	$("#project-cat-link").attr('href', $(this).attr('github_link'));
+
+	// for the online link check to see if the attribute is there with something in it
+	// if it is:
+	let onlineLink = $(this).attr('online_link');
+	if (onlineLink.length) {
+		// we want to show the button to it:
+
+		$("#project-info-linkID").attr('href', onlineLink);
+		$("#project-info-linkID").show();
+	} else { // otherwise
+		// hide it:
+		$("#project-info-linkID").attr('href', "charlie.city");
+		$("#project-info-linkID").hide();
+	}
+
+	// then display the popup:
+	$(".link-popup-information").show();
+});
+
+$("#github-cat2").mouseenter(function() {
+	$("#body2").attr('fill', '#12e6d4');
+}).mouseleave(function() {
+	$("#body2").attr('fill', '#959DA5');
 });
 
 $("#github-cat").mouseenter(function() {

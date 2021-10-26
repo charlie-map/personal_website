@@ -437,7 +437,14 @@ span {
 	background-color: #33F27C;
 }
 
-.project-web-open-child.info-link:hover {
+#project-info-linkID {
+	text-decoration: none;
+	padding: 2px 6px 2px 6px;
+	display: flex !important;
+	align-items: center;
+}
+
+.project-web-open-child.info-link:hover, #project-info-linkID:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
@@ -459,7 +466,7 @@ span {
 	transition: 2s ease-in-out;
 }
 
-.p5-buttons.old-project-web, .homeland-current-location, #hobbies-select-connect, #hobby-station-piano-open {
+.p5-buttons.old-project-web, .homeland-current-location, #hobbies-select-connect, #hobby-station-piano-open, #project-info-linkID {
 	background-color: #323232;
 	min-height: 30px;
 	display: inline;
@@ -1117,11 +1124,24 @@ FROM: CSS-tricks
 	display: flex;
 }
 
-#github-cat {
+.link-popup-information {
+	position: relative;
+	z-index: 100;
+	background: #323232;
+	height: calc(100% - 83px);
+}
+
+#link-proj-info {
+	width: 90%;
+	margin-right: 0;
+	padding-top: 10px;
+}
+
+#github-cat, #github-cat2 {
 	transform: scale(0.4);
 }
 
-#github-cat:hover {
+#github-cat:hover, #github-cat2:hover {
 	cursor: pointer;
 }
 

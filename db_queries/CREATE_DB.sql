@@ -35,6 +35,8 @@ CREATE TABLE old_project_web (
 
 CREATE TABLE link_project_description (
 	project_id INT NOT NULL,
+	github_link TEXT NOT NULL,
+	online_link TEXT,
 	descript BIGTEXT NOT NULL,
 	FOREIGN KEY (project_id) REFERENCES old_project_web (id) ON DELETE CASCADE
 );

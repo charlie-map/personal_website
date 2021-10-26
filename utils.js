@@ -156,15 +156,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 						(
 							`<button class='project-web-open-child info-link'
 							id='open-new-link||${item.tree_sub_value}||${this_id}||${level}||${item.project_link}'
-							description='${await function() {
-								return new Promise((resolve) => { // an injection...
-									connection.query("SELECT descript FROM link_project_description WHERE project_id=?", item.id, (err, ans) => {
-										if (err) console.log(err);
-
-										return resolve(ans[0].descript);
-									});
-								});
-							}}'><p id=${item.id}>${item.title}</p><div class='tooltip'>
+							${await grabLinkDescript(item.id)}><p id=${item.id}>${item.title}</p><div class='tooltip'>
 							<ion-icon title='delete' id='${icon_item_title}_${id_conc_level}_open-new-render' name='trash-outline'></ion-icon>
 							<ion-icon title='rename' id='${icon_item_title}_${id_conc_level}_open-new-render' name='clipboard-outline'></ion-icon>
 							<div id='display-icon-descript" + icon_item_title + this_id + "'></div>
@@ -190,6 +182,22 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 			});
 			await Promise.all(await_all_rows);
 			resolve([return_array, svg_path.length ? svg_path : [], needed_classes, depth]);
+		});
+	});
+}
+
+function grabLinkDescript(ID) {
+	if (!ID)
+		return;
+
+	return new Promise((resolve) => { // an injection...
+		connection.query("SELECT * FROM link_project_description WHERE project_id=?", ID, (err, ans) => {
+			if (err) console.log(err);
+
+			if (ans.length)
+				return resolve(`description="${ans[0].descript}" github_link="${ans[0].github_link}" online_link="${ans[0].online_link}"`);
+			else
+				return resolve("");// send nothing
 		});
 	});
 }

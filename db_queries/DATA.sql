@@ -82,8 +82,18 @@ INSERT INTO old_project_web (title, parent_id, type, project_link, class_needed)
 INSERT INTO old_project_web (title, parent_id, type, project_link) VALUES (
 	"Summer Spark Registration",
 	6,
-	"link",
+	"link"
+);
+
+INSERT INTO link_project_description VALUES (
+	6,
+	"before the summer of 2020, another student and i worked on this project for registration at a summer camp called summer spark. this was a major milestone in my software development work. i also worked at the camp for 3 weeks as the lead instructor and director of vounteers.",
+	"https://github.com/Spark-Hackathon/registration",
 	"https://summerspark.stab.org/"
+);
+
+INSERT INTO link_project_description VALUES (
+
 );
 
 INSERT INTO user_info_values VALUES ("IMG_LOCATION_MAP_WIDTH", 30);
