@@ -114,7 +114,7 @@ function about_me_home_base() {
 
 // go through the root objects recursively
 function pull_all_old_projects(parent_id, tree_path_value, level) {
-	let return_array = "";
+	let return_array = [];
 	let svg_path = [];
 	let needed_classes = [];
 	let depth = level;
@@ -125,6 +125,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 			if (err || !row_projects) return reject(err);
 
 			let await_all_rows = row_projects.map(async (item, index) => {
+				
 				if (level == 0) {
 					item.tree_sub_value = index + 1;
 					svg_path.push({
@@ -139,7 +140,10 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 
 				let id_conc_level = this_id + "_" + level + "_" + item.parent_id + "_" + item.tree_sub_value;
 				let icon_item_title = item.title.replace(/ /g, "").replace(/[']/g, "&#39;");
-				return_array += "<div class='old-project-web " + item.tree_sub_value + "'>" +
+				
+				let grabLink = await grabLinkDescript(item.id);
+
+				return_array.push("<div class='old-project-web " + item.tree_sub_value + "'>" +
 					(item.type == "button" ?
 						(`<button class='project-web-open-child' id='open-child||${item.tree_sub_value}||${this_id}||${level}'><p id=${item.id}>${item.title}</p><div class='tooltip'>` +
 							`<ion-icon title='delete' id='${icon_item_title}_${id_conc_level}_open-child' name='trash-outline'></ion-icon>` +
@@ -156,14 +160,15 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 						(
 							`<button class='project-web-open-child info-link'
 							id='open-new-link||${item.tree_sub_value}||${this_id}||${level}||${item.project_link}'
-							${await grabLinkDescript(item.id)}><p id=${item.id}>${item.title}</p><div class='tooltip'>
+							${grabLink}><p id=${item.id}>${item.title}</p><div class='tooltip'>
 							<ion-icon title='delete' id='${icon_item_title}_${id_conc_level}_open-new-render' name='trash-outline'></ion-icon>
 							<ion-icon title='rename' id='${icon_item_title}_${id_conc_level}_open-new-render' name='clipboard-outline'></ion-icon>
 							<div id='display-icon-descript" + icon_item_title + this_id + "'></div>
 							</div></button>`
 						)) + (child_row_data[0].length ? "<div class='children-project-web'>" +
 						child_row_data[0].toString().replace(/,/g, "") +
-						"</div>" : "") + "</div>";
+						"</div>" : "") + "</div>");
+
 				needed_classes.push(...child_row_data[2]);
 				if (item.class_needed) {
 					let project_classes = item.project_link.split('.');
@@ -181,7 +186,7 @@ function pull_all_old_projects(parent_id, tree_path_value, level) {
 				});
 			});
 			await Promise.all(await_all_rows);
-			resolve([return_array, svg_path.length ? svg_path : [], needed_classes, depth]);
+			resolve([return_array.join(""), svg_path.length ? svg_path : [], needed_classes, depth]);
 		});
 	});
 }
