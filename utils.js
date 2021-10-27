@@ -202,7 +202,7 @@ function grabLinkDescript(ID) {
 			if (ans.length)
 				return resolve(`description="${ans[0].descript}" github_link="${ans[0].github_link}" online_link="${ans[0].online_link ? ans[0].online_link : ""}"`);
 			else
-				return resolve("");// send nothing
+				return resolve("description='none'");// send nothing
 		});
 	});
 }
