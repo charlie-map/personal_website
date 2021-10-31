@@ -311,11 +311,19 @@ span {
 	left: -15px;
 }
 
-.profile-picture img {
+.profile-picture .prof-img {
+	background-image: url("https://overfload.nyc3.cdn.digitaloceanspaces.com/f76d7e42-b0cc-4af5-ae65-ec5ddfb916b5");
+	background-repeat: no-repeat;
+	background-size: 114px 125px;
 	width: 99px;
 	max-height: 180px;
 	min-height: 100px;
 	margin-left: 20px;
+}
+
+.profile-picture:hover .prof-img {
+	background-image: url("https://overfload.nyc3.cdn.digitaloceanspaces.com/735e4695-1fb4-4a9a-b089-5e9e117efab0");
+	background-size: 100px 100px !important;
 }
 
 #about-page {
