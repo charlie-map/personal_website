@@ -146,13 +146,11 @@ function hide_about_me() {
 
 function setupOldPage() {
 
-	console.log("fixing?");
 	let project_web_pages = $("#old-page").children('div');
 	for (let web_search = 0; web_search < project_web_pages.length; web_search++) {
 
 		if ($(project_web_pages[web_search]).hasClass('open')) {
 			let correct_page = $(project_web_pages[web_search]).attr('class').split(" ")[1];
-			console.log(correct_page);
 			redraw_svg_elements($(".old-project-web." + correct_page), correct_page);
 			break;
 		}
@@ -402,6 +400,10 @@ function connect_about_me_elements() {
 
 $("#about-page").scroll(function() {
 	connect_about_me_elements();
+});
+
+$("#old-page").scroll(function() {
+	setupOldPage();
 });
 
 let prev_hobby_img_width = 0;

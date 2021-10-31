@@ -446,7 +446,9 @@ span {
 }
 
 #open-youtube-link {
-	font-size: 20px;
+	display: block !important;
+	height: 50px;
+	font-size: 30px !important;
 }
 
 .youtube__URL {
