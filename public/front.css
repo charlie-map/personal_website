@@ -437,7 +437,7 @@ span {
 	background-color: #33F27C;
 }
 
-#project-info-linkID {
+#project-info-linkID, #open-youtube-link {
 	text-decoration: none;
 	padding: 2px 6px 2px 6px;
 	border: 2px solid #00A3E6 !important;
@@ -445,7 +445,17 @@ span {
 	align-items: center;
 }
 
-.project-web-open-child.info-link:hover, #project-info-linkID:hover {
+#open-youtube-link {
+	font-size: 20px;
+}
+
+.youtube__URL {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}
+
+.project-web-open-child.info-link:hover, #project-info-linkID:hover, #open-youtube-link:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: #323232;
@@ -467,7 +477,7 @@ span {
 	transition: 2s ease-in-out;
 }
 
-.p5-buttons.old-project-web, .homeland-current-location, #hobbies-select-connect, #hobby-station-piano-open, #project-info-linkID {
+.p5-buttons.old-project-web, .homeland-current-location, #hobbies-select-connect, #hobby-station-piano-open, #project-info-linkID, #open-youtube-link {
 	background-color: #323232;
 	min-height: 30px;
 	display: inline;
