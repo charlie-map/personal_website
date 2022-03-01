@@ -61,6 +61,20 @@ app.get("/", async (req, res) => {
 	});
 });
 
+app.get("/timmy", (req, res) => {
+	res.render("happy_bday", {
+		BDAY_NAME: "Timmy"
+	});
+});
+
+app.get("/privacy-policy", (req, res) => {
+	res.sendFile(__dirname + "/views/privacy.html");
+});
+
+app.get("/wiki", (req, res) => {
+	res.redirect("https://chrome.google.com/webstore/detail/wikiread/ikajkbkknmkiaamgebhoeecbihbjbbki");
+});
+
 app.get("/*", (req, res) => {
 	res.redirect("/");
 });
